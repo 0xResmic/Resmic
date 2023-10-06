@@ -1,402 +1,545 @@
-import axios from 'axios'
-import React, { useState } from 'react'
-import { ethers } from 'ethers'
-import { connectWallet, switchNetwork } from './EVMFunctions/ConnectMeta'
-import { ChainIds, ERC20_ABI, TokenAddress } from '../Constants/Constants'
+import axios from "axios";
+import React, { useState } from "react";
+import { ethers } from "ethers";
+import { ERC20_ABI, TokenAddress } from "../Constants/Constants";
+import resmiclogo from "../assets/resmiclogo.png";
+import {ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {
+  connectWallet,
+  getProvider,
+  getSigner,
+  switchNetwork,
+} from "./EVMFunctions/ConnectMeta";
+import "../CSS/PaymentPopUp.css";
+import "../CSS/Loader.css";
+import "../CSS/EVMComponent.css";
 
-import '../CSS/PaymentPopUp.css'
-import '../CSS/Loader.css'
+/**
+ * Component function receives input from the user and make the transaction
+ * @param {String} Address // Address where funds will be get transferred
+ * @param {Array} Tokens  // Array of tokens user want to accept
+ * @param {Array} Chain  // Array of blockchain user want to accept
+ * @param {INT} Amount  // Amount to accept in USD
+ * @param {Style} CSS  // Customise CSS for buttons.
+ * @param {bool} setPaymentStatus // Returns the payment completion status of the tx.  // Customise CSS for buttons.
+ * @param {INT} noOfBlockConformation // No. of Block Conformation to verify the transaction
+ * @returns React componen
+ */
+function EVMComponent({
+  Address,
+  Tokens,
+  Chains,
+  Amount,
+  Style = {displayName: "Make Payment", 
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    padding: "10px 20px",
+    borderRadius: "4px",
+    fontSize: "18px",
+    cursor: "pointer"},
+  setPaymentStatus,
+  noOfBlockConformation = 3,
+}) {
+  const [selectedToken, setSelectedToken] = useState(null);
+  const [selectedChain, setSelectedChain] = useState(null);
+  const [userAddress, setUserAddress] = useState();
+  const [isPaymentCompleted, setIsPaymentCompleted] = useState(false);
+  const [currentTokenPrice, setCurrentTokenPrice] = useState(""); // To display the conversion rate for token.
+  const [isConnected, setIsConnected] = useState(false);
+  const [btnName, setBtnName] = useState("Connect Wallet");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-function EVMComponent({Address, Tokens, Chain, Amount}) { 
-
-    const [selectedToken, setSelectedToken] = useState(null);
-    const [selectedChain, setSelectedChain] = useState(null);
-    const [userAddress, setUserAddress] = useState();
-    const [paymentWindowTimeout, setPaymentWindowTimeout] = useState() // If it's True then only it's success 
-    const [isPaymentCompleted, setIsPaymentCompleted] = useState(false)
-    const [currentTokenPrice, setCurrentTokenPrice] = useState() // To display the conversion rate for token. 
-    const [isConnected, setIsConnected] = useState(false)
-
-    const [btnName, setBtnName] = useState("Make Payment");
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-
-
-
-    async function test() {
-        // getCurrentTokenPrice("Dogecoin")
-        // connectWalletFunc()
-
-        // let detila = TokenAddress[selectedChain][selectedToken]
-        // console.log("detila",detila)
-
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        // checkBlockConformations("0x26ebfe794a8f02e9f32b8f41e4f2ce606d6e1eeb45938ae148322066102f3525", provider, '18');
-
-        // const receipt = await provider.getTransactionReceipt("0x935e531e1bd14dd0959040d1c4fd648049af710e0a33b4045e89d8d684f9ce14");
-        // const transaction = await provider.getTransaction("0x935e531e1bd14dd0959040d1c4fd648049af710e0a33b4045e89d8d684f9ce14");
-
-        setIsLoading(!isLoading);
-        // checkBlockConformationsNative("0x26ebfe794a8f02e9f32b8f41e4f2ce606d6e1eeb45938ae148322066102f3525", provider )
-        
-    }
-
-    let selectChain = Chain.map((chain) => {
-        return (
-            <>
-            <option value="" disabled selected hidden>Select Blockchain</option>
-                <option key={chain} value={chain}> {chain}</option>
-            </>
-        )
-    })
-    let selectToken = Tokens.map((tokens) => {
-        return (
-            <>
-                <option value="" disabled selected hidden>Select Token</option>
-                <option key={tokens} value={tokens}> {tokens}</option>
-            </>
-        )
-    })
-
-    const getChain = (e) => {
-        setSelectedChain(e.target.value)
-    }
-    const getToken = (e) => {
-        setSelectedToken(e.target.value) 
-    }
-
-    // Reterivies the current price in USD from Coingecko // Input: Token name e.g. Ethereum / Bitcoin/ Dogecoin
-    const getCurrentTokenPrice = async (_token) => {
-        let token = _token.toLowerCase()
-        try {
-            let url = `https://api.coingecko.com/api/v3/simple/price?ids=${token}&vs_currencies=usd`
-            let fetchUrl = await  axios.get(url)
-            let currentUsdPrice = fetchUrl.data[token]['usd']
-            console.log(currentUsdPrice)
-            return currentUsdPrice
-            
-        } catch (error) {
-            alert("Error while getting token price")
-            console.log(error.message)
-        }
-    }
-    // Will update the current price after every 5 minutes.
-    const startPaymentTimer = async() => {
-
-    }
-
-    const connectWalletFunc = async () => {
-        setBtnName("Connecting")
-        let connectFunc = await  connectWallet()
-        let getChainData = ChainIds
-        setUserAddress(connectFunc.account)
-        setBtnName("Connected")
-        
-
-        if(connectFunc.chainId != getChainData[selectedChain]){
-            // console.log("Change network")
-            setBtnName("Switch network")
-            switchNetwork(getChainData[selectedChain])
-            setIsConnected(true) 
-            return true
-        }
-        else{
-            // console.log("No need")
-            setIsConnected(true)
-            // makePayment()
-            return true
-        }
-    }
-    const requestERC20Payment = async( _amount, _tokenAddress) => {
-
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        setCurrentTokenPrice(_amount)
-
-        try {
-
-            const contractInstance = new ethers.Contract(_tokenAddress, ERC20_ABI, signer);
-            let decimals = await contractInstance.decimals();
-            decimals = decimals.toString();
-
-            const getApprove = await contractInstance.approve(userAddress, (_amount * (10**decimals)));
-            // await getApprove.wait(); 
-            alert("Token approved successfully:)")
-
-            let tx = await contractInstance.transferFrom(userAddress, Address , (_amount * (10**decimals) ), {gasLimit: 100000});
-            await tx.wait();
-            console.log("tx.hash:--",tx.hash)
-
-            await checkBlockConformations(tx.hash, provider, decimals)
-            
-        } catch (error) {
-            alert(error)
-        }
-        
-    }
-
-    const nativeTokenPayment = async ( _amount) => {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-
-        let amount = _amount;
-        setCurrentTokenPrice(amount)
-        let slicedNum = amount.toFixed(10)
-        let amountInWei = ethers.utils.parseEther(slicedNum.toString())
-
-        try {
-            const tx = await signer.sendTransaction({
-                to: Address,
-                value: amountInWei,
-                gasLimit: '0x5028',
-                maxPriorityFeePerGas: '0x3b9aca00',
-                maxFeePerGas: '0x2540be400',
-            })
-            await tx.wait()
-
-            await checkBlockConformationsNative(tx.hash, provider)
-
-        } catch (error) {
-            alert("Something went wrong")
-            console.log(error)
-        }
-    }
-
-    const checkBlockConformations = async(tx, provider, decimals) => {
-        const confirmationsRequired = 2;
-        const receipt = await provider.waitForTransaction(tx, confirmationsRequired);
-
-        if(receipt.status === 1){
-
-            let actualTokenTransfer = await checkTokenTransfers(tx, provider)
-            if(actualTokenTransfer !== '0'){
-                let _amount = parseFloat(actualTokenTransfer)
-                let _decimals = parseFloat(decimals)
-                console.log("Amount * _decimals", Amount )
-
-                if(_amount/(10 ** decimals) >= Amount ){
-                    alert("Payment done successfully:)")
-                    setIsPaymentCompleted(true);
-                    return true
-                }
-                else{
-                    alert("Something went wrong");
-                    console.log("Not sufficient amount transferred: ")
-                    return false;
-                }
-            }
-            else {
-                alert("Unable to process payment\n Please try again ");
-                return false;
-            }
-        }
-        else{
-            alert("Transaction failed to be processed");
-            return false;
-        }        
-    }
-    // Verifies the amount to token actually transfereed. ERC20 tokens
-    const checkTokenTransfers = async(transactionHash, provider) => {
-
-        try {
-            const transactionReceipt = await provider.getTransactionReceipt(transactionHash);
-        
-            if (transactionReceipt && transactionReceipt.status === 1) {
-
-                const tokenContract = new ethers.Contract(TokenAddress[selectedChain][selectedToken], ERC20_ABI, provider);
-            
-                const filter = tokenContract.filters.Transfer(null, null, null);
-                const events = await tokenContract.queryFilter(filter, transactionReceipt.blockNumber, transactionReceipt.blockNumber);
-                const event = events.find((event) => event.transactionHash === transactionHash);
-        
-                if (event) {
-                    const amount = event.args.value.toString();
-            
-                    console.log('Tokens transferred:', amount);
-                    return amount;
-                } 
-              
-                else {
-                    console.log('No token transfer event found for the transaction.');
-                    alert('No token transfer event found for the transaction.');
-                    return '0';
-                }
-            } 
-            else {
-                console.log('Transaction not found or not successful.');
-                alert('Transaction not found or not successful.');
-                return '0'; 
-            }
-        } 
-        catch (error) {
-            console.error('Error reading transaction details:', error);
-            alert("No transaction found!")
-            return '0';
-        }
-    }
-
-    const checkBlockConformationsNative = async(tx, provider) => {
-        const confirmationsRequired = 2;
-        const receipt = await provider.waitForTransaction(tx, confirmationsRequired);
-
-        if(receipt.status === 1){
-
-            let actualTokenTransfer = await checkTokenTransfersNative(tx, provider)
-            actualTokenTransfer = parseFloat(actualTokenTransfer)
-            console.log("actualTokenTransfer",actualTokenTransfer)
-            let currentTokenPrice2 = await getCurrentTokenPrice(selectedToken)
-            currentTokenPrice2 = Amount/currentTokenPrice2
-            console.log("currentTokenPrice",currentTokenPrice2)
-            if(actualTokenTransfer !== 0){
-
-                if(actualTokenTransfer >= currentTokenPrice2 ){
-                    alert("Payment done successfully:)")
-                    setIsPaymentCompleted(true);
-                    return true
-                }
-                else{
-                    alert("Something went wrong");
-                    console.log("Not sufficient amount transferred: ")
-                    return false;
-                }
-            }
-            else {
-                alert("Unable to process payment\n Please try again ");
-                return false;
-            }
-        }
-        else{
-            alert("Transaction failed to be processed");
-            return false;
-        }        
-    }
-
-    const checkTokenTransfersNative = async (tx, provider) => {
-        let transactionHash  ="0x26ebfe794a8f02e9f32b8f41e4f2ce606d6e1eeb45938ae148322066102f3525"
-        try {
-            // Get the transaction details
-            const transaction = await provider.getTransaction(transactionHash);
-        
-            if (transaction && transaction.confirmations > 0) {
-
-                const amountInWei = transaction.value;
-                const amountInEther = ethers.utils.formatEther(amountInWei);        
-                console.log('Ether transferred:', amountInEther);
-                return amountInEther.toString();
-            } 
-            else {
-                console.log('Transaction not found or not confirmed yet.');
-                alert("Transaction not found")
-                return '0';
-            }
-        } 
-        catch (error) {
-                console.error('Error reading transaction details:', error);
-                alert('Unable to get transaction details');
-                return '0';
-        }
-    }
-    const makePayment = async() => {
-        
-        if ((selectedToken == null) || (selectedChain == null)) {
-            alert("Please select the payment mode")
-        }
-        else {
-
-            await connectWalletFunc();
-            setBtnName("Make payment")
-    
-            if(isConnected){
-                
-                // if(TokenAddress[selectedChain][selectedToken] === undefined && selectedChain === selectedToken){
-                //     alert("Token is not available!")        
-                // }
-                // Stable Coins.
-                if ( selectedToken === "USDT" || selectedToken === "USDC" || selectedToken === "DAI" ){
-                    requestERC20Payment(Amount, TokenAddress[selectedChain][selectedToken]);
-                }   
-                // Native Tokens
-                else if (selectedChain === selectedToken) {
-                    let latestPrice = await getCurrentTokenPrice(selectedToken)
-                    let latestAmount = (Amount / latestPrice )
-                    nativeTokenPayment(latestAmount)
-                }
-                // ERC20 Tokens
-                else {
-                    let latestPrice = await getCurrentTokenPrice(selectedToken)
-                    let latestAmount = (Amount / latestPrice )
-                    requestERC20Payment(latestAmount, TokenAddress[selectedChain][selectedToken])   
-                }
-            }
-            else {
-                await connectWalletFunc();
-            }
-        }
-   } 
-
-    const handleOpenPopup = () => {
-        setIsPopupOpen(true);
-    };  
-    const handleClosePopup = () => {
-        setIsPopupOpen(false);
-        setIsLoading(!isLoading);
-    };
-
+  // Select Blockchain dropdown selection menu.
+  let selectChain = Chains.map((chain) => {
     return (
-        <>
-            <h1>EVM Component</h1>
-            <br /> <br />
+      <>
+        <option value="" disabled selected hidden>
+          Select Blockchain
+        </option>
+        <option key={chain?.name} value={chain?.name}>
+          {" "}
+          <img src={resmiclogo} alt="" />
+          {chain?.name}{" "}
+        </option>
+      </>
+    );
+  });
+  // Select Token dropdown selection menu.
+  let selectToken = Tokens.map((token) => {
+    return (
+      <>
+        <option value="" disabled selected hidden>
+          Select Token
+        </option>
+        <option key={token?.dname} value={token?.dname}>
+          {" "}
+          {token?.dname}
+        </option>
+      </>
+    );
+  });
 
-            <button onClick={handleOpenPopup}>Make Payment</button>
+  /**
+   * Reterivies the current price in USD from Coingecko
+   * @param {String} // string e.g. "Ethereum"
+   * @return {Number} value in USD
+   */
+  const getCurrentTokenPrice = async (_token) => {
+    let token = _token.toLowerCase();
+    try {
+      let url = `https://api.coingecko.com/api/v3/simple/price?ids=${token}&vs_currencies=usd`;
+      let fetchUrl = await axios.get(url);
+      let currentUsdPrice = fetchUrl.data[token]["usd"];
+      // console.log(currentUsdPrice)
+      return currentUsdPrice;
+    } catch (error) {
+      // alert("Error while getting token price");
+      toast.error('Unable to fetch live price!', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+      console.log(error.message);
+    }
+  };
 
-            <div>
-                {/* Popup */}
-                {isPopupOpen && (
-                    <div className="popup-container">
-                        <div className="popup-content">
+  /**
+   * Connects user to Wallet {Metamask wallet}
+   * Changes the Blockchain if required.
+   */
+  const connectWalletFunc = async () => {
+    setBtnName("Connecting");
+    setIsLoading(true);
+    let connectFunc = await connectWallet(); // Calling connect function from Constant/ConnectMeta
+    setUserAddress(connectFunc.account); // Returns the connected wallet address.
+    setBtnName("Make Payment");
+    setIsLoading(false);
 
-                            <div className="modal-contents">
+    // if(connectFunc.chainId != getChainData[selectedChain]){ // connectFunc.chainId -> Returns the current connected chain
+    if (connectFunc.chainId !== selectedChain.id) {
+      // connectFunc.chainId -> Returns the current connected chain
+      // console.log("Change network")
+      setBtnName("Switching network");
+      setIsLoading(true);
+      await switchNetwork(selectedChain.id);
+      setIsConnected(true);
+      setIsLoading(false);
+      setBtnName("Make Payment");
+      return true;
+    } else {
+      // console.log("No need")
+      setIsConnected(true);
+      return true;
+    }
+  };
 
-                            <span className="close" onClick={handleClosePopup}>&times;</span>
+  /**
+   * If user is selected with non-native token, function request the payment.
+   * @param {INT} _amount
+   * @param {String} _tokenAddress
+   */
+  const requestERC20Payment = async (_amount, _tokenAddress) => {
+    setIsLoading(true);
+    const signer = await getSigner();
+    // setCurrentTokenPrice("Current Conversion rate: $" + _amount)
 
-                            <div className="inputs">
+    try {
+      /**
+       * The ERC20 payment requires 2 transactions
+       * 1. Approval of token
+       * 2. Transafer of token
+       */
+      const contractInstance = new ethers.Contract(
+        _tokenAddress,
+        ERC20_ABI,
+        signer
+      );
+      let decimals = await contractInstance.decimals();
+      decimals = decimals.toString();
 
-                                <h2>Make payment</h2> 
+      const getApprove = await contractInstance.approve(
+        userAddress,
+        (_amount * 10 ** decimals).toString()
+      );
+      await getApprove.wait();
+      // alert("Token approved successfully:)"); 
+      toast.success('Token approved', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+      let tx = await contractInstance.transferFrom(
+        userAddress,
+        Address,
+        (_amount * 10 ** decimals).toString(),
+        { gasLimit: 100000 }
+        );
+        await tx.wait();
+        // console.log("tx.hash:--", tx.hash);
+        
+        await checkBlockConformations(tx.hash, decimals);
+      } catch (error) {
+        // alert("Something went wrong."); 
+        toast.error('Something went wrong.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+        console.log(error);
+    }
+  };
 
-                                        <select onChange={getChain} name="Chain" id=""> {selectChain} </select>
-                                        <select onChange={getToken} name="Tokens" id=""> {selectToken} </select>
+  /**
+   * Function for native token transfers.
+   * @param {INT/FLOAT} _amount // Amount in native token ().
+   *
+   */
+  const nativeTokenPayment = async (_amount) => {
+    const signer = await getSigner();
+    let amount = _amount;
+    // setCurrentTokenPrice("Current Conversion rate: $" + _amount)
+    let slicedNum = amount.toFixed(10); // Rounding it to 10 digits.
+    let amountInWei = ethers.utils.parseEther(slicedNum.toString()); // Converting the amount to WEI {Smallest amount of ETH (1 ETH = 10 ** 18)}
 
-                                        {/* <button onClick={test}>Test</button> */}                                        
-                                        <br /><br /><br />
-                                        {/* <button on onClick={test}>Test Btn</button> */}
-                                        <button onClick={makePayment}>{btnName}</button>
+    try {
+      // Transfer of funds to address
+      const tx = await signer.sendTransaction({
+        to: Address, // Funds will be received by the address
+        value: amountInWei,
+        // gasLimit: '0x5028',
+        // maxPriorityFeePerGas: '0x3b9aca00',
+        // maxFeePerGas: '0x2540be400',
+      });
+      await tx.wait();
+      await checkBlockConformationsNative(tx.hash);
+    } catch (error) {
+      // alert("Something went wrong");
+      toast.error('Something went wrong.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+      console.log(error);
+    }
+  };
 
-                                {isLoading ? (
-                                    // Display the spinner when isLoading is true
-                                    <div className="spinner">
-                                        <div>
-                                            <span class="loader"></span>
-                                        </div>
-                                    </div>
-                                ) : (
+  /**
+   * Function ckecks the block conformation of the payment on the blockchain for ERC20 token only.
+   * The user will wait until the the transaction is confirmed until specified blocks.
+   * @param {String} tx // Transaction hash after the payment.
+   * @param {INT} decimals
+   * @returns {Bool} returns the paymetn update.
+   */
+  const checkBlockConformations = async (tx, decimals) => {
+    let provider = await getProvider();
+    const confirmationsRequired = noOfBlockConformation;
+    const receipt = await provider.waitForTransaction(
+      tx,
+      confirmationsRequired
+    );
 
-                                    <div>
-                                        
-                                        
-                                    </div>
-                                )}
-                            </div>
-                            
-                            </div>
-                        </div>
+    // Checks the status of the transaction
+    if (receipt.status === 1) {
+      let actualTokenTransfer = await checkTokenTransfers(tx);
+      if (actualTokenTransfer !== "0") {
+        let _amount = parseFloat(actualTokenTransfer);
+        if (_amount / (10 ** decimals).toString() >= Amount) {
+          setIsPaymentCompleted(true);
+          setPaymentStatus(true);
+          // alert("Payment done successfully:)");
+          toast.success('Payment done successfully.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+          setIsPaymentCompleted(true);
+          setPaymentStatus(true);
+          setIsLoading(false);
+          setIsPopupOpen(false);
+          return true;
+        } else {
+          // alert("Something went wrong");
+          toast.error('Something went wrong.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+          // console.log("Not sufficient amount transferred: ");
+          return false;
+        }
+      } else {
+        // alert("Unable to process payment\n Please try again ");
+        toast.error('Unable to process payment\n Please try again', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+        return false;
+      }
+    } else {
+      // alert("Transaction failed to be processed");
+      toast.error('Transaction failed to be processed', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+      return false;
+    }
+  };
+
+  /**
+   * Verifies the amount to token actually transfereed. ERC20 tokens
+   * @param {String} transactionHash
+   * @returns {String} String '0' or 'Amount_Of_Tokens'
+   */
+  const checkTokenTransfers = async (transactionHash) => {
+    let provider = await getProvider();
+    try {
+      const transactionReceipt = await provider.getTransactionReceipt(
+        transactionHash
+      );
+      if (transactionReceipt && transactionReceipt.status === 1) {
+        const tokenContract = new ethers.Contract(
+          TokenAddress[selectedChain?.name][selectedToken?.name],
+          ERC20_ABI,
+          provider
+        );
+        const filter = tokenContract.filters.Transfer(null, null, null);
+        const events = await tokenContract.queryFilter(
+          filter,
+          transactionReceipt.blockNumber,
+          transactionReceipt.blockNumber
+        );
+        const event = events.find(
+          (event) => event.transactionHash === transactionHash
+        );
+
+        if (event) {
+          const amount = event.args.value.toString();
+          // console.log("Tokens transferred:", amount);
+          return amount;
+        } else {
+          // console.log("No token transfer event found for the transaction.");
+          // alert("No token transfer event found for the transaction.");
+          toast.error('No token transfer event found for the tx.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+          return "0";
+        }
+      } else {
+        // console.log("Transaction not found or not successful.");
+        // alert("Transaction not found or not successful.");
+        toast.error('Transaction not found or not successful.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+        return "0";
+      }
+    } catch (error) {
+      // console.error("Error reading transaction details:", error);
+      // alert("No transaction found!");
+      toast.error('No transaction found!', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+      return "0";
+    }
+  };
+
+  /**
+   * Function ckecks the block conformation of the payment on the blockchain for Native token only.
+   * The user will wait until the the transaction is confirmed until specified blocks.
+   * @param {String} tx
+   * @returns {Bool}
+   */
+  const checkBlockConformationsNative = async (tx) => {
+    let provider = await getProvider();
+    const confirmationsRequired = noOfBlockConformation;
+    const receipt = await provider.waitForTransaction(
+      tx,
+      confirmationsRequired
+    );
+
+    if (receipt.status === 1) {
+      let actualTokenTransfer = await checkTokenTransfersNative(tx);
+      actualTokenTransfer = parseFloat(actualTokenTransfer);
+      // console.log("actualTokenTransfer", actualTokenTransfer);
+      let currentTokenPrice2 = await getCurrentTokenPrice(selectedToken?.name);
+      currentTokenPrice2 = Amount / currentTokenPrice2;
+      // console.log("currentTokenPrice", currentTokenPrice2);
+      if (actualTokenTransfer !== 0) {
+        if (actualTokenTransfer >= currentTokenPrice2) {
+          // alert("Payment done successfully:)");
+          toast.success('Payment done successfully:)', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+          setIsPaymentCompleted(true);
+          setPaymentStatus(true);
+          setIsLoading(false);
+          setIsPopupOpen(false)
+          return true;
+        } else {
+          // alert("Something went wrong");
+          toast.error('Something went wrong', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+          // console.log("Not sufficient amount transferred: ");
+          return false;
+        }
+      } else {
+        // alert("Unable to process payment\n Please try again ");
+        toast.error('Unable to process payment\n Please try again ', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+        return false;
+      }
+    } else {
+      // alert("Transaction failed to be processed");
+      toast.error('Transaction failed to be processed', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+      return false;
+    }
+  };
+
+  /**
+   * Verifies the amount to token actually transfereed. Native tokens
+   * @param {String} transactionHash
+   * @returns {String} String '0' or 'Amount_Of_Tokens'
+   */
+  const checkTokenTransfersNative = async (tx) => {
+    let provider = await getProvider();
+
+    try {
+      // Get the transaction details
+      const transaction = await provider.getTransaction(tx);
+
+      if (transaction && transaction.confirmations > 0) {
+        const amountInWei = transaction.value;
+        const amountInEther = ethers.utils.formatEther(amountInWei);
+        // console.log("Ether transferred:", amountInEther);
+        return amountInEther.toString();
+      } else {
+        // console.log("Transaction not found or not confirmed yet.");
+        // alert("Transaction not found");
+        toast.error('Transaction not found', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+        return "0";
+      }
+    } catch (error) {
+      // console.error("Error reading transaction details:", error);
+      // alert("Unable to get transaction details");
+      toast.error('Unable to get transaction details', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+      return "0";
+    }
+  };
+
+  /**
+   *  Final function to combine all the above functions to complete the transaction
+   * 1. Connet wallet
+   * 2. Switch network if required
+   * 3. make payment
+   */
+  const makePayment = async () => {
+    if (selectedToken?.name == null || selectedChain?.name == null) {
+      // alert("Please select the payment mode");
+      toast.warning('Please select the payment mode', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+    } else {
+      await connectWalletFunc();
+      setBtnName("Make payment");
+      if (isConnected) {
+        // Stable Coins.
+        if (selectedToken.type === "stable") {
+          requestERC20Payment(
+            Amount,
+            TokenAddress[selectedChain?.name][selectedToken?.name]
+          );
+        }
+        // Native Tokens
+        else if (selectedChain?.id === selectedToken?.id) {
+          let latestPrice = await getCurrentTokenPrice(selectedToken?.name); // Returns Float/Int of the current market price of the token.
+          let latestAmount = Amount / latestPrice;
+          nativeTokenPayment(latestAmount);
+        }
+        // ERC20 Tokens
+        else {
+          let latestPrice = await getCurrentTokenPrice(selectedToken?.name);
+          let latestAmount = Amount / latestPrice;
+          requestERC20Payment(
+            latestAmount,
+            TokenAddress[selectedChain?.name][selectedToken?.name]
+          );
+        }
+      } else {
+        await connectWalletFunc();
+      }
+    }
+  };
+
+  /**
+   * Helper functions for pop up.
+   */
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+  };
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    // setIsLoading(!isLoading);
+  };
+  const handleTokenSelect = async (e) => {
+    const filteredArray = Tokens.filter((obj) => obj.name === e.target.value);
+    const token = filteredArray[0];
+    let tokenPrice = "1";
+    if (token?.type !== "stable")
+      tokenPrice = await getCurrentTokenPrice(token?.name);
+    setCurrentTokenPrice("1 " + token.name + " = $ " + tokenPrice);
+    setSelectedToken(token);
+  };
+  const handleChainSelect = (e) => {
+    const filteredArray = Chains.filter((obj) => obj.name === e.target.value);
+    // console.log("setSelectedChain", filteredArray[0]);
+    setSelectedChain(filteredArray[0]);
+  };
+
+  return (
+    <>
+      <button style={Style} onClick={handleOpenPopup}>{Style?.displayName}</button>
+      <br />
+      <div>
+        {/* Popup */}
+        {isPopupOpen && (
+          <div className="popup-container">
+            <div className="popup-content">
+              <div className="resmic-logo">
+                <img src={resmiclogo} alt="" />
+                <span className="close" onClick={handleClosePopup}>
+                  &times;
+                </span>
+              </div>
+              <div className="modal-contents">
+                <div className="inputs">
+                  <div className="popup-heading">
+                    <span>Pay amount</span>
+
+                    <div className="amount">${Amount.toFixed(2)}</div>
+                  </div>
+
+
+                  <div className="inputGroup">
+                    <div className="inputHeading">
+                      <span>Blockchain</span>
                     </div>
-                )}
+                    <select
+                      onChange={(e) => {
+                        handleChainSelect(e);
+                      }}
+                      name="Chain"
+                      id=""
+                    >
+                      {" "}
+                      {selectChain}{" "}
+                    </select>
+                  </div>
+                  <div className="inputGroup">
+                    <div className="inputHeading">
+                      <span>Token</span>
+                    </div>
+                    <select
+                      onChange={(e) => {
+                        handleTokenSelect(e);
+                      }}
+                      name="Tokens"
+                      id=""
+                    >
+                      {" "}
+                      {selectToken}{" "}
+                    </select>
+                  </div>
+                  <div className="live-token-price">{currentTokenPrice}</div>
+                  <div className="inputGroup">
+                    <button onClick={makePayment}>
+                      {!isLoading && btnName}
+                      {isLoading &&
+                        <div class="spinner">
+                          <div class="bar1"></div>
+                          <div class="bar2"></div>
+                          <div class="bar3"></div>
+                          <div class="bar4"></div>
+                          <div class="bar5"></div>
+                          <div class="bar6"></div>
+                          <div class="bar7"></div>
+                          <div class="bar8"></div>
+                          <div class="bar9"></div>
+                          <div class="bar10"></div>
+                          <div class="bar11"></div>
+                          <div class="bar12"></div>
+                        </div>
+                      }
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-
-        </>
-    )
+          </div>
+        )}
+      </div>
+    <ToastContainer/>
+    </>
+  );
 }
 
-export default EVMComponent
+export default EVMComponent;

@@ -1,14 +1,19 @@
 
 export const StarknetTokenAddress = {
-    "Ethereum": "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7" , 
-    "DAI"  : "0x00dA114221cb83fa859DBdb4C44bEeaa0BB37C7537ad5ae66Fe5e0efD20E6eB3", 
-    // "USDC" : "0x053C91253BC9682c04929cA02ED00b3E423f6710D2ee7e0D5EBB06F3eCF368A8", 
-    "USDC" : "0x49D36570D4e46f48e99674bd3fcc84644DdD6b96F7C741B1562B82f9e004dC7", 
-    "USDT" : "0x068F5c6a61780768455de69077E07e89787839bf8166dEcfBf92B645209c0fB8", 
-    "WBTC" : "0x03Fe2b97C1Fd336E750087D68B9b867997Fd64a2661fF3ca5A7C771641e8e7AC",
-    "GETH" : "0x49D36570D4e46f48e99674bd3fcc84644DdD6b96F7C741B1562B82f9e004dC7",
+    "Ethereum": "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7" , 
+    "DAI"  : "0x0dA114221cb83fa859DBdb4C44bEeaa0BB37C7537ad5ae66Fe5e0efD20E6eB3", 
+    "USD" : "0x053C91253BC9682c04929cA02ED00b3E423f6710D2ee7e0D5EBB06F3eCF368A8", 
+    "USDT" : "0x68F5c6a61780768455de69077E07e89787839bf8166dEcfBf92B645209c0fB8", 
+    "WBTC" : "0x3Fe2b97C1Fd336E750087D68B9b867997Fd64a2661fF3ca5A7C771641e8e7AC",
 }
 
+export const StarkTokens ={
+    USDT:{"name":'USDT','type':'stable', 'id':'-1',"img":"url"},
+    USDC:{"name":'USDC','type':'stable', 'id':'-1'},
+    ETH:{"name":'Ethereum','type':'unstable', 'id':'0x1'}, // ID is important for identify is the token is native or not & for switching chain.
+    GETH:{"name":'Ethereum','type':'unstable', 'id':'0x5'},
+    Bitcoin:{"name":'Bitcoin','type':'unstable', 'id':'-1', "img":"https://bitcoin.org/img/icons/logotop.svg?1693519667" },
+}
 
 export const STARKNET_ERC20_ABI = [
         {
