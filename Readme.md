@@ -1,5 +1,6 @@
 
 # Resmic
+</br>
 
 ## Decentralised |  Non-Custodial | P2P Payment Infr
 
@@ -7,10 +8,15 @@ Welcome to Resmic, your go-to solution for accepting a variety of crypto payment
 
 With Resmic, you can easily accept payments in Bitcoin, Ethereum, and many other cryptocurrencies, giving your customers more flexibility and convenience.
 
+</br>
+</br>
+
 ## Demo
 
 Insert gif or link to demo
 
+</br>
+</br>
 
 ## Features
 Resmic comes with a range of features designed to make crypto payments accessible and secure:
@@ -28,6 +34,7 @@ Resmic comes with a range of features designed to make crypto payments accessibl
 - **Security:** ##Add description here
 
 
+ </br>
  
 ## Installation
 
@@ -37,12 +44,16 @@ Install Resmic components with npm
   npm install resmic
 
 ```
+</br>
+</br>
     
 ## Usage
 Here's a simple example of how you can use Resmic to accept a crypto payment:
 
+</br>
+
 ### For EVM Blockchains
-<!-- Add line break here -->
+</br>
 
 ```javascript
 import { useState } from 'react';
@@ -55,32 +66,29 @@ function App() {
 	// Your code...
 
   return (
-	  <div>
-
-		<EVMConnect  Address={"0x056397760b973BfB921Bc10Be9DA5034B1e921d7"} //Wallet address where will get received
-        	Chains={[ Chains.Ethereum, Chains.Polygon, Chains.Binance, Chains.Goerli]} //Blockchians
-        	Tokens ={[Tokens.USDC,Tokens.USDT, Tokens.DAI, Tokens.BUSD, Tokens.MATIC, Tokens.ETH , Tokens.GETH, Tokens.Bitcoin]} //Tokens
-            Amount={100} //Amount in USD
-            setPaymentStatus = {setPaymentStatus}
-            noOfBlockConformation={2}
-            Style = {{displayName: "Make Payment", 
+	<div>
+	    <EVMConnect  Address={"YOUR_WALLET_ADDRESS"} //Wallet address to receive funds
+	        Chains={[ Chains.Ethereum, Chains.Polygon, Chains.Binance, Chains.Goerli]} //Choose the blockchains to allow payments from
+        	Tokens ={[Tokens.USDC,Tokens.USDT, Tokens.DAI, Tokens.BUSD, Tokens.MATIC, Tokens.ETH , Tokens.GETH, Tokens.Bitcoin]} //Choose the Tokens to accept payments from
+                Amount={100} //Amount you want to receive in USD($)
+                setPaymentStatus = {setPaymentStatus}
+                noOfBlockConformation={2} //No. of blocks to wait for the payment conformation (Optional)
+                Style = {{displayName: "Make Payment", 
                     backgroundColor: "#007bff",
                     color: "#fff",
                     border: "none",
                     padding: "10px 20px",
                     borderRadius: "4px",
                     fontSize: "18px"}}
-        />
-
-	  </div>
-
+	    />
+	</div>
   )
-
 }
 ```
+</br>
 
 ### For Starknet Blockchain
-<!-- Add line break here -->
+</br>
 
 ```javascript
 import { useState } from 'react';
@@ -92,47 +100,66 @@ function App() {
 	
 	// Your code...
 
-
   return (
-	  <div>
-
-		<StarkNetConnect Address={"0x54c3d39e809b890f22fbc608275861cf3db0582c8b433cf4c8b5702a46ec8a7"}// Wallet address where will get received
-        	Tokens ={[StarkTokens.USDT, StarkTokens.USDC, StarkTokens.ETH, StarkTokens.Bitcoin]} //Tokens want to accept
-            Amount={100} //Amount in USD
-            setPaymentStatus = {setPaymentStatus} 
-			Style = {{displayName: "Make Payment", 
-                	backgroundColor: "#007bff",
+	<div>
+	    <StarkNetConnect Address={"YOUR_WALLET_ADDRESS"} //Wallet address to receive funds
+	        Tokens = {[StarkTokens.USDT, StarkTokens.USDC, StarkTokens.ETH, StarkTokens.Bitcoin]} //Choose the Tokens to accept payments from
+	        Amount={100} //Amount you want to receive in USD($)
+	        setPaymentStatus = {setPaymentStatus} 
+	        Style = {{displayName: "Make Payment", 
+	            backgroundColor: "#007bff",
                     color: "#fff",
                     border: "none",
                     padding: "10px 20px",
                     borderRadius: "4px",
                     fontSize: "18px"}}
-        />
-
-	  </div>
-
+	    />
+	</div>
   )
-
 }
 ```
 
 
 For more detailed information on how to use Resmic, please refer to our documentation[link].
+
+</br>
+</br>
+
 ## Support
 
 If you encounter any issues, have questions, or want to provide feedback, please feel free to reach out to our support team at support@resmic.com. We value your input and are committed to helping you make the most of Resmic.
+
+</br>
+</br>
 
 ## Documentation
 
 Ready to get started? [Read installation instructions.](docs.resmic.com)
 
+</br>
+</br>
 
 ## 🏅 Backers
 
-<!-- Imgs of starknet and upcomming -->
-## Like This Project?
+<img width="80" height="80" alt="image" src="https://github.com/0xResmic/componentcreation/assets/90379168/fb61f560-ad97-4a71-88ba-d3f01c7de7f0">
 
-wallet address/ Buy me a coffee url
+
+<!-- Imgs of starknet and upcomming -->
+</br>
+</br>
+
+## Like This Project?
+**Support us:**
+</br>
+	Wallet address: 0x056397760b973BfB921Bc10Be9DA5034B1e921d7
+ </br>
+ or
+ </br>
+ 	[Buy us a coffee](https://www.buymeacoffee.com/resmic)
+
+</br>
+</br>
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
