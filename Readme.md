@@ -9,11 +9,11 @@ Welcome to Resmic, your go-to solution for accepting a variety of crypto payment
 With Resmic, you can easily accept payments in Bitcoin, Ethereum, and many other cryptocurrencies, giving your customers more flexibility and convenience.
 
 </br>
-</br>
 
 ## Demo
 
-Insert gif or link to demo
+https://github.com/0xResmic/componentcreation/assets/90379168/640b10f1-cce4-4be7-b28d-609f354b7506
+
 
 </br>
 </br>
@@ -27,11 +27,11 @@ Resmic comes with a range of features designed to make crypto payments accessibl
 
 - **Customizable Payment Flow:** Tailor the payment flow to match your branding and user experience.
 
-- **0 DownTime:** ##Add description here
+- **0 DownTime:** Operates without any reliance on traditional server infrastructure.
 
-- **0 Fees:** ##Add description here
+- **0 Fees:**  No expenses or charges associated with the service.
 
-- **Security:** ##Add description here
+- **Security:** Security is a paramount concern in the world of cryptocurrency payments, and Resmic takes it seriously with our most secure infrastructure.
 
 
  </br>
@@ -39,12 +39,11 @@ Resmic comes with a range of features designed to make crypto payments accessibl
 ## Installation
 
 Install Resmic components with npm
-
+</br>
 ```bash
   npm install resmic
 
 ```
-</br>
 </br>
     
 ## Usage
@@ -120,7 +119,7 @@ function App() {
 ```
 
 
-For more detailed information on how to use Resmic, please refer to our documentation[link].
+For more detailed information on how to use Resmic, please refer to our [documentation](docs.resmic.com).
 
 </br>
 </br>
@@ -134,14 +133,16 @@ If you encounter any issues, have questions, or want to provide feedback, please
 
 ## Documentation
 
-Ready to get started? [Read installation instructions.](docs.resmic.com)
+Ready to get started? 
+</br>
+[Read installation instructions.](docs.resmic.com)
 
 </br>
 </br>
 
 ## 🏅 Backers
 
-<img width="80" height="80" alt="image" src="https://github.com/0xResmic/componentcreation/assets/90379168/fb61f560-ad97-4a71-88ba-d3f01c7de7f0">
+<img width="80" height="80" alt="Starknet Blockchain" src="https://github.com/0xResmic/componentcreation/assets/90379168/fb61f560-ad97-4a71-88ba-d3f01c7de7f0">
 
 
 <!-- Imgs of starknet and upcomming -->
@@ -164,6 +165,4 @@ Ready to get started? [Read installation instructions.](docs.resmic.com)
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-
-## Keywords
 
