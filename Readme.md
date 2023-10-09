@@ -38,7 +38,7 @@ Resmic comes with a range of features designed to make crypto payments accessibl
  
 ## Installation
 
-Install Resmic components with npm
+Install Resmic components with [npm](https://www.npmjs.com/package/resmic)
 </br>
 ```bash
   npm install resmic
@@ -119,7 +119,7 @@ function App() {
 ```
 
 
-For more detailed information on how to use Resmic, please refer to our [documentation](docs.resmic.com).
+For more detailed information on how to use Resmic, please refer to our [documentation](https://www.docs.resmic.com)
 
 </br>
 </br>
@@ -135,7 +135,7 @@ If you encounter any issues, have questions, or want to provide feedback, please
 
 Ready to get started? 
 </br>
-[Read installation instructions.](docs.resmic.com)
+[Read installation instructions.](https://www.docs.resmic.com)
 
 </br>
 </br>
@@ -145,7 +145,6 @@ Ready to get started?
 <img width="80" height="80" alt="Starknet Blockchain" src="https://github.com/0xResmic/componentcreation/assets/90379168/fb61f560-ad97-4a71-88ba-d3f01c7de7f0">
 
 
-<!-- Imgs of starknet and upcomming -->
 </br>
 </br>
 
