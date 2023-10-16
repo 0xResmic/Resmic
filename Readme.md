@@ -2,7 +2,7 @@
 # Resmic
 </br>
 
-## Decentralised |  Non-Custodial | P2P Payment Infr
+## Decentralised |  Non-Custodial | P2P Payment Infrastructure
 
 Welcome to Resmic, your go-to solution for accepting a variety of crypto payments in a 100% decentralised & non-custodial manner. Resmic is an NPM package that empowers individuals and businesses to seamlessly integrate cryptocurrency payments into their applications and websites. 
 

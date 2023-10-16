@@ -1,6 +1,6 @@
 {
   "name": "abraka_dabra47",
-  "version": "1.0.3",
+  "version": "1.0.10",
   "description": "Decentralise payment infrastructure. Integrate crypto payment facilities without any hassle!",
   "source": "src/index.js",
   "main": "dist/main.js",
@@ -33,7 +33,6 @@
     "parcel": "^2.9.3"
   },
   "dependencies": {
-    "@starknet-react/core": "^0.17.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "13.4.0",
     "@testing-library/user-event": "13.5.0",
