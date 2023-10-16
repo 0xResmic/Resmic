@@ -12,8 +12,9 @@ With Resmic, you can easily accept payments in Bitcoin, Ethereum, and many other
 
 ## Demo
 
-https://github.com/0xResmic/componentcreation/assets/90379168/640b10f1-cce4-4be7-b28d-609f354b7506
-
+<!-- https://github.com/0xResmic/componentcreation/assets/90379168/640b10f1-cce4-4be7-b28d-609f354b7506 -->
+<!-- https://youtu.be/MVKHNkfOqXA -->
+![Resmic Demo](src/assets/resmic_demo.gif "Resmic Demo")
 
 </br>
 </br>
@@ -142,7 +143,7 @@ Ready to get started?
 
 ## 🏅 Backers
 
-<img width="80" height="80" alt="Starknet Blockchain" src="https://github.com/0xResmic/componentcreation/assets/90379168/fb61f560-ad97-4a71-88ba-d3f01c7de7f0">
+<img width="80" height="80" alt="Starknet Blockchain" src="src/assets/starknet.png">
 
 
 </br>

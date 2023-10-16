@@ -3,27 +3,34 @@ import axios from 'axios'
 import { Contract, Provider, cairo ,CallData, uint256 } from "starknet";
 import { connectWallet } from "./StarknetFunctions/ConnectWallet";
 import { STARKNET_ERC20_ABI, StarknetTokenAddress,} from "../Constants/StarknetConstat";
-import hex2ascii from "hex2ascii";
-import {ToastContainer, toast } from "react-toastify";
+import {toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import '../CSS/StarknetComponent.css'
 import resmiclogo from "../assets/resmiclogo.png";
 
+/**
+ * 
+ * @param {String} Address Wallet Address that will be receiving the funds
+ * @param {Array} Tokens Array of tokens to accept funds in
+ * @param {Number} Amount Amount in USD
+ * @param {bool} setPaymentStatus returns boolean indicating payment status
+ * @param {CSS} Style CSS component for the button 
+ */
 function StarkNetComponent
-({ 
-  Address, 
-  Tokens, 
-  Amount , 
-  setPaymentStatus,
-  Style = {displayName: "Make Payment", 
-  backgroundColor: "#007bff",
-  color: "#fff",
-  border: "none",
-  padding: "10px 20px",
-  borderRadius: "4px",
-  fontSize: "18px",
-  cursor: "pointer"},}) {
+({ Address, 
+    Tokens, 
+    Amount , 
+    setPaymentStatus,
+    Style = {displayName: "Make Payment", 
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    padding: "10px 20px",
+    borderRadius: "4px",
+    fontSize: "18px",
+    cursor: "pointer"},
+  }) {
+
     const [selectedToken, setSelectedToken] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
     const [starknetObject, setStarknetObject] = useState();
@@ -33,7 +40,6 @@ function StarkNetComponent
     const [isLoading, setIsLoading] = useState(false);
     const [currentAmount, setCurrentAmount] = useState();
     const [currentTokenPrice, setCurrentTokenPrice] = useState(""); // To display the conversion rate for token.
-
     const [btnName, setBtnName] = useState("Make Payment");
 
     // Select Token dropdown selection menu.
@@ -55,7 +61,7 @@ function StarkNetComponent
         setStarknetObject(connect);
         setUserAddress(connect?.account?.address);
         // setProviderUrl(connect?.provider?.gatewayUrl)
-        setProviderUrl(connect?.provider?.baseUrl);
+        setProviderUrl(connect?.account?.provider?.baseUrl);
         setIsConnected(true);
         setIsLoading(false);
         // console.log(connect?.account?.address);
@@ -83,24 +89,23 @@ function StarkNetComponent
         }
     }
 
+    /**
+     * 
+     * @param {Number} latestAmount Calculated current amount of token
+     * @param {String} _selectedToken ERC20 token address  
+     */
     const requestERC20Payment = async(latestAmount, _selectedToken) => {
       setIsLoading(true);  
       // console.log("selectedToken", StarknetTokenAddress[_selectedToken])
         const provider = new Provider({ sequencer: { baseUrl: providerUrl } });
         const contractInstance = new Contract( STARKNET_ERC20_ABI,StarknetTokenAddress[_selectedToken],provider);
         let _contractAddress = StarknetTokenAddress[_selectedToken];
-        
         let decimal = await contractInstance.decimals()
         decimal = decimal.decimals.toString();
-
         let _latestAmount = latestAmount * (10 ** parseInt(decimal));
-        
-        // console.log("_lateseAmount type: ", typeof(_latestAmount));
-        // let _latestAmount = latestAmount * (10 ** parseInt(decimal)).toString();
         setCurrentAmount(_latestAmount)
   
         try {
-
           // Two functionality in a transaction.
           // 1. The token will be approved by the user
           // 2. The actual payment will be completed.
@@ -115,23 +120,19 @@ function StarkNetComponent
                     })
                 })
             await provider.waitForTransaction(approveTokens.transaction_hash);
-            // console.log("approveTokens", approveTokens)
-            // console.log("approveTokens.transaction_hash", approveTokens.transaction_hash)
+            console.log("approveTokens", approveTokens)
+            console.log("approveTokens.transaction_hash", approveTokens.transaction_hash)
             // alert("Token approved!");
             toast.success('Token approved', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
-
             setBtnName("Make payment");
-            // console.log("_latestAmount", _latestAmount)
             let transferToken = await starknetObject.account.execute({
               contractAddress: _contractAddress, // ERC20 token addrss(ETH)
               entrypoint: 'transfer',
               calldata: CallData.compile({
                 recipient: Address, // Receiver's address
-                // amount: cairo.uint256(parseInt(latestAmount))
                 amount: cairo.uint256(parseInt( _latestAmount.toString()))
               })
             })
-            
             await provider.waitForTransaction(transferToken.transaction_hash);
             await verifyTransaction(transferToken.transaction_hash, _latestAmount)
             // alert("Token transferred successfully :)");
@@ -148,6 +149,12 @@ function StarkNetComponent
         }
     }
 
+    /**
+     * 
+     * @param {String} _txHash Transaction hash after the payment.
+     * @param {Number} _latestAmount Amount of tokens calculated at current rate.
+     * @returns 
+     */
     const verifyTransaction = async(_txHash, _latestAmount) => {
 
       let verificationStatue = false;
@@ -161,42 +168,32 @@ function StarkNetComponent
       let tokenTransferedToAddress = tx[0].data[1] // It should be our address.
       let tokenTransferedAmount = tx[0].data[2] // Amount
       tokenTransferedAmount = parseInt(tokenTransferedAmount.toString(16))
-      // let _amount = parseFloat(currentAmount.toString())
       let _amount = parseInt(_latestAmount.toString())
       if(tokenTransferedAmount >=   _amount && 
         tokenTransferedToAddress.toLowerCase() === Address.toLowerCase() && 
         tokenTransferedFromAddress.toLowerCase() === userAddress.toLowerCase() && 
-        // tokenAddressOfTransferToken.toLowerCase() === (StarknetTokenAddress[selectedToken?.name]).toLowerCase()){
         tokenAddressOfTransferToken.toLowerCase() === (StarknetTokenAddress[selectedToken?.name]).toLowerCase()){
-
           verificationStatue = true
-          // console.log("Inside")
-          
       }     
-      // console.log("verificationStatue", verificationStatue)
       return verificationStatue
-
     }
 
+    /**
+     * Super function to call all the functions in sync.
+     */
     const makePayment = async () => {
-
       if ((selectedToken?.name == null)) {
         // alert("Please select the payment mode")
         toast.warning('Please select the payment mode', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
       }
-
       else {
         await connectStarknetWallet();
         setBtnName(`Pay ${selectedToken?.name}`)
-        //  approveTokens ;
-
         if(isConnected){
-
             if (selectedToken?.name === 'stable'){
               setCurrentAmount(Amount)
               requestERC20Payment(Amount, selectedToken?.name);
             } 
-              
             else {
                 let latestPrice = await getCurrentTokenPrice(selectedToken?.name);
                 let latestAmount = (Amount / latestPrice );
@@ -211,20 +208,6 @@ function StarkNetComponent
       }
     };
 
-    
-
-
-    async function test() {
-      // const block = await Provider.getBlock("latest"); // <- Get latest block
-        const provider = new Provider({ sequencer: { baseUrl: providerUrl } });
-
-        let ETH_ContractAddress ="0x049D36570D4e46f48e99674bd3fcc84644DdD6b96F7C741B1562B82f9e004dC7";
-        const contractInstance = new Contract( STARKNET_ERC20_ABI,ETH_ContractAddress,provider);
-        let tokenName = await contractInstance.name();
-
-        let toHex = tokenName.name.toString(16);
-        let name = hex2ascii(toHex);
-    }
     /**
      * Helper functions.
      */
@@ -236,12 +219,10 @@ function StarkNetComponent
           setIsLoading(!isLoading);
     };
     const handelSelectToken = async (e) => {
-      // setSelectedToken(e.target.value);
         const filteredArray = Tokens.filter(obj => obj.name === e.target.value);
         const token = filteredArray[0];
         let tokenPrice='1';
         if(token.type !=='stable')tokenPrice = await getCurrentTokenPrice(token.name);
-        // setCurrentTokenPrice("1 " + token.name +" = $ "+  tokenPrice);
         setSelectedToken(token);
         setCurrentTokenPrice("1 " + token.name + " = $ " + tokenPrice);
         // console.log("token", token)
@@ -318,7 +299,6 @@ function StarkNetComponent
           </div>
         )}
       </div>
-    <ToastContainer/>
     </>
   );
 }

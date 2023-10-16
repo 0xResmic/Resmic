@@ -1,16 +1,17 @@
-import { connect } from "@argent/get-starknet"
+import { connect, disconnect } from "get-starknet"
+import {toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export async function connectWallet() {
 
     try {
-        const starknet = await connect();
-        await starknet?.enable({ starknetVersion: "v4" })
-        let m = await starknet.account
-        return starknet 
-        
+        let con = await connect();
+        return con;
+
     } catch (error) {
-        console.log(error);
-        alert("Unable to connect wallet :(")
+        console.log(error)
+        toast.error('Unable to connect wallet.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+        
     }
 
 }

@@ -9,6 +9,9 @@
     gap: 1rem;
     font-family: 'Inter';
 }
+.startBtnClass {
+  cursor: pointer;
+}
 
 .popup-heading{
     font-size: 1rem;

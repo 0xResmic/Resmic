@@ -1,36 +1,50 @@
 {
-  "name": "resmic",
-  "version": "1.0.1",
-  "description": "",
-  "main": "./build/index.js",
-  "scripts": {
-    "build": "webpack"
+  "name": "abraka_dabra47",
+  "version": "1.0.3",
+  "description": "Decentralise payment infrastructure. Integrate crypto payment facilities without any hassle!",
+  "source": "src/index.js",
+  "main": "dist/main.js",
+  "module": "dist/module.js",
+  "keywords": [
+    "payments",
+    "blockchain",
+    "crypto-payment",
+    "Payment-gateway",
+    "decentralised",
+    "non-custodial",
+    "crypto",
+    "web3",
+    "Peer-to-peer",
+    "Non-custodial",
+    "cross-border payments"
+  ],
+  "homepage": "https://resmic.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0xResmic/componentcreation"
   },
-  "author": "\"Resmic\"",
-  "license": "ISC",
+  "scripts": {
+    "watch": "parcel watch",
+    "build": "parcel build"
+  },
+  "author": "Resmic",
+  "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.23.0",
-    "@babel/preset-env": "^7.22.20",
-    "@babel/preset-react": "^7.22.15",
-    "babel-loader": "^9.1.3",
-    "css-loader": "^6.8.1",
-    "style-loader": "^3.3.3",
-    "url-loader": "^4.1.1",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+    "parcel": "^2.9.3"
   },
   "dependencies": {
-    "@argent/get-starknet": "^6.4.6",
+    "@starknet-react/core": "^0.17.2",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.4.0",
-    "ethers": "^5.6.9",
-    "hex2ascii": "^0.0.3",
-    "react": "^18.2.0",
+    "@testing-library/react": "13.4.0",
+    "@testing-library/user-event": "13.5.0",
+    "axios": "1.4.0",
+    "ethers": "5.6.9",
+    "get-starknet": "^3.0.1",
+    "react": "18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.3",
+    "starknet": "^5.19.5",
     "web-vitals": "^2.1.4"
   }
 }
