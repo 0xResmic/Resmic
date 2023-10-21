@@ -1,27 +1,13 @@
 require("./main.css");
-var $gXNCa$reactjsxruntime = require("react/jsx-runtime");
-var $gXNCa$axios = require("axios");
-var $gXNCa$react = require("react");
-var $gXNCa$ethers = require("ethers");
-var $gXNCa$reacttoastify = require("react-toastify");
+var $ezI6v$reactjsxruntime = require("react/jsx-runtime");
+var $ezI6v$react = require("react");
+var $ezI6v$axios = require("axios");
+var $ezI6v$ethers = require("ethers");
+var $ezI6v$reacttoastify = require("react-toastify");
 require("react-toastify/dist/ReactToastify.css");
+var $ezI6v$starknet = require("starknet");
+var $ezI6v$getstarknet = require("get-starknet");
 
-function $parcel$exportWildcard(dest, source) {
-  Object.keys(source).forEach(function(key) {
-    if (key === 'default' || key === '__esModule' || dest.hasOwnProperty(key)) {
-      return;
-    }
-
-    Object.defineProperty(dest, key, {
-      enumerable: true,
-      get: function get() {
-        return source[key];
-      }
-    });
-  });
-
-  return dest;
-}
 function $parcel$export(e, n, v, s) {
   Object.defineProperty(e, n, {get: v, set: s, enumerable: true, configurable: true});
 }
@@ -29,20 +15,18 @@ function $parcel$interopDefault(a) {
   return a && a.__esModule ? a.default : a;
 }
 
-$parcel$export(module.exports, "EVMConnect", () => $6b9719ce581779a4$export$2e2bcd8739ae039);
+$parcel$export(module.exports, "EVMConnect", () => $de52af8011fefc28$export$2e2bcd8739ae039);
+$parcel$export(module.exports, "StarkNetConnect", () => $806013c205242ea4$export$2e2bcd8739ae039);
+$parcel$export(module.exports, "Chains", () => $27d6a4225a34c492$export$c3f32f9b7c2f46bb);
+$parcel$export(module.exports, "Tokens", () => $27d6a4225a34c492$export$8e1e81ac145e31be);
+$parcel$export(module.exports, "StarkTokens", () => $5e53f8470945e921$export$abf328e0fa55cf1f);
 
 
 
 
-var $0578d5b47142f887$exports = {};
-
-$parcel$export($0578d5b47142f887$exports, "TokenAddress", () => $0578d5b47142f887$export$5c2c3f7af123bc40);
-$parcel$export($0578d5b47142f887$exports, "Chains", () => $0578d5b47142f887$export$c3f32f9b7c2f46bb);
-$parcel$export($0578d5b47142f887$exports, "Tokens", () => $0578d5b47142f887$export$8e1e81ac145e31be);
-$parcel$export($0578d5b47142f887$exports, "ERC20_ABI", () => $0578d5b47142f887$export$89843982d7e60b14);
 /**
  * Supported {Verified } ERC 20 token address
- */ const $0578d5b47142f887$export$5c2c3f7af123bc40 = {
+ */ const $27d6a4225a34c492$export$5c2c3f7af123bc40 = {
     "Ethereum": {
         "USDT": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
         "USDC": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
@@ -83,7 +67,7 @@ $parcel$export($0578d5b47142f887$exports, "ERC20_ABI", () => $0578d5b47142f887$e
         "DAI": "0x75Ab5AB1Eef154C0352Fc31D2428Cef80C7F8B33"
     }
 };
-const $0578d5b47142f887$export$c3f32f9b7c2f46bb = {
+const $27d6a4225a34c492$export$c3f32f9b7c2f46bb = {
     Ethereum: {
         "name": "Ethereum",
         "id": "0x1"
@@ -106,7 +90,7 @@ const $0578d5b47142f887$export$c3f32f9b7c2f46bb = {
         "id": "0x5"
     }
 };
-const $0578d5b47142f887$export$8e1e81ac145e31be = {
+const $27d6a4225a34c492$export$8e1e81ac145e31be = {
     USDT: {
         "dname": "USDT",
         "name": "USDT",
@@ -183,7 +167,7 @@ const $0578d5b47142f887$export$8e1e81ac145e31be = {
         "id": "0x5"
     }
 };
-const $0578d5b47142f887$export$89843982d7e60b14 = [
+const $27d6a4225a34c492$export$89843982d7e60b14 = [
     {
         constant: true,
         inputs: [],
@@ -389,14 +373,14 @@ const $0578d5b47142f887$export$89843982d7e60b14 = [
 ];
 
 
-var $4236c9f29f15628b$exports = {};
-$4236c9f29f15628b$exports = new URL("resmiclogo.4179cff7.png", "file:" + __filename).toString();
+var $145ca37607e67044$exports = {};
+$145ca37607e67044$exports = new URL("resmiclogo.4179cff7.png", "file:" + __filename).toString();
 
 
 
 
 
-async function $5c055691fb055a32$export$43158100a9ac6874() {
+async function $04510dd21321f22d$export$43158100a9ac6874() {
     let account;
     let currentChainId;
     if (!window.ethereum) alert("Please install MetaMask!");
@@ -415,7 +399,7 @@ async function $5c055691fb055a32$export$43158100a9ac6874() {
         chainId: chainId
     };
 }
-async function $5c055691fb055a32$export$f3473d805e486329(networkId) {
+async function $04510dd21321f22d$export$f3473d805e486329(networkId) {
     // await window.ethereum.request({
     //     method: 'wallet_switchEthereumChain',
     //     params: [{ chainId: networkId }],
@@ -434,12 +418,12 @@ async function $5c055691fb055a32$export$f3473d805e486329(networkId) {
         switchError.code;
     }
 }
-async function $5c055691fb055a32$export$57632def5536cb24() {
-    const provider = new (0, $gXNCa$ethers.ethers).providers.Web3Provider(window.ethereum);
+async function $04510dd21321f22d$export$57632def5536cb24() {
+    const provider = new (0, $ezI6v$ethers.ethers).providers.Web3Provider(window.ethereum);
     return provider;
 }
-async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
-    const provider = new (0, $gXNCa$ethers.ethers).providers.Web3Provider(window.ethereum);
+async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
+    const provider = new (0, $ezI6v$ethers.ethers).providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     return signer;
 }
@@ -458,7 +442,7 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
  * @param {bool} setPaymentStatus // Returns the payment completion status of the tx.  // Customise CSS for buttons.
  * @param {INT} noOfBlockConformation // No. of Block Conformation to verify the transaction
  * @returns React componen
- */ function $6b9719ce581779a4$var$EVMComponent({ Address: Address, Tokens: Tokens, Chains: Chains, Amount: Amount, Style: Style = {
+ */ function $de52af8011fefc28$var$EVMConnect({ Address: Address, Tokens: Tokens, Chains: Chains, Amount: Amount, Style: Style = {
     displayName: "Make Payment",
     backgroundColor: "#007bff",
     color: "#fff",
@@ -468,59 +452,59 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
     fontSize: "18px",
     cursor: "pointer"
 }, setPaymentStatus: setPaymentStatus, noOfBlockConformation: noOfBlockConformation = 3 }) {
-    const [selectedToken, setSelectedToken] = (0, $gXNCa$react.useState)(null);
-    const [selectedChain, setSelectedChain] = (0, $gXNCa$react.useState)(null);
-    const [userAddress, setUserAddress] = (0, $gXNCa$react.useState)();
-    const [isPaymentCompleted, setIsPaymentCompleted] = (0, $gXNCa$react.useState)(false);
-    const [currentTokenPrice, setCurrentTokenPrice] = (0, $gXNCa$react.useState)(""); // To display the conversion rate for token.
-    const [isConnected, setIsConnected] = (0, $gXNCa$react.useState)(false);
-    const [btnName, setBtnName] = (0, $gXNCa$react.useState)("Connect Wallet");
-    const [isPopupOpen, setIsPopupOpen] = (0, $gXNCa$react.useState)(false);
-    const [isLoading, setIsLoading] = (0, $gXNCa$react.useState)(false);
+    const [selectedToken, setSelectedToken] = (0, $ezI6v$react.useState)(null);
+    const [selectedChain, setSelectedChain] = (0, $ezI6v$react.useState)(null);
+    const [userAddress, setUserAddress] = (0, $ezI6v$react.useState)();
+    const [isPaymentCompleted, setIsPaymentCompleted] = (0, $ezI6v$react.useState)(false);
+    const [currentTokenPrice, setCurrentTokenPrice] = (0, $ezI6v$react.useState)(""); // To display the conversion rate for token.
+    const [isConnected, setIsConnected] = (0, $ezI6v$react.useState)(false);
+    const [btnName, setBtnName] = (0, $ezI6v$react.useState)("Connect Wallet");
+    const [isPopupOpen, setIsPopupOpen] = (0, $ezI6v$react.useState)(false);
+    const [isLoading, setIsLoading] = (0, $ezI6v$react.useState)(false);
     // Select Blockchain dropdown selection menu.
     let selectChain = Chains.map((chain)=>{
-        return /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)((0, $gXNCa$reactjsxruntime.Fragment), {
+        return /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)((0, $ezI6v$reactjsxruntime.Fragment), {
             children: [
-                /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("option", {
+                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("option", {
                     value: "",
                     disabled: true,
                     selected: true,
                     hidden: true,
                     children: "Select Blockchain"
                 }),
-                /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("option", {
-                    value: chain?.name,
+                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("option", {
+                    value: chain === null || chain === void 0 ? void 0 : chain.name,
                     children: [
                         " ",
-                        /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("img", {
-                            src: (0, (/*@__PURE__*/$parcel$interopDefault($4236c9f29f15628b$exports))),
+                        /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("img", {
+                            src: (0, (/*@__PURE__*/$parcel$interopDefault($145ca37607e67044$exports))),
                             alt: ""
                         }),
-                        chain?.name,
+                        chain === null || chain === void 0 ? void 0 : chain.name,
                         " "
                     ]
-                }, chain?.name)
+                }, chain === null || chain === void 0 ? void 0 : chain.name)
             ]
         });
     });
     // Select Token dropdown selection menu.
     let selectToken = Tokens.map((token)=>{
-        return /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)((0, $gXNCa$reactjsxruntime.Fragment), {
+        return /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)((0, $ezI6v$reactjsxruntime.Fragment), {
             children: [
-                /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("option", {
+                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("option", {
                     value: "",
                     disabled: true,
                     selected: true,
                     hidden: true,
                     children: "Select Token"
                 }),
-                /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("option", {
-                    value: token?.dname,
+                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("option", {
+                    value: token === null || token === void 0 ? void 0 : token.dname,
                     children: [
                         " ",
-                        token?.dname
+                        token === null || token === void 0 ? void 0 : token.dname
                     ]
-                }, token?.dname)
+                }, token === null || token === void 0 ? void 0 : token.dname)
             ]
         });
     });
@@ -532,14 +516,14 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
         let token = _token.toLowerCase();
         try {
             let url = `https://api.coingecko.com/api/v3/simple/price?ids=${token}&vs_currencies=usd`;
-            let fetchUrl = await (0, ($parcel$interopDefault($gXNCa$axios))).get(url);
+            let fetchUrl = await (0, ($parcel$interopDefault($ezI6v$axios))).get(url);
             let currentUsdPrice = fetchUrl.data[token]["usd"];
             // console.log(currentUsdPrice)
             return currentUsdPrice;
         } catch (error) {
             // alert("Error while getting token price");
-            (0, $gXNCa$reacttoastify.toast).error("Unable to fetch live price!", {
-                position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+            (0, $ezI6v$reacttoastify.toast).error("Unable to fetch live price!", {
+                position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
             });
             console.log(error.message);
@@ -551,7 +535,7 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
    */ const connectWalletFunc = async ()=>{
         setBtnName("Connecting");
         setIsLoading(true);
-        let connectFunc = await (0, $5c055691fb055a32$export$43158100a9ac6874)(); // Calling connect function from Constant/ConnectMeta
+        let connectFunc = await (0, $04510dd21321f22d$export$43158100a9ac6874)(); // Calling connect function from Constant/ConnectMeta
         setUserAddress(connectFunc.account); // Returns the connected wallet address.
         setBtnName("Make Payment");
         setIsLoading(false);
@@ -561,7 +545,7 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
             // console.log("Change network")
             setBtnName("Switching network");
             setIsLoading(true);
-            await (0, $5c055691fb055a32$export$f3473d805e486329)(selectedChain.id);
+            await (0, $04510dd21321f22d$export$f3473d805e486329)(selectedChain.id);
             setIsConnected(true);
             setIsLoading(false);
             setBtnName("Make Payment");
@@ -578,21 +562,21 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
    * @param {String} _tokenAddress
    */ const requestERC20Payment = async (_amount, _tokenAddress)=>{
         setIsLoading(true);
-        const signer = await (0, $5c055691fb055a32$export$c128ec6fd8bee8d4)();
+        const signer = await (0, $04510dd21321f22d$export$c128ec6fd8bee8d4)();
         // setCurrentTokenPrice("Current Conversion rate: $" + _amount)
         try {
             /**
        * The ERC20 payment requires 2 transactions
        * 1. Approval of token
        * 2. Transafer of token
-       */ const contractInstance = new (0, $gXNCa$ethers.ethers).Contract(_tokenAddress, (0, $0578d5b47142f887$export$89843982d7e60b14), signer);
+       */ const contractInstance = new (0, $ezI6v$ethers.ethers).Contract(_tokenAddress, (0, $27d6a4225a34c492$export$89843982d7e60b14), signer);
             let decimals = await contractInstance.decimals();
             decimals = decimals.toString();
             const getApprove = await contractInstance.approve(userAddress, (_amount * 10 ** decimals).toString());
             await getApprove.wait();
             // alert("Token approved successfully:)"); 
-            (0, $gXNCa$reacttoastify.toast).success("Token approved", {
-                position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+            (0, $ezI6v$reacttoastify.toast).success("Token approved", {
+                position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
             });
             let tx = await contractInstance.transferFrom(userAddress, Address, (_amount * 10 ** decimals).toString(), {
@@ -603,8 +587,8 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
             await checkBlockConformations(tx.hash, decimals);
         } catch (error) {
             // alert("Something went wrong."); 
-            (0, $gXNCa$reacttoastify.toast).error("Something went wrong.", {
-                position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+            (0, $ezI6v$reacttoastify.toast).error("Something went wrong.", {
+                position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
             });
             console.log(error);
@@ -615,11 +599,11 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
    * @param {INT/FLOAT} _amount // Amount in native token ().
    *
    */ const nativeTokenPayment = async (_amount)=>{
-        const signer = await (0, $5c055691fb055a32$export$c128ec6fd8bee8d4)();
+        const signer = await (0, $04510dd21321f22d$export$c128ec6fd8bee8d4)();
         let amount = _amount;
         // setCurrentTokenPrice("Current Conversion rate: $" + _amount)
         let slicedNum = amount.toFixed(10); // Rounding it to 10 digits.
-        let amountInWei = (0, $gXNCa$ethers.ethers).utils.parseEther(slicedNum.toString()); // Converting the amount to WEI {Smallest amount of ETH (1 ETH = 10 ** 18)}
+        let amountInWei = (0, $ezI6v$ethers.ethers).utils.parseEther(slicedNum.toString()); // Converting the amount to WEI {Smallest amount of ETH (1 ETH = 10 ** 18)}
         try {
             // Transfer of funds to address
             const tx = await signer.sendTransaction({
@@ -630,8 +614,8 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
             await checkBlockConformationsNative(tx.hash);
         } catch (error) {
             // alert("Something went wrong");
-            (0, $gXNCa$reacttoastify.toast).error("Something went wrong.", {
-                position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+            (0, $ezI6v$reacttoastify.toast).error("Something went wrong.", {
+                position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
             });
             console.log(error);
@@ -644,7 +628,7 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
    * @param {INT} decimals
    * @returns {Bool} returns the paymetn update.
    */ const checkBlockConformations = async (tx, decimals)=>{
-        let provider = await (0, $5c055691fb055a32$export$57632def5536cb24)();
+        let provider = await (0, $04510dd21321f22d$export$57632def5536cb24)();
         const confirmationsRequired = noOfBlockConformation;
         const receipt = await provider.waitForTransaction(tx, confirmationsRequired);
         // Checks the status of the transaction
@@ -656,8 +640,8 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
                     setIsPaymentCompleted(true);
                     setPaymentStatus(true);
                     // alert("Payment done successfully:)");
-                    (0, $gXNCa$reacttoastify.toast).success("Payment done successfully.", {
-                        position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+                    (0, $ezI6v$reacttoastify.toast).success("Payment done successfully.", {
+                        position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                         theme: "dark"
                     });
                     setIsPaymentCompleted(true);
@@ -667,8 +651,8 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
                     return true;
                 } else {
                     // alert("Something went wrong");
-                    (0, $gXNCa$reacttoastify.toast).error("Something went wrong.", {
-                        position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+                    (0, $ezI6v$reacttoastify.toast).error("Something went wrong.", {
+                        position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                         theme: "dark"
                     });
                     // console.log("Not sufficient amount transferred: ");
@@ -676,16 +660,16 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
                 }
             } else {
                 // alert("Unable to process payment\n Please try again ");
-                (0, $gXNCa$reacttoastify.toast).error("Unable to process payment\n Please try again", {
-                    position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+                (0, $ezI6v$reacttoastify.toast).error("Unable to process payment\n Please try again", {
+                    position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                     theme: "dark"
                 });
                 return false;
             }
         } else {
             // alert("Transaction failed to be processed");
-            (0, $gXNCa$reacttoastify.toast).error("Transaction failed to be processed", {
-                position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+            (0, $ezI6v$reacttoastify.toast).error("Transaction failed to be processed", {
+                position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
             });
             return false;
@@ -696,11 +680,11 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
    * @param {String} transactionHash
    * @returns {String} String '0' or 'Amount_Of_Tokens'
    */ const checkTokenTransfers = async (transactionHash)=>{
-        let provider = await (0, $5c055691fb055a32$export$57632def5536cb24)();
+        let provider = await (0, $04510dd21321f22d$export$57632def5536cb24)();
         try {
             const transactionReceipt = await provider.getTransactionReceipt(transactionHash);
             if (transactionReceipt && transactionReceipt.status === 1) {
-                const tokenContract = new (0, $gXNCa$ethers.ethers).Contract((0, $0578d5b47142f887$export$5c2c3f7af123bc40)[selectedChain?.name][selectedToken?.name], (0, $0578d5b47142f887$export$89843982d7e60b14), provider);
+                const tokenContract = new (0, $ezI6v$ethers.ethers).Contract((0, $27d6a4225a34c492$export$5c2c3f7af123bc40)[selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.name][selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name], (0, $27d6a4225a34c492$export$89843982d7e60b14), provider);
                 const filter = tokenContract.filters.Transfer(null, null, null);
                 const events = await tokenContract.queryFilter(filter, transactionReceipt.blockNumber, transactionReceipt.blockNumber);
                 const event = events.find((event)=>event.transactionHash === transactionHash);
@@ -711,8 +695,8 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
                 } else {
                     // console.log("No token transfer event found for the transaction.");
                     // alert("No token transfer event found for the transaction.");
-                    (0, $gXNCa$reacttoastify.toast).error("No token transfer event found for the tx.", {
-                        position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+                    (0, $ezI6v$reacttoastify.toast).error("No token transfer event found for the tx.", {
+                        position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                         theme: "dark"
                     });
                     return "0";
@@ -720,8 +704,8 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
             } else {
                 // console.log("Transaction not found or not successful.");
                 // alert("Transaction not found or not successful.");
-                (0, $gXNCa$reacttoastify.toast).error("Transaction not found or not successful.", {
-                    position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+                (0, $ezI6v$reacttoastify.toast).error("Transaction not found or not successful.", {
+                    position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                     theme: "dark"
                 });
                 return "0";
@@ -729,8 +713,8 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
         } catch (error) {
             // console.error("Error reading transaction details:", error);
             // alert("No transaction found!");
-            (0, $gXNCa$reacttoastify.toast).error("No transaction found!", {
-                position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+            (0, $ezI6v$reacttoastify.toast).error("No transaction found!", {
+                position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
             });
             return "0";
@@ -742,21 +726,21 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
    * @param {String} tx
    * @returns {Bool}
    */ const checkBlockConformationsNative = async (tx)=>{
-        let provider = await (0, $5c055691fb055a32$export$57632def5536cb24)();
+        let provider = await (0, $04510dd21321f22d$export$57632def5536cb24)();
         const confirmationsRequired = noOfBlockConformation;
         const receipt = await provider.waitForTransaction(tx, confirmationsRequired);
         if (receipt.status === 1) {
             let actualTokenTransfer = await checkTokenTransfersNative(tx);
             actualTokenTransfer = parseFloat(actualTokenTransfer);
             // console.log("actualTokenTransfer", actualTokenTransfer);
-            let currentTokenPrice2 = await getCurrentTokenPrice(selectedToken?.name);
+            let currentTokenPrice2 = await getCurrentTokenPrice(selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name);
             currentTokenPrice2 = Amount / currentTokenPrice2;
             // console.log("currentTokenPrice", currentTokenPrice2);
             if (actualTokenTransfer !== 0) {
                 if (actualTokenTransfer >= currentTokenPrice2) {
                     // alert("Payment done successfully:)");
-                    (0, $gXNCa$reacttoastify.toast).success("Payment done successfully:)", {
-                        position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+                    (0, $ezI6v$reacttoastify.toast).success("Payment done successfully:)", {
+                        position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                         theme: "dark"
                     });
                     setIsPaymentCompleted(true);
@@ -766,8 +750,8 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
                     return true;
                 } else {
                     // alert("Something went wrong");
-                    (0, $gXNCa$reacttoastify.toast).error("Something went wrong", {
-                        position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+                    (0, $ezI6v$reacttoastify.toast).error("Something went wrong", {
+                        position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                         theme: "dark"
                     });
                     // console.log("Not sufficient amount transferred: ");
@@ -775,16 +759,16 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
                 }
             } else {
                 // alert("Unable to process payment\n Please try again ");
-                (0, $gXNCa$reacttoastify.toast).error("Unable to process payment\n Please try again ", {
-                    position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+                (0, $ezI6v$reacttoastify.toast).error("Unable to process payment\n Please try again ", {
+                    position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                     theme: "dark"
                 });
                 return false;
             }
         } else {
             // alert("Transaction failed to be processed");
-            (0, $gXNCa$reacttoastify.toast).error("Transaction failed to be processed", {
-                position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+            (0, $ezI6v$reacttoastify.toast).error("Transaction failed to be processed", {
+                position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
             });
             return false;
@@ -795,20 +779,20 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
    * @param {String} transactionHash
    * @returns {String} String '0' or 'Amount_Of_Tokens'
    */ const checkTokenTransfersNative = async (tx)=>{
-        let provider = await (0, $5c055691fb055a32$export$57632def5536cb24)();
+        let provider = await (0, $04510dd21321f22d$export$57632def5536cb24)();
         try {
             // Get the transaction details
             const transaction = await provider.getTransaction(tx);
             if (transaction && transaction.confirmations > 0) {
                 const amountInWei = transaction.value;
-                const amountInEther = (0, $gXNCa$ethers.ethers).utils.formatEther(amountInWei);
+                const amountInEther = (0, $ezI6v$ethers.ethers).utils.formatEther(amountInWei);
                 // console.log("Ether transferred:", amountInEther);
                 return amountInEther.toString();
             } else {
                 // console.log("Transaction not found or not confirmed yet.");
                 // alert("Transaction not found");
-                (0, $gXNCa$reacttoastify.toast).error("Transaction not found", {
-                    position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+                (0, $ezI6v$reacttoastify.toast).error("Transaction not found", {
+                    position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                     theme: "dark"
                 });
                 return "0";
@@ -816,8 +800,8 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
         } catch (error) {
             // console.error("Error reading transaction details:", error);
             // alert("Unable to get transaction details");
-            (0, $gXNCa$reacttoastify.toast).error("Unable to get transaction details", {
-                position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+            (0, $ezI6v$reacttoastify.toast).error("Unable to get transaction details", {
+                position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
             });
             return "0";
@@ -829,9 +813,9 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
    * 2. Switch network if required
    * 3. make payment
    */ const makePayment = async ()=>{
-        if (selectedToken?.name == null || selectedChain?.name == null) // alert("Please select the payment mode");
-        (0, $gXNCa$reacttoastify.toast).warning("Please select the payment mode", {
-            position: (0, $gXNCa$reacttoastify.toast).POSITION.TOP_CENTER,
+        if ((selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name) == null || (selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.name) == null) // alert("Please select the payment mode");
+        (0, $ezI6v$reacttoastify.toast).warning("Please select the payment mode", {
+            position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
             theme: "dark"
         });
         else {
@@ -839,15 +823,15 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
             setBtnName("Make payment");
             if (isConnected) {
                 // Stable Coins.
-                if (selectedToken.type === "stable") requestERC20Payment(Amount, (0, $0578d5b47142f887$export$5c2c3f7af123bc40)[selectedChain?.name][selectedToken?.name]);
-                else if (selectedChain?.id === selectedToken?.id) {
-                    let latestPrice = await getCurrentTokenPrice(selectedToken?.name); // Returns Float/Int of the current market price of the token.
+                if (selectedToken.type === "stable") requestERC20Payment(Amount, (0, $27d6a4225a34c492$export$5c2c3f7af123bc40)[selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.name][selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name]);
+                else if ((selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.id) === (selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.id)) {
+                    let latestPrice = await getCurrentTokenPrice(selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name); // Returns Float/Int of the current market price of the token.
                     let latestAmount = Amount / latestPrice;
                     nativeTokenPayment(latestAmount);
                 } else {
-                    let latestPrice = await getCurrentTokenPrice(selectedToken?.name);
+                    let latestPrice = await getCurrentTokenPrice(selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name);
                     let latestAmount = Amount / latestPrice;
-                    requestERC20Payment(latestAmount, (0, $0578d5b47142f887$export$5c2c3f7af123bc40)[selectedChain?.name][selectedToken?.name]);
+                    requestERC20Payment(latestAmount, (0, $27d6a4225a34c492$export$5c2c3f7af123bc40)[selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.name][selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name]);
                 }
             } else await connectWalletFunc();
         }
@@ -865,7 +849,7 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
         const filteredArray = Tokens.filter((obj)=>obj.name === e.target.value);
         const token = filteredArray[0];
         let tokenPrice = "1";
-        if (token?.type !== "stable") tokenPrice = await getCurrentTokenPrice(token?.name);
+        if ((token === null || token === void 0 ? void 0 : token.type) !== "stable") tokenPrice = await getCurrentTokenPrice(token === null || token === void 0 ? void 0 : token.name);
         setCurrentTokenPrice("1 " + token.name + " = $ " + tokenPrice);
         setSelectedToken(token);
     };
@@ -874,47 +858,47 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
         // console.log("setSelectedChain", filteredArray[0]);
         setSelectedChain(filteredArray[0]);
     };
-    return /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)((0, $gXNCa$reactjsxruntime.Fragment), {
+    return /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)((0, $ezI6v$reactjsxruntime.Fragment), {
         children: [
-            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("button", {
+            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("button", {
                 className: "startBtnClass",
                 style: Style,
                 onClick: handleOpenPopup,
-                children: Style?.displayName
+                children: Style === null || Style === void 0 ? void 0 : Style.displayName
             }),
-            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("br", {}),
-            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
-                children: isPopupOpen && /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("br", {}),
+            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                children: isPopupOpen && /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                     className: "popup-container",
-                    children: /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("div", {
+                    children: /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
                         className: "popup-content",
                         children: [
-                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("div", {
+                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
                                 className: "resmic-logo",
                                 children: [
-                                    /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("img", {
-                                        src: (0, (/*@__PURE__*/$parcel$interopDefault($4236c9f29f15628b$exports))),
+                                    /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("img", {
+                                        src: (0, (/*@__PURE__*/$parcel$interopDefault($145ca37607e67044$exports))),
                                         alt: ""
                                     }),
-                                    /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("span", {
+                                    /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("span", {
                                         className: "close",
                                         onClick: handleClosePopup,
                                         children: "\xd7"
                                     })
                                 ]
                             }),
-                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                 className: "modal-contents",
-                                children: /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("div", {
+                                children: /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
                                     className: "inputs",
                                     children: [
-                                        /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("div", {
+                                        /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
                                             className: "popup-heading",
                                             children: [
-                                                /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("span", {
+                                                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("span", {
                                                     children: "Pay amount"
                                                 }),
-                                                /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("div", {
+                                                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
                                                     className: "amount",
                                                     children: [
                                                         "$",
@@ -923,16 +907,16 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
                                                 })
                                             ]
                                         }),
-                                        /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("div", {
+                                        /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
                                             className: "inputGroup",
                                             children: [
-                                                /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                     className: "inputHeading",
-                                                    children: /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("span", {
+                                                    children: /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("span", {
                                                         children: "Blockchain"
                                                     })
                                                 }),
-                                                /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("select", {
+                                                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("select", {
                                                     onChange: (e)=>{
                                                         handleChainSelect(e);
                                                     },
@@ -946,16 +930,16 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
                                                 })
                                             ]
                                         }),
-                                        /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("div", {
+                                        /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
                                             className: "inputGroup",
                                             children: [
-                                                /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                     className: "inputHeading",
-                                                    children: /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("span", {
+                                                    children: /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("span", {
                                                         children: "Token"
                                                     })
                                                 }),
-                                                /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("select", {
+                                                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("select", {
                                                     onChange: (e)=>{
                                                         handleTokenSelect(e);
                                                     },
@@ -969,53 +953,53 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
                                                 })
                                             ]
                                         }),
-                                        /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                        /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                             className: "live-token-price",
                                             children: currentTokenPrice
                                         }),
-                                        /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                        /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                             className: "inputGroup",
-                                            children: /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("button", {
+                                            children: /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("button", {
                                                 onClick: makePayment,
                                                 children: [
                                                     !isLoading && btnName,
-                                                    isLoading && /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsxs)("div", {
+                                                    isLoading && /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
                                                         className: "spinner",
                                                         children: [
-                                                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                                 className: "bar1"
                                                             }),
-                                                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                                 className: "bar2"
                                                             }),
-                                                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                                 className: "bar3"
                                                             }),
-                                                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                                 className: "bar4"
                                                             }),
-                                                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                                 className: "bar5"
                                                             }),
-                                                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                                 className: "bar6"
                                                             }),
-                                                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                                 className: "bar7"
                                                             }),
-                                                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                                 className: "bar8"
                                                             }),
-                                                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                                 className: "bar9"
                                                             }),
-                                                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                                 className: "bar10"
                                                             }),
-                                                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                                 className: "bar11"
                                                             }),
-                                                            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)("div", {
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                                                                 className: "bar12"
                                                             })
                                                         ]
@@ -1030,16 +1014,714 @@ async function $5c055691fb055a32$export$c128ec6fd8bee8d4() {
                     })
                 })
             }),
-            /*#__PURE__*/ (0, $gXNCa$reactjsxruntime.jsx)((0, $gXNCa$reacttoastify.ToastContainer), {})
+            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)((0, $ezI6v$reacttoastify.ToastContainer), {})
         ]
     });
 }
-var $6b9719ce581779a4$export$2e2bcd8739ae039 = $6b9719ce581779a4$var$EVMComponent;
+var $de52af8011fefc28$export$2e2bcd8739ae039 = $de52af8011fefc28$var$EVMConnect;
 
 
 
- // export * from './Constants/StarknetConstat'
-$parcel$exportWildcard(module.exports, $0578d5b47142f887$exports);
+
+
+
+
+
+
+async function $f698e9f4684a7eae$export$43158100a9ac6874() {
+    try {
+        let con = await (0, $ezI6v$getstarknet.connect)();
+        return con;
+    } catch (error) {
+        console.log(error);
+        (0, $ezI6v$reacttoastify.toast).error("Unable to connect wallet.", {
+            position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
+            theme: "dark"
+        });
+    }
+}
+
+
+const $5e53f8470945e921$export$3dd05bcec6d502 = {
+    "Ethereum": "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+    "DAI": "0x0dA114221cb83fa859DBdb4C44bEeaa0BB37C7537ad5ae66Fe5e0efD20E6eB3",
+    "USD": "0x053C91253BC9682c04929cA02ED00b3E423f6710D2ee7e0D5EBB06F3eCF368A8",
+    "USDT": "0x68F5c6a61780768455de69077E07e89787839bf8166dEcfBf92B645209c0fB8",
+    "WBTC": "0x3Fe2b97C1Fd336E750087D68B9b867997Fd64a2661fF3ca5A7C771641e8e7AC"
+};
+const $5e53f8470945e921$export$abf328e0fa55cf1f = {
+    USDT: {
+        "name": "USDT",
+        "type": "stable",
+        "id": "-1",
+        "img": "url"
+    },
+    USDC: {
+        "name": "USDC",
+        "type": "stable",
+        "id": "-1"
+    },
+    ETH: {
+        "name": "Ethereum",
+        "type": "unstable",
+        "id": "0x1"
+    },
+    GETH: {
+        "name": "Ethereum",
+        "type": "unstable",
+        "id": "0x5"
+    },
+    Bitcoin: {
+        "name": "Bitcoin",
+        "type": "unstable",
+        "id": "-1",
+        "img": "https://bitcoin.org/img/icons/logotop.svg?1693519667"
+    }
+};
+const $5e53f8470945e921$export$3765b2c107be43ec = [
+    {
+        "members": [
+            {
+                "name": "low",
+                "offset": 0,
+                "type": "felt"
+            },
+            {
+                "name": "high",
+                "offset": 1,
+                "type": "felt"
+            }
+        ],
+        "name": "Uint256",
+        "size": 2,
+        "type": "struct"
+    },
+    {
+        "data": [
+            {
+                "name": "from_",
+                "type": "felt"
+            },
+            {
+                "name": "to",
+                "type": "felt"
+            },
+            {
+                "name": "value",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "Transfer",
+        "type": "event"
+    },
+    {
+        "data": [
+            {
+                "name": "owner",
+                "type": "felt"
+            },
+            {
+                "name": "spender",
+                "type": "felt"
+            },
+            {
+                "name": "value",
+                "type": "Uint256"
+            }
+        ],
+        "keys": [],
+        "name": "Approval",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "name": "name",
+                "type": "felt"
+            },
+            {
+                "name": "symbol",
+                "type": "felt"
+            },
+            {
+                "name": "decimals",
+                "type": "felt"
+            },
+            {
+                "name": "initial_supply",
+                "type": "Uint256"
+            },
+            {
+                "name": "recipient",
+                "type": "felt"
+            }
+        ],
+        "name": "constructor",
+        "outputs": [],
+        "type": "constructor"
+    },
+    {
+        "inputs": [],
+        "name": "name",
+        "outputs": [
+            {
+                "name": "name",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "symbol",
+        "outputs": [
+            {
+                "name": "symbol",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "totalSupply",
+        "outputs": [
+            {
+                "name": "totalSupply",
+                "type": "Uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "decimals",
+        "outputs": [
+            {
+                "name": "decimals",
+                "type": "felt"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "account",
+                "type": "felt"
+            }
+        ],
+        "name": "balanceOf",
+        "outputs": [
+            {
+                "name": "balance",
+                "type": "Uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "owner",
+                "type": "felt"
+            },
+            {
+                "name": "spender",
+                "type": "felt"
+            }
+        ],
+        "name": "allowance",
+        "outputs": [
+            {
+                "name": "remaining",
+                "type": "Uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "recipient",
+                "type": "felt"
+            },
+            {
+                "name": "amount",
+                "type": "Uint256"
+            }
+        ],
+        "name": "transfer",
+        "outputs": [
+            {
+                "name": "success",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "sender",
+                "type": "felt"
+            },
+            {
+                "name": "recipient",
+                "type": "felt"
+            },
+            {
+                "name": "amount",
+                "type": "Uint256"
+            }
+        ],
+        "name": "transferFrom",
+        "outputs": [
+            {
+                "name": "success",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "spender",
+                "type": "felt"
+            },
+            {
+                "name": "amount",
+                "type": "Uint256"
+            }
+        ],
+        "name": "approve",
+        "outputs": [
+            {
+                "name": "success",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "spender",
+                "type": "felt"
+            },
+            {
+                "name": "added_value",
+                "type": "Uint256"
+            }
+        ],
+        "name": "increaseAllowance",
+        "outputs": [
+            {
+                "name": "success",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "name": "spender",
+                "type": "felt"
+            },
+            {
+                "name": "subtracted_value",
+                "type": "Uint256"
+            }
+        ],
+        "name": "decreaseAllowance",
+        "outputs": [
+            {
+                "name": "success",
+                "type": "felt"
+            }
+        ],
+        "type": "function"
+    }
+];
+
+
+
+
+
+
+/**
+ * 
+ * @param {String} Address Wallet Address that will be receiving the funds
+ * @param {Array} Tokens Array of tokens to accept funds in
+ * @param {Number} Amount Amount in USD
+ * @param {bool} setPaymentStatus returns boolean indicating payment status
+ * @param {CSS} Style CSS component for the button 
+ */ function $806013c205242ea4$var$StarkNetConnect({ Address: Address, Tokens: Tokens, Amount: Amount, setPaymentStatus: setPaymentStatus, Style: Style = {
+    displayName: "Make Payment",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    padding: "10px 20px",
+    borderRadius: "4px",
+    fontSize: "18px",
+    cursor: "pointer"
+} }) {
+    const [selectedToken, setSelectedToken] = (0, $ezI6v$react.useState)(null);
+    const [isConnected, setIsConnected] = (0, $ezI6v$react.useState)(false);
+    const [starknetObject, setStarknetObject] = (0, $ezI6v$react.useState)();
+    const [userAddress, setUserAddress] = (0, $ezI6v$react.useState)();
+    const [providerUrl, setProviderUrl] = (0, $ezI6v$react.useState)();
+    const [isPopupOpen, setIsPopupOpen] = (0, $ezI6v$react.useState)(false);
+    const [isLoading, setIsLoading] = (0, $ezI6v$react.useState)(false);
+    const [currentAmount, setCurrentAmount] = (0, $ezI6v$react.useState)();
+    const [currentTokenPrice, setCurrentTokenPrice] = (0, $ezI6v$react.useState)(""); // To display the conversion rate for token.
+    const [btnName, setBtnName] = (0, $ezI6v$react.useState)("Make Payment");
+    // Select Token dropdown selection menu.
+    let selectToken = Tokens.map((token)=>{
+        return /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)((0, $ezI6v$reactjsxruntime.Fragment), {
+            children: [
+                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("option", {
+                    value: "",
+                    disabled: true,
+                    selected: true,
+                    hidden: true,
+                    children: "Select Token"
+                }),
+                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("option", {
+                    value: token === null || token === void 0 ? void 0 : token.name,
+                    children: [
+                        " ",
+                        token === null || token === void 0 ? void 0 : token.name
+                    ]
+                }, token === null || token === void 0 ? void 0 : token.name)
+            ]
+        });
+    });
+    /**
+     * Connect dApp to the StarkNet available Wallet.
+     */ const connectStarknetWallet = async ()=>{
+        var _connect_account, _connect_account1, _connect_account_provider;
+        setIsLoading(true);
+        let connect = await (0, $f698e9f4684a7eae$export$43158100a9ac6874)();
+        setStarknetObject(connect);
+        setUserAddress(connect === null || connect === void 0 ? void 0 : (_connect_account = connect.account) === null || _connect_account === void 0 ? void 0 : _connect_account.address);
+        // setProviderUrl(connect?.provider?.gatewayUrl)
+        setProviderUrl(connect === null || connect === void 0 ? void 0 : (_connect_account1 = connect.account) === null || _connect_account1 === void 0 ? void 0 : (_connect_account_provider = _connect_account1.provider) === null || _connect_account_provider === void 0 ? void 0 : _connect_account_provider.baseUrl);
+        setIsConnected(true);
+        setIsLoading(false);
+    // console.log(connect?.account?.address);
+    // console.log(connect?.provider);
+    };
+    /**
+     * Fetches current market price of token.
+     * @param {String} _token Token name, e.b. "Ethereum"
+     * @returns {Number} Returns current USD value of input token.
+     */ const getCurrentTokenPrice = async (_token)=>{
+        let token = _token.toLowerCase();
+        try {
+            let url = `https://api.coingecko.com/api/v3/simple/price?ids=${token}&vs_currencies=usd`;
+            let fetchUrl = await (0, ($parcel$interopDefault($ezI6v$axios))).get(url);
+            let currentUsdPrice = fetchUrl.data[token]["usd"];
+            // console.log(currentUsdPrice)
+            return currentUsdPrice;
+        } catch (error) {
+            // alert("Error while getting token price")
+            (0, $ezI6v$reacttoastify.toast).error("Unable to fetch live price!", {
+                position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
+                theme: "dark"
+            });
+            console.log(error.message);
+        }
+    };
+    /**
+     * 
+     * @param {Number} latestAmount Calculated current amount of token
+     * @param {String} _selectedToken ERC20 token address  
+     */ const requestERC20Payment = async (latestAmount, _selectedToken)=>{
+        setIsLoading(true);
+        // console.log("selectedToken", StarknetTokenAddress[_selectedToken])
+        const provider = new (0, $ezI6v$starknet.Provider)({
+            sequencer: {
+                baseUrl: providerUrl
+            }
+        });
+        const contractInstance = new (0, $ezI6v$starknet.Contract)((0, $5e53f8470945e921$export$3765b2c107be43ec), (0, $5e53f8470945e921$export$3dd05bcec6d502)[_selectedToken], provider);
+        let _contractAddress = (0, $5e53f8470945e921$export$3dd05bcec6d502)[_selectedToken];
+        let decimal = await contractInstance.decimals();
+        decimal = decimal.decimals.toString();
+        let _latestAmount = latestAmount * 10 ** parseInt(decimal);
+        setCurrentAmount(_latestAmount);
+        try {
+            // Two functionality in a transaction.
+            // 1. The token will be approved by the user
+            // 2. The actual payment will be completed.
+            setBtnName("Approving ...");
+            let approveTokens = await starknetObject.account.execute({
+                contractAddress: _contractAddress,
+                entrypoint: "approve",
+                calldata: (0, $ezI6v$starknet.CallData).compile({
+                    recipient: userAddress,
+                    // amount: cairo.uint256(_latestAmount)
+                    amount: (0, $ezI6v$starknet.cairo).uint256(parseInt(_latestAmount.toString()))
+                })
+            });
+            await provider.waitForTransaction(approveTokens.transaction_hash);
+            console.log("approveTokens", approveTokens);
+            console.log("approveTokens.transaction_hash", approveTokens.transaction_hash);
+            // alert("Token approved!");
+            (0, $ezI6v$reacttoastify.toast).success("Token approved", {
+                position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
+                theme: "dark"
+            });
+            setBtnName("Make payment");
+            let transferToken = await starknetObject.account.execute({
+                contractAddress: _contractAddress,
+                entrypoint: "transfer",
+                calldata: (0, $ezI6v$starknet.CallData).compile({
+                    recipient: Address,
+                    amount: (0, $ezI6v$starknet.cairo).uint256(parseInt(_latestAmount.toString()))
+                })
+            });
+            await provider.waitForTransaction(transferToken.transaction_hash);
+            await verifyTransaction(transferToken.transaction_hash, _latestAmount);
+            // alert("Token transferred successfully :)");
+            (0, $ezI6v$reacttoastify.toast).success("Token transferred successfully", {
+                position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
+                theme: "dark"
+            });
+            setBtnName("Payment Done");
+            setPaymentStatus(true);
+            setIsLoading(false);
+            setIsPopupOpen(false);
+        } catch (error) {
+            console.log(error);
+            // alert("Unable to make payment!")
+            (0, $ezI6v$reacttoastify.toast).error("Unable to make payment!", {
+                position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
+                theme: "dark"
+            });
+        }
+    };
+    /**
+     * 
+     * @param {String} _txHash Transaction hash after the payment.
+     * @param {Number} _latestAmount Amount of tokens calculated at current rate.
+     * @returns 
+     */ const verifyTransaction = async (_txHash, _latestAmount)=>{
+        let verificationStatue = false;
+        const provider = new (0, $ezI6v$starknet.Provider)({
+            sequencer: {
+                baseUrl: providerUrl
+            }
+        });
+        const contractInstance = new (0, $ezI6v$starknet.Contract)((0, $5e53f8470945e921$export$3765b2c107be43ec), (0, $5e53f8470945e921$export$3dd05bcec6d502)[selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name], provider);
+        let Receipt = await provider.getTransactionReceipt(_txHash);
+        let tx = Receipt.events;
+        let tokenAddressOfTransferToken = tx[0].from_address; // ERC20_Token Address
+        let tokenTransferedFromAddress = tx[0].data[0] // userAddress
+        ;
+        let tokenTransferedToAddress = tx[0].data[1] // It should be our address.
+        ;
+        let tokenTransferedAmount = tx[0].data[2] // Amount
+        ;
+        tokenTransferedAmount = parseInt(tokenTransferedAmount.toString(16));
+        let _amount = parseInt(_latestAmount.toString());
+        if (tokenTransferedAmount >= _amount && tokenTransferedToAddress.toLowerCase() === Address.toLowerCase() && tokenTransferedFromAddress.toLowerCase() === userAddress.toLowerCase() && tokenAddressOfTransferToken.toLowerCase() === (0, $5e53f8470945e921$export$3dd05bcec6d502)[selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name].toLowerCase()) verificationStatue = true;
+        return verificationStatue;
+    };
+    /**
+     * Super function to call all the functions in sync.
+     */ const makePayment = async ()=>{
+        if ((selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name) == null) // alert("Please select the payment mode")
+        (0, $ezI6v$reacttoastify.toast).warning("Please select the payment mode", {
+            position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
+            theme: "dark"
+        });
+        else {
+            await connectStarknetWallet();
+            setBtnName(`Pay ${selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name}`);
+            if (isConnected) {
+                if ((selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name) === "stable") {
+                    setCurrentAmount(Amount);
+                    requestERC20Payment(Amount, selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name);
+                } else {
+                    let latestPrice = await getCurrentTokenPrice(selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name);
+                    let latestAmount = Amount / latestPrice;
+                    requestERC20Payment(latestAmount, selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name);
+                }
+            } else await connectStarknetWallet();
+        }
+    };
+    /**
+     * Helper functions.
+     */ const handleOpenPopup = ()=>{
+        setIsPopupOpen(true);
+    };
+    const handleClosePopup = ()=>{
+        setIsPopupOpen(false);
+        setIsLoading(!isLoading);
+    };
+    const handelSelectToken = async (e)=>{
+        const filteredArray = Tokens.filter((obj)=>obj.name === e.target.value);
+        const token = filteredArray[0];
+        let tokenPrice = "1";
+        if (token.type !== "stable") tokenPrice = await getCurrentTokenPrice(token.name);
+        setSelectedToken(token);
+        setCurrentTokenPrice("1 " + token.name + " = $ " + tokenPrice);
+    // console.log("token", token)
+    };
+    return /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)((0, $ezI6v$reactjsxruntime.Fragment), {
+        children: [
+            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("h1", {
+                children: "Starknet Component"
+            }),
+            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("button", {
+                style: Style,
+                onClick: handleOpenPopup,
+                children: Style === null || Style === void 0 ? void 0 : Style.displayName
+            }),
+            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("br", {}),
+            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                children: isPopupOpen && /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                    className: "popup-container",
+                    children: /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
+                        className: "popup-content",
+                        children: [
+                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
+                                className: "resmic-logo",
+                                children: [
+                                    /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("img", {
+                                        src: (0, (/*@__PURE__*/$parcel$interopDefault($145ca37607e67044$exports))),
+                                        alt: ""
+                                    }),
+                                    /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("span", {
+                                        className: "close",
+                                        onClick: handleClosePopup,
+                                        children: "\xd7"
+                                    })
+                                ]
+                            }),
+                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                className: "modal-contents",
+                                children: /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
+                                    className: "inputs",
+                                    children: [
+                                        /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
+                                            className: "popup-heading",
+                                            children: [
+                                                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("span", {
+                                                    children: "Pay amount"
+                                                }),
+                                                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
+                                                    className: "amount",
+                                                    children: [
+                                                        "$",
+                                                        Amount.toFixed(2)
+                                                    ]
+                                                })
+                                            ]
+                                        }),
+                                        /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
+                                            className: "inputGroup",
+                                            children: [
+                                                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                    className: "inputHeading",
+                                                    children: /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("span", {
+                                                        children: "Token"
+                                                    })
+                                                }),
+                                                /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("select", {
+                                                    onChange: (e)=>{
+                                                        handelSelectToken(e);
+                                                    },
+                                                    name: "Tokens",
+                                                    id: "",
+                                                    children: [
+                                                        " ",
+                                                        selectToken,
+                                                        " "
+                                                    ]
+                                                })
+                                            ]
+                                        }),
+                                        /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                            className: "live-token-price",
+                                            children: currentTokenPrice
+                                        }),
+                                        /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                            className: "inputGroup",
+                                            children: /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("button", {
+                                                onClick: makePayment,
+                                                children: [
+                                                    !isLoading && btnName,
+                                                    isLoading && /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)("div", {
+                                                        class: "spinner",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                                class: "bar1"
+                                                            }),
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                                class: "bar2"
+                                                            }),
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                                class: "bar3"
+                                                            }),
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                                class: "bar4"
+                                                            }),
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                                class: "bar5"
+                                                            }),
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                                class: "bar6"
+                                                            }),
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                                class: "bar7"
+                                                            }),
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                                class: "bar8"
+                                                            }),
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                                class: "bar9"
+                                                            }),
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                                class: "bar10"
+                                                            }),
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                                class: "bar11"
+                                                            }),
+                                                            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
+                                                                class: "bar12"
+                                                            })
+                                                        ]
+                                                    })
+                                                ]
+                                            })
+                                        })
+                                    ]
+                                })
+                            })
+                        ]
+                    })
+                })
+            })
+        ]
+    });
+}
+var $806013c205242ea4$export$2e2bcd8739ae039 = $806013c205242ea4$var$StarkNetConnect;
+
+
+
+
 
 
 //# sourceMappingURL=main.js.map

@@ -1,6 +1,6 @@
 {
   "name": "resmic",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Decentralise payment infrastructure. Integrate crypto payment facilities without any hassle!",
   "source": "src/index.js",
   "main": "dist/main.js",
