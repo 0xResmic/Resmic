@@ -26,7 +26,8 @@ export const TokenAddress = {
   "Binance":{
       "BUSD": "0xe9e7cea3dedca5984780bafc599bd69add087d56",
       "DAI": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
-      "BSC-USD": "0x55d398326f99059fF775485246999027B3197955",
+      // "BSC-USD": "0x55d398326f99059fF775485246999027B3197955",
+      "USDT": "0x55d398326f99059fF775485246999027B3197955",// BSC-USD
       "USDC": "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",
       "DOGE": "0xbA2aE424d960c26247Dd6c32edC70B295c744C43", // dogecoin 
       "Matic": "0xCC42724C6683B7E57334c4E856f4c9965ED682bD",
@@ -68,12 +69,13 @@ export const Tokens ={
   DAI:{"dname":"DAI","name":'DAI','type':'stable', 'id':'-1'},
   BUSD:{"dname":"BUSD","name":'BUSD','type':'stable', 'id':'-1'},
   ETH:{"dname":"Ethereum","name":'Ethereum','type':'unstable', 'id':'0x1'}, // ID is important for identify is the token is native or not & for switching chain.
-  MATIC:{ "dname":"MATIC", "name":'matic-network','type':'unstable', 'id':'0x89', "img": "https://assets-global.website-files.com/637359c81e22b715cec245ad/63dc31f8817a4a509d7635a7_Logo.svg"},
-  BNB:{"dname":"BNB","name":'BNB','type':'unstable', 'id':'0x38'},
+  MATIC:{"dname":"MATIC", "name":"matic-network",'type':'unstable', 'id':'0x89', "img": "https://assets-global.website-files.com/637359c81e22b715cec245ad/63dc31f8817a4a509d7635a7_Logo.svg"},
+  // BNB:{"dname":"BNB","name":'BNB','type':'unstable', 'id':'0x38'},
+  BNB:{"dname":"BNB","name":'binancecoin','type':'unstable', 'id':'0x38'},
   Bitcoin:{"dname":"Bitcoin","name":'Bitcoin','type':'unstable', 'id':'-1', "img":"https://bitcoin.org/img/icons/logotop.svg?1693519667" },
   DOGE:{"dname":"Dogecoin","name":'dogecoin','type':'unstable', 'id':'-1'},
   OPTIMISM:{"dname":"Optimism","name":'Optimism','type':'unstable', 'id':'-1'},
-  BSCUSD:{"dname":"BSCUSD","name":'BSCUSD','type':'stable', 'id':'-1'},
+  BSCUSD:{"dname":"BSCUSD","name":'BSCUSD','type':'stable', 'id':'-1'}, // Binance-USDC
   GETH:{"dname":"Ethereum","name":'Ethereum','type':'unstable', 'id':'0x5'},
 }
 

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
 import { ethers } from "ethers";
 import { ERC20_ABI, TokenAddress } from "../Constants/Constants";
 import resmiclogo from "../assets/resmiclogo.png";
@@ -51,6 +51,7 @@ function EVMConnect({
   const [btnName, setBtnName] = useState("Connect Wallet");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [calculatedAmount, setCalculatedAmount] = useState(0)
 
   // Select Blockchain dropdown selection menu.
   let selectChain = Chains.map((chain) => {
@@ -93,7 +94,6 @@ function EVMConnect({
       let url = `https://api.coingecko.com/api/v3/simple/price?ids=${token}&vs_currencies=usd`;
       let fetchUrl = await axios.get(url);
       let currentUsdPrice = fetchUrl.data[token]["usd"];
-      // console.log(currentUsdPrice)
       return currentUsdPrice;
     } catch (error) {
       // alert("Error while getting token price");
@@ -117,7 +117,6 @@ function EVMConnect({
     // if(connectFunc.chainId != getChainData[selectedChain]){ // connectFunc.chainId -> Returns the current connected chain
     if (connectFunc.chainId !== selectedChain.id) {
       // connectFunc.chainId -> Returns the current connected chain
-      // console.log("Change network")
       setBtnName("Switching network");
       setIsLoading(true);
       await switchNetwork(selectedChain.id);
@@ -126,7 +125,6 @@ function EVMConnect({
       setBtnName("Make Payment");
       return true;
     } else {
-      // console.log("No need")
       setIsConnected(true);
       return true;
     }
@@ -140,7 +138,6 @@ function EVMConnect({
   const requestERC20Payment = async (_amount, _tokenAddress) => {
     setIsLoading(true);
     const signer = await getSigner();
-    // setCurrentTokenPrice("Current Conversion rate: $" + _amount)
 
     try {
       /**
@@ -169,12 +166,9 @@ function EVMConnect({
         (_amount * 10 ** decimals).toString(),
         { gasLimit: 100000 }
         );
-        await tx.wait();
-        // console.log("tx.hash:--", tx.hash);
-        
+        await tx.wait();        
         await checkBlockConformations(tx.hash, decimals);
       } catch (error) {
-        // alert("Something went wrong."); 
         toast.error('Something went wrong.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
         console.log(error);
     }
@@ -186,9 +180,9 @@ function EVMConnect({
    *
    */
   const nativeTokenPayment = async (_amount) => {
+    setIsLoading(true);
     const signer = await getSigner();
     let amount = _amount;
-    // setCurrentTokenPrice("Current Conversion rate: $" + _amount)
     let slicedNum = amount.toFixed(10); // Rounding it to 10 digits.
     let amountInWei = ethers.utils.parseEther(slicedNum.toString()); // Converting the amount to WEI {Smallest amount of ETH (1 ETH = 10 ** 18)}
 
@@ -202,9 +196,8 @@ function EVMConnect({
         // maxFeePerGas: '0x2540be400',
       });
       await tx.wait();
-      await checkBlockConformationsNative(tx.hash);
+      await checkBlockConformationsNative(tx.hash, _amount);
     } catch (error) {
-      // alert("Something went wrong");
       toast.error('Something went wrong.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
       console.log(error);
     }
@@ -217,42 +210,43 @@ function EVMConnect({
    * @param {INT} decimals
    * @returns {Bool} returns the paymetn update.
    */
-  const checkBlockConformations = async (tx, decimals) => {
+  const checkBlockConformations = async (tx, decimals, _amount) => {
     let provider = await getProvider();
     const confirmationsRequired = noOfBlockConformation;
     const receipt = await provider.waitForTransaction(
       tx,
       confirmationsRequired
     );
-
     // Checks the status of the transaction
     if (receipt.status === 1) {
       let actualTokenTransfer = await checkTokenTransfers(tx);
+
       if (actualTokenTransfer !== "0") {
         let _amount = parseFloat(actualTokenTransfer);
-        if (_amount / (10 ** decimals).toString() >= Amount) {
+        // Slippage of 0.1% for the trade.
+        let slippage = (0.1 * Amount) / 100;
+        let minimumAmount = Amount - slippage;
+        
+        // if (_amount / (10 ** decimals).toString() >= Amount) {
+        if (_amount / (10 ** decimals).toString() >= minimumAmount) {
+          
           setIsPaymentCompleted(true);
           setPaymentStatus(true);
-          // alert("Payment done successfully:)");
           toast.success('Payment done successfully.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
-          setIsPaymentCompleted(true);
-          setPaymentStatus(true);
           setIsLoading(false);
           setIsPopupOpen(false);
           return true;
         } else {
-          // alert("Something went wrong");
           toast.error('Something went wrong.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
-          // console.log("Not sufficient amount transferred: ");
+          console.log("Not sufficient amount transferred: ");
           return false;
         }
       } else {
-        // alert("Unable to process payment\n Please try again ");
+       
         toast.error('Unable to process payment\n Please try again', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
         return false;
       }
     } else {
-      // alert("Transaction failed to be processed");
       toast.error('Transaction failed to be processed', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
       return false;
     }
@@ -271,7 +265,7 @@ function EVMConnect({
       );
       if (transactionReceipt && transactionReceipt.status === 1) {
         const tokenContract = new ethers.Contract(
-          TokenAddress[selectedChain?.name][selectedToken?.name],
+          TokenAddress[selectedChain?.name][selectedToken?.dname],
           ERC20_ABI,
           provider
         );
@@ -287,23 +281,17 @@ function EVMConnect({
 
         if (event) {
           const amount = event.args.value.toString();
-          // console.log("Tokens transferred:", amount);
           return amount;
         } else {
-          // console.log("No token transfer event found for the transaction.");
-          // alert("No token transfer event found for the transaction.");
           toast.error('No token transfer event found for the tx.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
           return "0";
         }
       } else {
-        // console.log("Transaction not found or not successful.");
-        // alert("Transaction not found or not successful.");
         toast.error('Transaction not found or not successful.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
         return "0";
       }
     } catch (error) {
-      // console.error("Error reading transaction details:", error);
-      // alert("No transaction found!");
+      console.error("Error reading transaction details:", error);
       toast.error('No transaction found!', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
       return "0";
     }
@@ -315,7 +303,7 @@ function EVMConnect({
    * @param {String} tx
    * @returns {Bool}
    */
-  const checkBlockConformationsNative = async (tx) => {
+  const checkBlockConformationsNative = async (tx, _amount) => {
     let provider = await getProvider();
     const confirmationsRequired = noOfBlockConformation;
     const receipt = await provider.waitForTransaction(
@@ -326,32 +314,31 @@ function EVMConnect({
     if (receipt.status === 1) {
       let actualTokenTransfer = await checkTokenTransfersNative(tx);
       actualTokenTransfer = parseFloat(actualTokenTransfer);
-      // console.log("actualTokenTransfer", actualTokenTransfer);
+
       let currentTokenPrice2 = await getCurrentTokenPrice(selectedToken?.name);
       currentTokenPrice2 = Amount / currentTokenPrice2;
-      // console.log("currentTokenPrice", currentTokenPrice2);
+      // Slippage of 0.8% for the trade.
+      let slippage = (0.1 * _amount) / 100;
+      let minimumAmount = _amount - slippage;
+      
       if (actualTokenTransfer !== 0) {
-        if (actualTokenTransfer >= currentTokenPrice2) {
-          // alert("Payment done successfully:)");
-          toast.success('Payment done successfully:)', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
-          setIsPaymentCompleted(true);
+        // if (actualTokenTransfer >= currentTokenPrice2) { // v@1.0.7 Slippage added.
+        if (actualTokenTransfer >= minimumAmount) {
           setPaymentStatus(true);
+          setIsPaymentCompleted(true);
+          toast.success('Payment done successfully:)', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
           setIsLoading(false);
           setIsPopupOpen(false)
           return true;
         } else {
-          // alert("Something went wrong");
           toast.error('Something went wrong', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
-          // console.log("Not sufficient amount transferred: ");
           return false;
         }
       } else {
-        // alert("Unable to process payment\n Please try again ");
         toast.error('Unable to process payment\n Please try again ', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
         return false;
       }
     } else {
-      // alert("Transaction failed to be processed");
       toast.error('Transaction failed to be processed', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
       return false;
     }
@@ -372,17 +359,12 @@ function EVMConnect({
       if (transaction && transaction.confirmations > 0) {
         const amountInWei = transaction.value;
         const amountInEther = ethers.utils.formatEther(amountInWei);
-        // console.log("Ether transferred:", amountInEther);
         return amountInEther.toString();
       } else {
-        // console.log("Transaction not found or not confirmed yet.");
-        // alert("Transaction not found");
         toast.error('Transaction not found', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
         return "0";
       }
     } catch (error) {
-      // console.error("Error reading transaction details:", error);
-      // alert("Unable to get transaction details");
       toast.error('Unable to get transaction details', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
       return "0";
     }
@@ -395,8 +377,7 @@ function EVMConnect({
    * 3. make payment
    */
   const makePayment = async () => {
-    if (selectedToken?.name == null || selectedChain?.name == null) {
-      // alert("Please select the payment mode");
+    if (selectedToken?.dname == null || selectedChain?.name == null) {
       toast.warning('Please select the payment mode', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
     } else {
       await connectWalletFunc();
@@ -404,21 +385,24 @@ function EVMConnect({
       if (isConnected) {
         // Stable Coins.
         if (selectedToken.type === "stable") {
+          setCalculatedAmount(Amount)
           requestERC20Payment(
             Amount,
-            TokenAddress[selectedChain?.name][selectedToken?.name]
+            TokenAddress[selectedChain?.name][selectedToken?.dname]
           );
         }
         // Native Tokens
         else if (selectedChain?.id === selectedToken?.id) {
-          let latestPrice = await getCurrentTokenPrice(selectedToken?.name); // Returns Float/Int of the current market price of the token.
+          let latestPrice = await getCurrentTokenPrice(selectedToken?.name); // Returns Float/Int of the current market price of the token. //@note using .name only for the MATIC to fetch the live price.
           let latestAmount = Amount / latestPrice;
+          setCalculatedAmount(latestAmount)
           nativeTokenPayment(latestAmount);
         }
         // ERC20 Tokens
         else {
           let latestPrice = await getCurrentTokenPrice(selectedToken?.name);
           let latestAmount = Amount / latestPrice;
+          setCalculatedAmount(latestAmount)
           requestERC20Payment(
             latestAmount,
             TokenAddress[selectedChain?.name][selectedToken?.name]
@@ -438,27 +422,31 @@ function EVMConnect({
   };
   const handleClosePopup = () => {
     setIsPopupOpen(false);
-    // setIsLoading(!isLoading);
   };
   const handleTokenSelect = async (e) => {
-    const filteredArray = Tokens.filter((obj) => obj.name === e.target.value);
+    // const filteredArray = Tokens.filter((obj) => obj?.name === e.target.value); // Error V @1.0.7
+    const filteredArray = Tokens.filter((obj) => obj?.dname === e.target.value);
     const token = filteredArray[0];
     let tokenPrice = "1";
-    if (token?.type !== "stable")
-      tokenPrice = await getCurrentTokenPrice(token?.name);
-    setCurrentTokenPrice("1 " + token.name + " = $ " + tokenPrice);
+    if (token?.type !== "stable"){
+      if (token?.name === "MATIC"){
+        tokenPrice = await getCurrentTokenPrice("matic-network");
+      }
+      else{
+        tokenPrice = await getCurrentTokenPrice(token?.name);
+      }
+    }
+    setCurrentTokenPrice("1 " + token?.dname + " = $ " + tokenPrice);
     setSelectedToken(token);
   };
   const handleChainSelect = (e) => {
-    const filteredArray = Chains.filter((obj) => obj.name === e.target.value);
-    // console.log("setSelectedChain", filteredArray[0]);
+    const filteredArray = Chains.filter((obj) => obj?.name === e.target.value);
     setSelectedChain(filteredArray[0]);
   };
 
   return (
     <>
-      <button className="startBtnClass" style={Style} onClick={handleOpenPopup}>{Style?.displayName}</button>
-      <br />
+      <button style={Style} onClick={handleOpenPopup}>{Style?.displayName}</button>
       <div>
         {/* Popup */}
         {isPopupOpen && (
@@ -537,7 +525,7 @@ function EVMConnect({
           </div>
         )}
       </div>
-    <ToastContainer/>
+      <ToastContainer/>
     </>
   );
 }

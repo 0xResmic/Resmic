@@ -1,7 +1,7 @@
 require("./main.css");
 var $ezI6v$reactjsxruntime = require("react/jsx-runtime");
-var $ezI6v$react = require("react");
 var $ezI6v$axios = require("axios");
+var $ezI6v$react = require("react");
 var $ezI6v$ethers = require("ethers");
 var $ezI6v$reacttoastify = require("react-toastify");
 require("react-toastify/dist/ReactToastify.css");
@@ -48,7 +48,8 @@ $parcel$export(module.exports, "StarkTokens", () => $5e53f8470945e921$export$abf
     "Binance": {
         "BUSD": "0xe9e7cea3dedca5984780bafc599bd69add087d56",
         "DAI": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
-        "BSC-USD": "0x55d398326f99059fF775485246999027B3197955",
+        // "BSC-USD": "0x55d398326f99059fF775485246999027B3197955",
+        "USDT": "0x55d398326f99059fF775485246999027B3197955",
         "USDC": "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",
         "DOGE": "0xbA2aE424d960c26247Dd6c32edC70B295c744C43",
         "Matic": "0xCC42724C6683B7E57334c4E856f4c9965ED682bD",
@@ -129,9 +130,10 @@ const $27d6a4225a34c492$export$8e1e81ac145e31be = {
         "id": "0x89",
         "img": "https://assets-global.website-files.com/637359c81e22b715cec245ad/63dc31f8817a4a509d7635a7_Logo.svg"
     },
+    // BNB:{"dname":"BNB","name":'BNB','type':'unstable', 'id':'0x38'},
     BNB: {
         "dname": "BNB",
-        "name": "BNB",
+        "name": "binancecoin",
         "type": "unstable",
         "id": "0x38"
     },
@@ -461,6 +463,7 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
     const [btnName, setBtnName] = (0, $ezI6v$react.useState)("Connect Wallet");
     const [isPopupOpen, setIsPopupOpen] = (0, $ezI6v$react.useState)(false);
     const [isLoading, setIsLoading] = (0, $ezI6v$react.useState)(false);
+    const [calculatedAmount, setCalculatedAmount] = (0, $ezI6v$react.useState)(0);
     // Select Blockchain dropdown selection menu.
     let selectChain = Chains.map((chain)=>{
         return /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)((0, $ezI6v$reactjsxruntime.Fragment), {
@@ -518,7 +521,6 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
             let url = `https://api.coingecko.com/api/v3/simple/price?ids=${token}&vs_currencies=usd`;
             let fetchUrl = await (0, ($parcel$interopDefault($ezI6v$axios))).get(url);
             let currentUsdPrice = fetchUrl.data[token]["usd"];
-            // console.log(currentUsdPrice)
             return currentUsdPrice;
         } catch (error) {
             // alert("Error while getting token price");
@@ -542,7 +544,6 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
         // if(connectFunc.chainId != getChainData[selectedChain]){ // connectFunc.chainId -> Returns the current connected chain
         if (connectFunc.chainId !== selectedChain.id) {
             // connectFunc.chainId -> Returns the current connected chain
-            // console.log("Change network")
             setBtnName("Switching network");
             setIsLoading(true);
             await (0, $04510dd21321f22d$export$f3473d805e486329)(selectedChain.id);
@@ -551,7 +552,6 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
             setBtnName("Make Payment");
             return true;
         } else {
-            // console.log("No need")
             setIsConnected(true);
             return true;
         }
@@ -563,7 +563,6 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
    */ const requestERC20Payment = async (_amount, _tokenAddress)=>{
         setIsLoading(true);
         const signer = await (0, $04510dd21321f22d$export$c128ec6fd8bee8d4)();
-        // setCurrentTokenPrice("Current Conversion rate: $" + _amount)
         try {
             /**
        * The ERC20 payment requires 2 transactions
@@ -583,10 +582,8 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
                 gasLimit: 100000
             });
             await tx.wait();
-            // console.log("tx.hash:--", tx.hash);
             await checkBlockConformations(tx.hash, decimals);
         } catch (error) {
-            // alert("Something went wrong."); 
             (0, $ezI6v$reacttoastify.toast).error("Something went wrong.", {
                 position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
@@ -599,9 +596,9 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
    * @param {INT/FLOAT} _amount // Amount in native token ().
    *
    */ const nativeTokenPayment = async (_amount)=>{
+        setIsLoading(true);
         const signer = await (0, $04510dd21321f22d$export$c128ec6fd8bee8d4)();
         let amount = _amount;
-        // setCurrentTokenPrice("Current Conversion rate: $" + _amount)
         let slicedNum = amount.toFixed(10); // Rounding it to 10 digits.
         let amountInWei = (0, $ezI6v$ethers.ethers).utils.parseEther(slicedNum.toString()); // Converting the amount to WEI {Smallest amount of ETH (1 ETH = 10 ** 18)}
         try {
@@ -611,9 +608,8 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
                 value: amountInWei
             });
             await tx.wait();
-            await checkBlockConformationsNative(tx.hash);
+            await checkBlockConformationsNative(tx.hash, _amount);
         } catch (error) {
-            // alert("Something went wrong");
             (0, $ezI6v$reacttoastify.toast).error("Something went wrong.", {
                 position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
@@ -627,7 +623,7 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
    * @param {String} tx // Transaction hash after the payment.
    * @param {INT} decimals
    * @returns {Bool} returns the paymetn update.
-   */ const checkBlockConformations = async (tx, decimals)=>{
+   */ const checkBlockConformations = async (tx, decimals, _amount)=>{
         let provider = await (0, $04510dd21321f22d$export$57632def5536cb24)();
         const confirmationsRequired = noOfBlockConformation;
         const receipt = await provider.waitForTransaction(tx, confirmationsRequired);
@@ -636,30 +632,29 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
             let actualTokenTransfer = await checkTokenTransfers(tx);
             if (actualTokenTransfer !== "0") {
                 let _amount = parseFloat(actualTokenTransfer);
-                if (_amount / (10 ** decimals).toString() >= Amount) {
+                // Slippage of 0.1% for the trade.
+                let slippage = 0.1 * Amount / 100;
+                let minimumAmount = Amount - slippage;
+                // if (_amount / (10 ** decimals).toString() >= Amount) {
+                if (_amount / (10 ** decimals).toString() >= minimumAmount) {
                     setIsPaymentCompleted(true);
                     setPaymentStatus(true);
-                    // alert("Payment done successfully:)");
                     (0, $ezI6v$reacttoastify.toast).success("Payment done successfully.", {
                         position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                         theme: "dark"
                     });
-                    setIsPaymentCompleted(true);
-                    setPaymentStatus(true);
                     setIsLoading(false);
                     setIsPopupOpen(false);
                     return true;
                 } else {
-                    // alert("Something went wrong");
                     (0, $ezI6v$reacttoastify.toast).error("Something went wrong.", {
                         position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                         theme: "dark"
                     });
-                    // console.log("Not sufficient amount transferred: ");
+                    console.log("Not sufficient amount transferred: ");
                     return false;
                 }
             } else {
-                // alert("Unable to process payment\n Please try again ");
                 (0, $ezI6v$reacttoastify.toast).error("Unable to process payment\n Please try again", {
                     position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                     theme: "dark"
@@ -667,7 +662,6 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
                 return false;
             }
         } else {
-            // alert("Transaction failed to be processed");
             (0, $ezI6v$reacttoastify.toast).error("Transaction failed to be processed", {
                 position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
@@ -684,17 +678,14 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
         try {
             const transactionReceipt = await provider.getTransactionReceipt(transactionHash);
             if (transactionReceipt && transactionReceipt.status === 1) {
-                const tokenContract = new (0, $ezI6v$ethers.ethers).Contract((0, $27d6a4225a34c492$export$5c2c3f7af123bc40)[selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.name][selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name], (0, $27d6a4225a34c492$export$89843982d7e60b14), provider);
+                const tokenContract = new (0, $ezI6v$ethers.ethers).Contract((0, $27d6a4225a34c492$export$5c2c3f7af123bc40)[selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.name][selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.dname], (0, $27d6a4225a34c492$export$89843982d7e60b14), provider);
                 const filter = tokenContract.filters.Transfer(null, null, null);
                 const events = await tokenContract.queryFilter(filter, transactionReceipt.blockNumber, transactionReceipt.blockNumber);
                 const event = events.find((event)=>event.transactionHash === transactionHash);
                 if (event) {
                     const amount = event.args.value.toString();
-                    // console.log("Tokens transferred:", amount);
                     return amount;
                 } else {
-                    // console.log("No token transfer event found for the transaction.");
-                    // alert("No token transfer event found for the transaction.");
                     (0, $ezI6v$reacttoastify.toast).error("No token transfer event found for the tx.", {
                         position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                         theme: "dark"
@@ -702,8 +693,6 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
                     return "0";
                 }
             } else {
-                // console.log("Transaction not found or not successful.");
-                // alert("Transaction not found or not successful.");
                 (0, $ezI6v$reacttoastify.toast).error("Transaction not found or not successful.", {
                     position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                     theme: "dark"
@@ -711,8 +700,7 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
                 return "0";
             }
         } catch (error) {
-            // console.error("Error reading transaction details:", error);
-            // alert("No transaction found!");
+            console.error("Error reading transaction details:", error);
             (0, $ezI6v$reacttoastify.toast).error("No transaction found!", {
                 position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
@@ -725,40 +713,38 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
    * The user will wait until the the transaction is confirmed until specified blocks.
    * @param {String} tx
    * @returns {Bool}
-   */ const checkBlockConformationsNative = async (tx)=>{
+   */ const checkBlockConformationsNative = async (tx, _amount)=>{
         let provider = await (0, $04510dd21321f22d$export$57632def5536cb24)();
         const confirmationsRequired = noOfBlockConformation;
         const receipt = await provider.waitForTransaction(tx, confirmationsRequired);
         if (receipt.status === 1) {
             let actualTokenTransfer = await checkTokenTransfersNative(tx);
             actualTokenTransfer = parseFloat(actualTokenTransfer);
-            // console.log("actualTokenTransfer", actualTokenTransfer);
             let currentTokenPrice2 = await getCurrentTokenPrice(selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name);
             currentTokenPrice2 = Amount / currentTokenPrice2;
-            // console.log("currentTokenPrice", currentTokenPrice2);
+            // Slippage of 0.8% for the trade.
+            let slippage = 0.1 * _amount / 100;
+            let minimumAmount = _amount - slippage;
             if (actualTokenTransfer !== 0) {
-                if (actualTokenTransfer >= currentTokenPrice2) {
-                    // alert("Payment done successfully:)");
+                // if (actualTokenTransfer >= currentTokenPrice2) { // v@1.0.7 Slippage added.
+                if (actualTokenTransfer >= minimumAmount) {
+                    setPaymentStatus(true);
+                    setIsPaymentCompleted(true);
                     (0, $ezI6v$reacttoastify.toast).success("Payment done successfully:)", {
                         position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                         theme: "dark"
                     });
-                    setIsPaymentCompleted(true);
-                    setPaymentStatus(true);
                     setIsLoading(false);
                     setIsPopupOpen(false);
                     return true;
                 } else {
-                    // alert("Something went wrong");
                     (0, $ezI6v$reacttoastify.toast).error("Something went wrong", {
                         position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                         theme: "dark"
                     });
-                    // console.log("Not sufficient amount transferred: ");
                     return false;
                 }
             } else {
-                // alert("Unable to process payment\n Please try again ");
                 (0, $ezI6v$reacttoastify.toast).error("Unable to process payment\n Please try again ", {
                     position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                     theme: "dark"
@@ -766,7 +752,6 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
                 return false;
             }
         } else {
-            // alert("Transaction failed to be processed");
             (0, $ezI6v$reacttoastify.toast).error("Transaction failed to be processed", {
                 position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
@@ -786,11 +771,8 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
             if (transaction && transaction.confirmations > 0) {
                 const amountInWei = transaction.value;
                 const amountInEther = (0, $ezI6v$ethers.ethers).utils.formatEther(amountInWei);
-                // console.log("Ether transferred:", amountInEther);
                 return amountInEther.toString();
             } else {
-                // console.log("Transaction not found or not confirmed yet.");
-                // alert("Transaction not found");
                 (0, $ezI6v$reacttoastify.toast).error("Transaction not found", {
                     position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                     theme: "dark"
@@ -798,8 +780,6 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
                 return "0";
             }
         } catch (error) {
-            // console.error("Error reading transaction details:", error);
-            // alert("Unable to get transaction details");
             (0, $ezI6v$reacttoastify.toast).error("Unable to get transaction details", {
                 position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
                 theme: "dark"
@@ -813,8 +793,7 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
    * 2. Switch network if required
    * 3. make payment
    */ const makePayment = async ()=>{
-        if ((selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name) == null || (selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.name) == null) // alert("Please select the payment mode");
-        (0, $ezI6v$reacttoastify.toast).warning("Please select the payment mode", {
+        if ((selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.dname) == null || (selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.name) == null) (0, $ezI6v$reacttoastify.toast).warning("Please select the payment mode", {
             position: (0, $ezI6v$reacttoastify.toast).POSITION.TOP_CENTER,
             theme: "dark"
         });
@@ -823,14 +802,18 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
             setBtnName("Make payment");
             if (isConnected) {
                 // Stable Coins.
-                if (selectedToken.type === "stable") requestERC20Payment(Amount, (0, $27d6a4225a34c492$export$5c2c3f7af123bc40)[selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.name][selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name]);
-                else if ((selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.id) === (selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.id)) {
-                    let latestPrice = await getCurrentTokenPrice(selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name); // Returns Float/Int of the current market price of the token.
+                if (selectedToken.type === "stable") {
+                    setCalculatedAmount(Amount);
+                    requestERC20Payment(Amount, (0, $27d6a4225a34c492$export$5c2c3f7af123bc40)[selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.name][selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.dname]);
+                } else if ((selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.id) === (selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.id)) {
+                    let latestPrice = await getCurrentTokenPrice(selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name); // Returns Float/Int of the current market price of the token. //@note using .name only for the MATIC to fetch the live price.
                     let latestAmount = Amount / latestPrice;
+                    setCalculatedAmount(latestAmount);
                     nativeTokenPayment(latestAmount);
                 } else {
                     let latestPrice = await getCurrentTokenPrice(selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name);
                     let latestAmount = Amount / latestPrice;
+                    setCalculatedAmount(latestAmount);
                     requestERC20Payment(latestAmount, (0, $27d6a4225a34c492$export$5c2c3f7af123bc40)[selectedChain === null || selectedChain === void 0 ? void 0 : selectedChain.name][selectedToken === null || selectedToken === void 0 ? void 0 : selectedToken.name]);
                 }
             } else await connectWalletFunc();
@@ -843,30 +826,34 @@ async function $04510dd21321f22d$export$c128ec6fd8bee8d4() {
     };
     const handleClosePopup = ()=>{
         setIsPopupOpen(false);
-    // setIsLoading(!isLoading);
     };
     const handleTokenSelect = async (e)=>{
-        const filteredArray = Tokens.filter((obj)=>obj.name === e.target.value);
+        // const filteredArray = Tokens.filter((obj) => obj?.name === e.target.value); // Error V @1.0.7
+        const filteredArray = Tokens.filter((obj)=>{
+            return (obj === null || obj === void 0 ? void 0 : obj.dname) === e.target.value;
+        });
         const token = filteredArray[0];
         let tokenPrice = "1";
-        if ((token === null || token === void 0 ? void 0 : token.type) !== "stable") tokenPrice = await getCurrentTokenPrice(token === null || token === void 0 ? void 0 : token.name);
-        setCurrentTokenPrice("1 " + token.name + " = $ " + tokenPrice);
+        if ((token === null || token === void 0 ? void 0 : token.type) !== "stable") {
+            if ((token === null || token === void 0 ? void 0 : token.name) === "MATIC") tokenPrice = await getCurrentTokenPrice("matic-network");
+            else tokenPrice = await getCurrentTokenPrice(token === null || token === void 0 ? void 0 : token.name);
+        }
+        setCurrentTokenPrice("1 " + (token === null || token === void 0 ? void 0 : token.dname) + " = $ " + tokenPrice);
         setSelectedToken(token);
     };
     const handleChainSelect = (e)=>{
-        const filteredArray = Chains.filter((obj)=>obj.name === e.target.value);
-        // console.log("setSelectedChain", filteredArray[0]);
+        const filteredArray = Chains.filter((obj)=>{
+            return (obj === null || obj === void 0 ? void 0 : obj.name) === e.target.value;
+        });
         setSelectedChain(filteredArray[0]);
     };
     return /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)((0, $ezI6v$reactjsxruntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("button", {
-                className: "startBtnClass",
                 style: Style,
                 onClick: handleOpenPopup,
                 children: Style === null || Style === void 0 ? void 0 : Style.displayName
             }),
-            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("br", {}),
             /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                 children: isPopupOpen && /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                     className: "popup-container",
@@ -1581,15 +1568,11 @@ const $5e53f8470945e921$export$3765b2c107be43ec = [
     };
     return /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsxs)((0, $ezI6v$reactjsxruntime.Fragment), {
         children: [
-            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("h1", {
-                children: "Starknet Component"
-            }),
             /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("button", {
                 style: Style,
                 onClick: handleOpenPopup,
                 children: Style === null || Style === void 0 ? void 0 : Style.displayName
             }),
-            /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("br", {}),
             /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                 children: isPopupOpen && /*#__PURE__*/ (0, $ezI6v$reactjsxruntime.jsx)("div", {
                     className: "popup-container",

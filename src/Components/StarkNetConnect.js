@@ -230,10 +230,8 @@ function StarkNetConnect
 
   return (
     <>
-      <h1>Starknet Component</h1>
       <button style={Style} onClick={handleOpenPopup}>{Style?.displayName}</button>
       {/* <button onClick={handleOpenPopup}>Make Payment</button> */}
-      <br />
       <div>
 {/* handelSelectToken */}
         {/* Popup */}
