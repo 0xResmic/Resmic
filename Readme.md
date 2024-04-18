@@ -1,6 +1,5 @@
 
 # Resmic
-</br>
 
 ## Decentralised |  Non-Custodial | P2P Payment Infrastructure
 
@@ -8,7 +7,7 @@ Welcome to Resmic, your go-to solution for accepting a variety of crypto payment
 
 With Resmic, you can easily accept payments in Bitcoin, Ethereum, and many other cryptocurrencies, giving your customers more flexibility and convenience.
 
-</br>
+
 
 ## Demo
 
@@ -43,21 +42,18 @@ Install Resmic components with [npm](https://www.npmjs.com/package/resmic)
 </br>
 ```bash
   npm install resmic
-
 ```
 </br>
-    
+
 ## Usage
 Here's a simple example of how you can use Resmic to accept a crypto payment:
 
 </br>
 
-### For EVM Blockchains
-</br>
 
 ```javascript
 import { useState } from 'react';
-import {EVMConnect, Tokens, Chains} from 'resmic'
+import { CryptoPayment, Tokens, Chains } from 'resmic'
 
 function App() {
 
@@ -67,57 +63,27 @@ function App() {
 
   return (
 	<div>
-	    <EVMConnect  Address={"YOUR_WALLET_ADDRESS"} //Wallet address to receive funds
-	        Chains={[ Chains.Ethereum, Chains.Polygon, Chains.Binance, Chains.Goerli]} //Choose the blockchains to allow payments from
-        	Tokens ={[Tokens.USDC,Tokens.USDT, Tokens.DAI, Tokens.BUSD, Tokens.MATIC, Tokens.ETH , Tokens.GETH, Tokens.Bitcoin]} //Choose the Tokens to accept payments from
-                Amount={100} //Amount you want to receive in USD($)
-                setPaymentStatus = {setPaymentStatus}
-                noOfBlockConformation={2} //No. of blocks to wait for the payment conformation (Optional)
-                Style = {{displayName: "Make Payment", 
-                    backgroundColor: "#007bff",
-                    color: "#fff",
-                    border: "none",
-                    padding: "10px 20px",
-                    borderRadius: "4px",
-                    fontSize: "18px"}}
-	    />
+	    <CryptoPayment 
+			Address={ {EVM:"0x056397760b973BfB921Bc10Be9DA5034B1e921d7", STARKNET:"0x05Ea419aa3Ad67A9f9721dc38257f8Cc1E032b0Ac83ED6b532Aad3e1778c1B9F"}} // Wallet Address to receive Funds
+            Chains={[ Chains.Ethereum, Chains.Polygon, Chains.Starknet, Chains.Sepolia]}
+            Tokens ={[Tokens.STARK, Tokens.SETH, Tokens.DAI, Tokens.ETH, Tokens.BNB, Tokens.USDC]} 
+            Amount={100} // Amount in USD
+            noOfBlockConformation={2}
+            setPaymentStatus = {setPaymentStatus}
+            Style = {{displayName: "Make Payment",
+				backgroundColor: "#007bff",
+                color: "#fff",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "4px",
+                fontSize: "18px",
+                cursor: "pointer"}} 
+            />
 	</div>
   )
 }
 ```
 </br>
-
-### For Starknet Blockchain
-</br>
-
-```javascript
-import { useState } from 'react';
-import {StarkNetConnect, StarkTokens} from 'resmic'
-
-function App() {
-
-	const [paymentStatus, setPaymentStatus] = useState() // Returns bool after the payment
-	
-	// Your code...
-
-  return (
-	<div>
-	    <StarkNetConnect Address={"YOUR_WALLET_ADDRESS"} //Wallet address to receive funds
-	        Tokens = {[StarkTokens.USDT, StarkTokens.USDC, StarkTokens.ETH, StarkTokens.Bitcoin]} //Choose the Tokens to accept payments from
-	        Amount={100} //Amount you want to receive in USD($)
-	        setPaymentStatus = {setPaymentStatus} 
-	        Style = {{displayName: "Make Payment", 
-	            backgroundColor: "#007bff",
-                    color: "#fff",
-                    border: "none",
-                    padding: "10px 20px",
-                    borderRadius: "4px",
-                    fontSize: "18px"}}
-	    />
-	</div>
-  )
-}
-```
 
 
 For more detailed information on how to use Resmic, please refer to our [documentation](https://www.docs.resmic.com)
@@ -135,7 +101,6 @@ If you encounter any issues, have questions, or want to provide feedback, please
 ## Documentation
 
 Ready to get started? 
-</br>
 [Read installation instructions.](https://www.docs.resmic.com)
 
 </br>

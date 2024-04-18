@@ -1,6 +1,10 @@
-import { Signer, ethers } from "ethers";
+import { ethers } from "ethers";
 
-export async function connectWallet () {
+/**
+ * Connects dApp to Metamask wallet.
+ * @returns {{String, String}} // Connected wallet address and ChainId
+ */
+export async function connectWalletFn () {
 
     let account;
     let currentChainId;
@@ -16,17 +20,13 @@ export async function connectWallet () {
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
     return {account, chainId}
 }
+
 /**
  * Function to switch the metamask network to desired network
  * @param {String} networkId // Hex string  
  */
 export async function switchNetwork(networkId) {
 
-    // await window.ethereum.request({
-    //     method: 'wallet_switchEthereumChain',
-    //     params: [{ chainId: networkId }],
-    //   });
-      
     try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -38,7 +38,6 @@ export async function switchNetwork(networkId) {
         if (switchError.code === 4902) {
         }
     }
-
 }
 
 /**
@@ -51,7 +50,7 @@ export async function getProvider(){
 }
 /**
  * Returns the signer from metamask to sign the transaction.
- * @returns promise signer
+ * @returns {Object} promise signer
  */
 export async function getSigner(){
     const provider = new ethers.providers.Web3Provider(window.ethereum)

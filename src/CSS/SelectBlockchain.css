@@ -1,0 +1,55 @@
+
+/* Styles for the Popup Component */
+html{
+    font-size: 20px;
+  }
+  .popup-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .close{
+      position: absolute;
+      top: .1rem;
+      right: .6rem;
+      cursor: pointer;
+      font-size: 1.2rem;
+  
+    }
+  
+    /* Styles for the Popup Component */
+  .popup-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .popup-content{
+       
+      height: fit-content;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+      width: 20rem;
+      background-color: #fff;
+    }
+   
+    
+    
+    
+    
+   
