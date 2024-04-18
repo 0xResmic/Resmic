@@ -64,20 +64,20 @@ function App() {
   return (
 	<div>
 	    <CryptoPayment 
-			Address={ {EVM:"0x056397760b973BfB921Bc10Be9DA5034B1e921d7", STARKNET:"0x05Ea419aa3Ad67A9f9721dc38257f8Cc1E032b0Ac83ED6b532Aad3e1778c1B9F"}} // Wallet Address to receive Funds
-            Chains={[ Chains.Ethereum, Chains.Polygon, Chains.Starknet, Chains.Sepolia]}
-            Tokens ={[Tokens.STARK, Tokens.SETH, Tokens.DAI, Tokens.ETH, Tokens.BNB, Tokens.USDC]} 
-            Amount={100} // Amount in USD
-            noOfBlockConformation={2}
-            setPaymentStatus = {setPaymentStatus}
-            Style = {{displayName: "Make Payment",
-				backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                padding: "10px 20px",
-                borderRadius: "4px",
-                fontSize: "18px",
-                cursor: "pointer"}} 
+		Address={ {EVM:"0x056397760b973BfB921Bc10Be9DA5034B1e921d7", STARKNET:"0x05Ea419aa3Ad67A9f9721dc38257f8Cc1E032b0Ac83ED6b532Aad3e1778c1B9F"}} // Wallet Address to receive Funds
+            	Chains={[ Chains.Ethereum, Chains.Polygon, Chains.Starknet, Chains.Sepolia]}
+            	Tokens ={[Tokens.STARK, Tokens.SETH, Tokens.DAI, Tokens.ETH, Tokens.BNB, Tokens.USDC]} 
+            	Amount={100} // Amount in USD
+            	noOfBlockConformation={2}
+            	setPaymentStatus = {setPaymentStatus}
+            	Style = {{displayName: "Make Payment",
+			backgroundColor: "#007bff",
+                	color: "#fff",
+                	border: "none",
+                	padding: "10px 20px",
+                	borderRadius: "4px",
+                	fontSize: "18px",
+                	cursor: "pointer"}} 
             />
 	</div>
   )
@@ -86,7 +86,7 @@ function App() {
 </br>
 
 
-For more detailed information on how to use Resmic, please refer to our [documentation](https://www.docs.resmic.com)
+For more detailed information on how to use Resmic, please refer to our [documentation](https://docs.resmic.com)
 
 </br>
 </br>
@@ -101,7 +101,7 @@ If you encounter any issues, have questions, or want to provide feedback, please
 ## Documentation
 
 Ready to get started? 
-[Read installation instructions.](https://www.docs.resmic.com)
+[Read installation instructions.](https://docs.resmic.com)
 
 </br>
 </br>
