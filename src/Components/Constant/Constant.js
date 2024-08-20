@@ -1,5 +1,5 @@
 export const SupportedBlockchains = [
-    "Ethereum",'Polygon',"Starknet", "Binance", "Optimism", "Sepolia", "Nibiru",
+    "Ethereum",'Polygon',"Starknet", "Binance", "Optimism", "Sepolia", "Nibiru", "XDC-Network",
 ];
 export const SupportedTokens = {
     // EVM Blockchains. 
@@ -10,9 +10,12 @@ export const SupportedTokens = {
     "Optimism":["OP","USDT", "USDC", "ETH", "MATIC","DOGE", ],
     "Sepolia":["SETH","USDT", 'BNB', 'DAI'],
     
+    "XDC-Network":["XDC", "USDT" ],
+
     // Non-EVM Blockchains.
     "Starknet":["STARK","USDT", "USDC", "ETH", "GETH", "BTC" ],
-    "Nibiru":["NIBI","BTC", "ETH"],
+    // "Nibiru":["NIBI","BTC", "ETH"],
+    "Solana":["SOL", "ETH", "USDT", "USDC", "BTC"],
     
     "":[""], //@note Do not remove this line.
 };
@@ -25,8 +28,11 @@ export const Chains = {
     "Optimism" : {"name": "Optimism", "description": "", "id": "0xa", "img":""},
     "Sepolia" : {"name": "Sepolia", "description": "", "id": "0xaa36a7", "img":""},
     
+    "XDC-Network" : {"name": "XDC-Network", "description": "", "id": "0x32", "img":""},
+    
     "Starknet" : {"name": "Starknet", "description": "", "id": "", "img":""},
     "Nibiru" : {"name": "Nibiru", "description": "", "id": "", "img":""},
+    "Solana" : {"name": "Solana", "description": "", "id": "", "img":""},
 
 };
 export const Tokens = {
@@ -45,6 +51,8 @@ export const Tokens = {
     TBNB: {"name": "TBNB", "dname":"binancecoin", "type": "unstable", "id": "0x61"},
     BTC: {"name": "BTC", "dname":"Bitcoin", "type": "unstable", "id": ""},
     DAI: {"name": "DAI", "dname":"bitcoin", "type": "unstable", "id": ""},
+
+    XDC: {"name": "XDC", "dname":"xdce-crowd-sale", "type": "unstable", "id": "0x32"},
 };
 /**
  * Supported {Verified } ERC 20 token address
@@ -111,6 +119,18 @@ export const TokenAddress = {
         "USDC" : "0x053C91253BC9682c04929cA02ED00b3E423f6710D2ee7e0D5EBB06F3eCF368A8", 
         "USDT" : "0x68F5c6a61780768455de69077E07e89787839bf8166dEcfBf92B645209c0fB8", 
         "WBTC" : "0x3Fe2b97C1Fd336E750087D68B9b867997Fd64a2661fF3ca5A7C771641e8e7AC",
+    },
+
+    "Solana":{
+        "USDC": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "USDT": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+        "WETH": "2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk",
+        "WBTC": "9n4nbM75f5Ui33ZbPYXn59EwSgE8CGsHtAeTH5YFeJ9E",
+        
+    },
+    "XDC-Network":{
+        // "WXDC": "0x951857744785e80e2de051c32ee7b25f9c458c42",
+        "USDT": "0xd4b5f10d61916bd6e0860144a91ac658de8a1437",
     },
 }
 

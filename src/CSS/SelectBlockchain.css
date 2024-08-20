@@ -48,8 +48,8 @@ html{
       background-color: #fff;
     }
    
-    
-    
-    
-    
-   
+  .inputHeading {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: rgb(79, 79, 79);
+  }

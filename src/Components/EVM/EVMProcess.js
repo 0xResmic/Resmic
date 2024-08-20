@@ -38,6 +38,7 @@ export async function makeEVMPayment (Blockchain, Token, Address_, Amount, Payme
     let connectdUserAddress = connectWallet?.account
 
     let connectedchainId = connectWallet?.chainId
+    console.log("connectedchainId", connectedchainId)
     let requiredChainID = Chains[Blockchain].id;
     if(connectedchainId !== requiredChainID) { // Switching the networ if the users is on another network on Metamask.
         await switchNetwork(requiredChainID)

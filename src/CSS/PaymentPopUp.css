@@ -25,12 +25,6 @@ html{
 
   }
  
-  /* .inputs {
-    padding: 20%;
-  } */
-
-  /* ******************* */
-  /* ******************* */
 
   /* Styles for the Popup Component */
 .popup-container {
@@ -55,9 +49,14 @@ html{
     width: 20rem;
     background-color: #fff;
   }
- 
-  
-  
-  
-  
- 
+ .AmountPayableSpan{
+  font-size: 16px;
+  color: rgb(78, 78, 78);
+  font-family: Helvetica, sans-serif;
+}
+
+.amount {
+   font-size: 22px;
+   color: rgb(0, 0, 0);
+   /* font-family: ; */
+ }

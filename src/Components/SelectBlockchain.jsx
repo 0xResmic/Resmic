@@ -4,10 +4,13 @@ import resmiclogo from '../assets/resmiclogo.png'
 import { SupportedTokens } from './Constant/Constant';
 import { makeEVMPayment } from './EVM/EVMProcess';
 import {ToastContainer, toast } from "react-toastify";
-import { makeStarknetPayment } from './Starknet/StarknetProcess';
+import { Select, Button, Input, Tooltip } from "antd";
 import "../CSS/EVMComponent.css"
 import "../CSS/PaymentPopUp.css";
 import "../CSS/Loader.css";
+import { makeStarknetPayment } from './Starknet/StarknetProcess';
+import { makeNibiruPayment } from './Nibiru/NibiruProcess';
+import { makeSolanaPayment } from './Solana/SolanaProcess';
 
 /* global BigInt */ //@note Do note delete this.
 
@@ -30,7 +33,7 @@ padding: "10px 20px",
 borderRadius: "4px",
 fontSize: "18px",
 cursor: "pointer"},}) {
-    const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+    const [isPopUpOpen, setIsPopUpOpen] = useState(true);
     const [selectedBlockchain, setSelectedBlockchain] = useState("");
     const [selectedToken, setSelectedToken] = useState("");
     const [btnName, setBtnName] = useState("Make Payment");
@@ -54,6 +57,24 @@ cursor: "pointer"},}) {
                     let makePaymentStarknet = await makeStarknetPayment(selectedToken, Address, Amount, noOfBlockConformation);
                     setPaymentStatus(makePaymentStarknet);
                     if (makePaymentStarknet) setIsPopUpOpen(false);
+                    setIsLoading(false)
+                    break;
+
+                case "Solana":
+                    console.log("Redirect to Starknet");
+                    setIsLoading(true)
+                    let makePaymentSolana = await makeSolanaPayment(selectedToken, Address, Amount, noOfBlockConformation);
+                    setPaymentStatus(makePaymentSolana);
+                    if (makePaymentSolana) setIsPopUpOpen(false);
+                    setIsLoading(false)
+                    break;
+
+                case "Nibiru":
+                    console.log("Redirect to Nibiru")
+                    setIsLoading(true);
+                    let makeNibiruPay = await makeNibiruPayment(selectedToken, Address, Amount, noOfBlockConformation);
+                    setPaymentStatus(makeNibiruPay);
+                    if (makeNibiruPay) setIsPopUpOpen(false)                   
                     setIsLoading(false)
                     break;
                     
@@ -83,32 +104,36 @@ cursor: "pointer"},}) {
                 <div className="modal-contents">
                     <div className="inputs">
                     <div className="popup-heading">
-                        <span>Pay amount</span>
+                        {/* <span>Pay amount</span> */}
+                        <span className='AmountPayableSpan'>AMOUNT PAYABLE</span>
                         <div className="amount">${Amount.toFixed(2)}</div>
                     </div>
-
+                    
                     {/* Select Blockchian DropDown */}
                     <div className="inputGroup">
                     <label className="inputHeading">Blockchain</label>
-                        <select onChange={(e) => setSelectedBlockchain(e.target.value) }>
-                            <option>Select Blockchain</option>
+                        <Select placeholder="Select Blockchain" showSearch onChange={setSelectedBlockchain }
+                            size='large'
+                        >
                             {Object.keys(Chains).map((chain) => (
                                 <option key={Chains[chain].name} value={Chains[chain].name}>{Chains[chain].name}</option>
                             ))}
-                        </select>
+                        </Select>
                     </div>
+
                     
                     {/* Select Tokens DropDown */}
                     <div className="inputGroup">
                         <label className="inputHeading">Token</label>
-                        <select id="" onChange={(e) => setSelectedToken(e.target.value)} disabled={isAllSelected}>
-                            <option>Select Token</option>
+                        <Select className='selectDropdown' id="" placeholder="Select Token" showSearch  onChange={setSelectedToken} disabled={isAllSelected}
+                            size='large'
+                        >
                             {Tokens.filter(obj => SupportedTokens[selectedBlockchain].includes(obj.name)).map(obj => (
                                 <option  key={obj.name} value={obj.name}>
                                         {obj.name}
                                 </option>
                             ))}
-                        </select>
+                        </Select>
                     </div>
 
                     <div className="live-token-price">{currentTokenPrice}</div>
@@ -143,4 +168,4 @@ cursor: "pointer"},}) {
   )
 }
 
-export default CryptoPayment;
+export default CryptoPayment
