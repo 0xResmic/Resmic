@@ -33,6 +33,12 @@ html {
   display: flex;
 }
 
+.inputHeading {
+  color: #4f4f4f;
+  font-size: .9rem;
+  font-weight: 500;
+}
+
 .inputs {
   box-sizing: border-box;
   flex-direction: column;
@@ -114,12 +120,6 @@ html {
 .resmic-logo img {
   width: 5rem;
   height: 2rem;
-}
-
-.inputHeading {
-  color: #4b4848;
-  font-size: .8rem;
-  font-weight: 500;
 }
 
 div.spinner {
@@ -244,6 +244,17 @@ html {
   height: -moz-fit-content;
   height: fit-content;
   display: flex;
+}
+
+.AmountPayableSpan {
+  color: #4e4e4e;
+  font-family: Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+.amount {
+  color: #000;
+  font-size: 22px;
 }
 
 .loader {

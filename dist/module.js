@@ -2,6 +2,7 @@ import "./main.css";
 import {jsxs as $erTRO$jsxs, Fragment as $erTRO$Fragment, jsx as $erTRO$jsx} from "react/jsx-runtime";
 import {useState as $erTRO$useState} from "react";
 import {toast as $erTRO$toast, ToastContainer as $erTRO$ToastContainer} from "react-toastify";
+import {Select as $erTRO$Select} from "antd";
 import {ethers as $erTRO$ethers} from "ethers";
 import $erTRO$bignumberjs from "bignumber.js";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,7 +27,8 @@ const $535c395a1d197c28$export$d59696070647f03c = [
     "Binance",
     "Optimism",
     "Sepolia",
-    "Nibiru"
+    "Nibiru",
+    "XDC-Network"
 ];
 const $535c395a1d197c28$export$c12d5eb7df2a872c = {
     // EVM Blockchains. 
@@ -72,6 +74,10 @@ const $535c395a1d197c28$export$c12d5eb7df2a872c = {
         "BNB",
         "DAI"
     ],
+    "XDC-Network": [
+        "XDC",
+        "USDT"
+    ],
     // Non-EVM Blockchains.
     "Starknet": [
         "STARK",
@@ -81,10 +87,13 @@ const $535c395a1d197c28$export$c12d5eb7df2a872c = {
         "GETH",
         "BTC"
     ],
-    "Nibiru": [
-        "NIBI",
-        "BTC",
-        "ETH"
+    // "Nibiru":["NIBI","BTC", "ETH"],
+    "Solana": [
+        "SOL",
+        "ETH",
+        "USDT",
+        "USDC",
+        "BTC"
     ],
     "": [
         ""
@@ -127,6 +136,12 @@ const $535c395a1d197c28$export$c3f32f9b7c2f46bb = {
         "id": "0xaa36a7",
         "img": ""
     },
+    "XDC-Network": {
+        "name": "XDC-Network",
+        "description": "",
+        "id": "0x32",
+        "img": ""
+    },
     "Starknet": {
         "name": "Starknet",
         "description": "",
@@ -135,6 +150,12 @@ const $535c395a1d197c28$export$c3f32f9b7c2f46bb = {
     },
     "Nibiru": {
         "name": "Nibiru",
+        "description": "",
+        "id": "",
+        "img": ""
+    },
+    "Solana": {
+        "name": "Solana",
         "description": "",
         "id": "",
         "img": ""
@@ -226,6 +247,12 @@ const $535c395a1d197c28$export$8e1e81ac145e31be = {
         "dname": "bitcoin",
         "type": "unstable",
         "id": ""
+    },
+    XDC: {
+        "name": "XDC",
+        "dname": "xdce-crowd-sale",
+        "type": "unstable",
+        "id": "0x32"
     }
 };
 const $535c395a1d197c28$export$5c2c3f7af123bc40 = {
@@ -282,6 +309,16 @@ const $535c395a1d197c28$export$5c2c3f7af123bc40 = {
         "USDC": "0x053C91253BC9682c04929cA02ED00b3E423f6710D2ee7e0D5EBB06F3eCF368A8",
         "USDT": "0x68F5c6a61780768455de69077E07e89787839bf8166dEcfBf92B645209c0fB8",
         "WBTC": "0x3Fe2b97C1Fd336E750087D68B9b867997Fd64a2661fF3ca5A7C771641e8e7AC"
+    },
+    "Solana": {
+        "USDC": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "USDT": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+        "WETH": "2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk",
+        "WBTC": "9n4nbM75f5Ui33ZbPYXn59EwSgE8CGsHtAeTH5YFeJ9E"
+    },
+    "XDC-Network": {
+        // "WXDC": "0x951857744785e80e2de051c32ee7b25f9c458c42",
+        "USDT": "0xd4b5f10d61916bd6e0860144a91ac658de8a1437"
     }
 };
 const $535c395a1d197c28$export$89843982d7e60b14 = [
@@ -854,6 +891,7 @@ async function $0f9c8968340f6221$export$1213dd6fecdd48f0(Blockchain, Token, Addr
     let connectWallet = await (0, $f553423f3d0f773a$export$cfaea2bb8d8b8829)();
     let connectdUserAddress = connectWallet === null || connectWallet === void 0 ? void 0 : connectWallet.account;
     let connectedchainId = connectWallet === null || connectWallet === void 0 ? void 0 : connectWallet.chainId;
+    console.log("connectedchainId", connectedchainId);
     let requiredChainID = (0, $535c395a1d197c28$export$c3f32f9b7c2f46bb)[Blockchain].id;
     if (connectedchainId !== requiredChainID) await (0, $f553423f3d0f773a$export$f3473d805e486329)(requiredChainID);
     /*
@@ -1123,6 +1161,10 @@ async function $0f9c8968340f6221$export$1213dd6fecdd48f0(Blockchain, Token, Addr
 
 
 
+
+
+
+
 /*
 
     ✅ Connect Wallet
@@ -1270,7 +1312,29 @@ async function $8719e4e81b688ff3$export$ef880f08cac7f8c(Token, Address_, Amount,
 };
 
 
+// rpc: https://nibiru.rpc.kjnodes.com
+async function $ababbd98e7557289$export$888627a074f2aa7d(Token, Address, Amount, PaymentConfirmation = 2) {
+    console.log("Here we are");
+    let account;
+    let currentChainId;
+    if (!window.leap) alert("Please install Leap wallet!");
+    // const con = await window.getKey('cataclysm-1')
+    const con = await window.leap.getKey("cataclysm-1");
+    // const con = await window.leap.getKey('nibiru-testnet-1')
+    console.log("con", con);
+    console.log("window", window.leap);
+}
 
+
+/*
+
+    ✅ Connect Wallet
+    ✅ Get Wallet address
+     Token transfer
+     Block Confirmation check
+     Returns payment status.
+     Testing ERC20 token
+*/ async function $12556e0b190893f5$export$88ef2c5afd949ec() {}
 
 
 /* global BigInt */ //@note Do note delete this.
@@ -1284,7 +1348,7 @@ async function $8719e4e81b688ff3$export$ef880f08cac7f8c(Token, Address_, Amount,
  * @param {bool} setPaymentStatus // Returns the payment completion status of the tx.  // Customise CSS for buttons.
  * @param {Style} CSS  // Customise CSS for buttons.
  * @returns React componen
- */ function $6b5a659072b0dc13$var$CryptoPayment({ Address: Address, Tokens: Tokens, Chains: Chains, Amount: Amount, noOfBlockConformation: noOfBlockConformation, setPaymentStatus: setPaymentStatus, Style: Style = {
+ */ function $79b4685724ad28b1$var$CryptoPayment({ Address: Address, Tokens: Tokens, Chains: Chains, Amount: Amount, noOfBlockConformation: noOfBlockConformation, setPaymentStatus: setPaymentStatus, Style: Style = {
     displayName: "Make Payment",
     backgroundColor: "#007bff",
     color: "#fff",
@@ -1294,7 +1358,7 @@ async function $8719e4e81b688ff3$export$ef880f08cac7f8c(Token, Address_, Amount,
     fontSize: "18px",
     cursor: "pointer"
 } }) {
-    const [isPopUpOpen, setIsPopUpOpen] = (0, $erTRO$useState)(false);
+    const [isPopUpOpen, setIsPopUpOpen] = (0, $erTRO$useState)(true);
     const [selectedBlockchain, setSelectedBlockchain] = (0, $erTRO$useState)("");
     const [selectedToken, setSelectedToken] = (0, $erTRO$useState)("");
     const [btnName, setBtnName] = (0, $erTRO$useState)("Make Payment");
@@ -1315,6 +1379,22 @@ async function $8719e4e81b688ff3$export$ef880f08cac7f8c(Token, Address_, Amount,
                 let makePaymentStarknet = await (0, $8719e4e81b688ff3$export$ef880f08cac7f8c)(selectedToken, Address, Amount, noOfBlockConformation);
                 setPaymentStatus(makePaymentStarknet);
                 if (makePaymentStarknet) setIsPopUpOpen(false);
+                setIsLoading(false);
+                break;
+            case "Solana":
+                console.log("Redirect to Starknet");
+                setIsLoading(true);
+                let makePaymentSolana = await (0, $12556e0b190893f5$export$88ef2c5afd949ec)(selectedToken, Address, Amount, noOfBlockConformation);
+                setPaymentStatus(makePaymentSolana);
+                if (makePaymentSolana) setIsPopUpOpen(false);
+                setIsLoading(false);
+                break;
+            case "Nibiru":
+                console.log("Redirect to Nibiru");
+                setIsLoading(true);
+                let makeNibiruPay = await (0, $ababbd98e7557289$export$888627a074f2aa7d)(selectedToken, Address, Amount, noOfBlockConformation);
+                setPaymentStatus(makeNibiruPay);
+                if (makeNibiruPay) setIsPopUpOpen(false);
                 setIsLoading(false);
                 break;
             default:
@@ -1361,7 +1441,8 @@ async function $8719e4e81b688ff3$export$ef880f08cac7f8c(Token, Address_, Amount,
                                         className: "popup-heading",
                                         children: [
                                             /*#__PURE__*/ (0, $erTRO$jsx)("span", {
-                                                children: "Pay amount"
+                                                className: "AmountPayableSpan",
+                                                children: "AMOUNT PAYABLE"
                                             }),
                                             /*#__PURE__*/ (0, $erTRO$jsxs)("div", {
                                                 className: "amount",
@@ -1379,17 +1460,15 @@ async function $8719e4e81b688ff3$export$ef880f08cac7f8c(Token, Address_, Amount,
                                                 className: "inputHeading",
                                                 children: "Blockchain"
                                             }),
-                                            /*#__PURE__*/ (0, $erTRO$jsxs)("select", {
-                                                onChange: (e)=>setSelectedBlockchain(e.target.value),
-                                                children: [
-                                                    /*#__PURE__*/ (0, $erTRO$jsx)("option", {
-                                                        children: "Select Blockchain"
-                                                    }),
-                                                    Object.keys(Chains).map((chain)=>/*#__PURE__*/ (0, $erTRO$jsx)("option", {
-                                                            value: Chains[chain].name,
-                                                            children: Chains[chain].name
-                                                        }, Chains[chain].name))
-                                                ]
+                                            /*#__PURE__*/ (0, $erTRO$jsx)((0, $erTRO$Select), {
+                                                placeholder: "Select Blockchain",
+                                                showSearch: true,
+                                                onChange: setSelectedBlockchain,
+                                                size: "large",
+                                                children: Object.keys(Chains).map((chain)=>/*#__PURE__*/ (0, $erTRO$jsx)("option", {
+                                                        value: Chains[chain].name,
+                                                        children: Chains[chain].name
+                                                    }, Chains[chain].name))
                                             })
                                         ]
                                     }),
@@ -1400,19 +1479,18 @@ async function $8719e4e81b688ff3$export$ef880f08cac7f8c(Token, Address_, Amount,
                                                 className: "inputHeading",
                                                 children: "Token"
                                             }),
-                                            /*#__PURE__*/ (0, $erTRO$jsxs)("select", {
+                                            /*#__PURE__*/ (0, $erTRO$jsx)((0, $erTRO$Select), {
+                                                className: "selectDropdown",
                                                 id: "",
-                                                onChange: (e)=>setSelectedToken(e.target.value),
+                                                placeholder: "Select Token",
+                                                showSearch: true,
+                                                onChange: setSelectedToken,
                                                 disabled: isAllSelected,
-                                                children: [
-                                                    /*#__PURE__*/ (0, $erTRO$jsx)("option", {
-                                                        children: "Select Token"
-                                                    }),
-                                                    Tokens.filter((obj)=>(0, $535c395a1d197c28$export$c12d5eb7df2a872c)[selectedBlockchain].includes(obj.name)).map((obj)=>/*#__PURE__*/ (0, $erTRO$jsx)("option", {
-                                                            value: obj.name,
-                                                            children: obj.name
-                                                        }, obj.name))
-                                                ]
+                                                size: "large",
+                                                children: Tokens.filter((obj)=>(0, $535c395a1d197c28$export$c12d5eb7df2a872c)[selectedBlockchain].includes(obj.name)).map((obj)=>/*#__PURE__*/ (0, $erTRO$jsx)("option", {
+                                                        value: obj.name,
+                                                        children: obj.name
+                                                    }, obj.name))
                                             })
                                         ]
                                     }),
@@ -1480,11 +1558,11 @@ async function $8719e4e81b688ff3$export$ef880f08cac7f8c(Token, Address_, Amount,
         ]
     });
 }
-var $6b5a659072b0dc13$export$2e2bcd8739ae039 = $6b5a659072b0dc13$var$CryptoPayment;
+var $79b4685724ad28b1$export$2e2bcd8739ae039 = $79b4685724ad28b1$var$CryptoPayment;
 
 
 
 
 
-export {$6b5a659072b0dc13$export$2e2bcd8739ae039 as CryptoPayment, $535c395a1d197c28$export$c3f32f9b7c2f46bb as Chains, $535c395a1d197c28$export$8e1e81ac145e31be as Tokens};
+export {$79b4685724ad28b1$export$2e2bcd8739ae039 as CryptoPayment, $535c395a1d197c28$export$c3f32f9b7c2f46bb as Chains, $535c395a1d197c28$export$8e1e81ac145e31be as Tokens};
 //# sourceMappingURL=module.js.map
