@@ -33,7 +33,7 @@ padding: "10px 20px",
 borderRadius: "4px",
 fontSize: "18px",
 cursor: "pointer"},}) {
-    const [isPopUpOpen, setIsPopUpOpen] = useState(true);
+    const [isPopUpOpen, setIsPopUpOpen] = useState(false);
     const [selectedBlockchain, setSelectedBlockchain] = useState("");
     const [selectedToken, setSelectedToken] = useState("");
     const [btnName, setBtnName] = useState("Make Payment");

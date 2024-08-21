@@ -1358,7 +1358,7 @@ async function $ababbd98e7557289$export$888627a074f2aa7d(Token, Address, Amount,
     fontSize: "18px",
     cursor: "pointer"
 } }) {
-    const [isPopUpOpen, setIsPopUpOpen] = (0, $erTRO$useState)(true);
+    const [isPopUpOpen, setIsPopUpOpen] = (0, $erTRO$useState)(false);
     const [selectedBlockchain, setSelectedBlockchain] = (0, $erTRO$useState)("");
     const [selectedToken, setSelectedToken] = (0, $erTRO$useState)("");
     const [btnName, setBtnName] = (0, $erTRO$useState)("Make Payment");
