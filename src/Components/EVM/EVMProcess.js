@@ -1,15 +1,3 @@
-// ✅ Connect wallet
-// ✅ Switch blockchain
-// ✅ Get network details
-// ✅ Calculate the tokens.
-// ✅ Handling big numbers.
-// ✅ Native Tokens
-// ✅ Block Confirmations.
-// ✅ Stable Coin
-// ✅ Approve token
-// ✅ Make payment
-// ✅ Check Confirmations
-// ✅ Return payment status.
 
 import { Chains, ERC20_ABI, TokenAddress, Tokens } from "../Constant/Constant";
 import { connectWalletFn, getProvider, getSigner, switchNetwork } from "./ConnectMeta";
@@ -84,12 +72,13 @@ export async function makeEVMPayment (Blockchain, Token, Address_, Amount, Payme
    * @returns {Bool} Payment Update
 */
 const nativeTokenPayment = async (_amount, _address,_tokenSymbol, _paymentConfirmations) => {
-    const signer = await getSigner();
+    
+  const signer = await getSigner();
     let amount = _amount;
     let liveTokenPrice = await getCurrentTokenPrice(_tokenSymbol)// Live token price
     let decimal = 18
     let tokenAmount = amount / liveTokenPrice
-    tokenAmount = BigNumber(parseInt(tokenAmount * 10 ** decimal))
+    tokenAmount = BigNumber((parseFloat(tokenAmount) * 10 ** decimal))
     tokenAmount = tokenAmount.toFixed()
     try {
       // Transfer of funds to address
@@ -197,7 +186,7 @@ const requestERC20Payment = async (_amount, _tokenAddress, _userAddress, _toAddr
         let decimals = await contractInstance.decimals();
         decimals = decimals.toString();
         let amount = _amount
-        amount = BigNumber(parseInt(amount * 10 ** decimals)) 
+        amount = BigNumber((parseFloat(amount) * 10 ** decimals)) 
         amount = amount.toFixed();
 
       const getApprove = await contractInstance.approve(
