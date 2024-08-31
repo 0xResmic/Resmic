@@ -1,8 +1,4 @@
 
-/* Styles for the Popup Component */
-html{
-  font-size: 20px;
-}
 .popup-container {
     position: fixed;
     top: 0;

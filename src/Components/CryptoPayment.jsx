@@ -92,6 +92,7 @@ cursor: "pointer"},}) {
 
     return (
     <>
+    <div className='mainDivResmic'>
         <button style={Style} onClick={() => setIsPopUpOpen(true)}>{Style?.displayName}</button>
 
         {isPopUpOpen && (
@@ -164,6 +165,7 @@ cursor: "pointer"},}) {
             </div>
         )}
         <ToastContainer/>
+        </div>
     </>
   )
 }
