@@ -26,7 +26,7 @@ export async function makeEVMPayment (Blockchain, Token, Address_, Amount, Payme
     let connectdUserAddress = connectWallet?.account
 
     let connectedchainId = connectWallet?.chainId
-    console.log("connectedchainId", connectedchainId)
+    // console.log("connectedchainId", connectedchainId)
     let requiredChainID = Chains[Blockchain].id;
     if(connectedchainId !== requiredChainID) { // Switching the networ if the users is on another network on Metamask.
         await switchNetwork(requiredChainID)
@@ -45,7 +45,6 @@ export async function makeEVMPayment (Blockchain, Token, Address_, Amount, Payme
         return nativePayment
     }
     else if(tokenType?.type === "stable") { // Handling Stable tokens
-        console.log("here state is stable")
         let tokenAddress = TokenAddress
         tokenAddress = tokenAddress[Blockchain][Token]
         let stableTx = await requestERC20Payment(Amount, tokenAddress, connectdUserAddress, Address, PaymentConfirmations )
@@ -69,7 +68,7 @@ export async function makeEVMPayment (Blockchain, Token, Address_, Amount, Payme
 
 /**
    * Function for Native token transfers.
-   * @returns {Bool} Payment Update
+   * @returns {Bool} Payment Status
 */
 const nativeTokenPayment = async (_amount, _address,_tokenSymbol, _paymentConfirmations) => {
     
@@ -78,7 +77,7 @@ const nativeTokenPayment = async (_amount, _address,_tokenSymbol, _paymentConfir
     let liveTokenPrice = await getCurrentTokenPrice(_tokenSymbol)// Live token price
     let decimal = 18
     let tokenAmount = amount / liveTokenPrice
-    tokenAmount = BigNumber((parseFloat(tokenAmount) * 10 ** decimal))
+    tokenAmount = BigNumber(Math.floor((parseFloat(tokenAmount) * (10 ** decimal))))
     tokenAmount = tokenAmount.toFixed()
     try {
       // Transfer of funds to address
@@ -186,7 +185,9 @@ const requestERC20Payment = async (_amount, _tokenAddress, _userAddress, _toAddr
         let decimals = await contractInstance.decimals();
         decimals = decimals.toString();
         let amount = _amount
-        amount = BigNumber((parseFloat(amount) * 10 ** decimals)) 
+        // amount = BigNumber((parseFloat(amount) * 10 ** decimals)) 
+        // Updates in the amount.
+        amount = BigNumber(Math.floor((parseFloat(amount) * (10 ** decimals))) )
         amount = amount.toFixed();
 
       const getApprove = await contractInstance.approve(

@@ -1,16 +1,3 @@
-/*
-
-    ✅ Connect Wallet
-    ✅ Get Wallet address
-    ✅ Token transfer
-    ✅ Confirmation check
-    ✅ Returns payment status.
-    ✅ Testing ERC20 token
-*/
-
-// Unifarm: ArgentX wallet, It has stark token.
-// BlockWhizz Bravoos Wallet
-
 import { connectWallet } from "./StarknetHelper";
 import { Contract, cairo ,CallData,  } from "starknet";
 import BigNumber from "bignumber.js";
@@ -74,7 +61,7 @@ const requestERC20Payment = async(_tokenAmount, _tokenAddress, _toAddress, _from
   let decimal = await contractInstance.decimals()
   decimal = decimal.decimals.toString();
   
-  let tokenAmount = BigNumber(parseInt(_tokenAmount * 10 ** decimal))
+  let tokenAmount = BigNumber(Math.floor((parseFloat(_tokenAmount) * (10 ** decimal))))
   
   try {
 
