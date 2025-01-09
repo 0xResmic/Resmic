@@ -879,7 +879,7 @@ async function $0f9c8968340f6221$export$1213dd6fecdd48f0(Blockchain, Token, Addr
     let connectWallet = await (0, $f553423f3d0f773a$export$cfaea2bb8d8b8829)();
     let connectdUserAddress = connectWallet === null || connectWallet === void 0 ? void 0 : connectWallet.account;
     let connectedchainId = connectWallet === null || connectWallet === void 0 ? void 0 : connectWallet.chainId;
-    console.log("connectedchainId", connectedchainId);
+    // console.log("connectedchainId", connectedchainId)
     let requiredChainID = (0, $535c395a1d197c28$export$c3f32f9b7c2f46bb)[Blockchain].id;
     if (connectedchainId !== requiredChainID) await (0, $f553423f3d0f773a$export$f3473d805e486329)(requiredChainID);
     /*
@@ -895,7 +895,6 @@ async function $0f9c8968340f6221$export$1213dd6fecdd48f0(Blockchain, Token, Addr
         paymentStatus = nativePayment;
         return nativePayment;
     } else if ((tokenType === null || tokenType === void 0 ? void 0 : tokenType.type) === "stable") {
-        console.log("here state is stable");
         let tokenAddress = (0, $535c395a1d197c28$export$5c2c3f7af123bc40);
         tokenAddress = tokenAddress[Blockchain][Token];
         let stableTx = await $0f9c8968340f6221$var$requestERC20Payment(Amount, tokenAddress, connectdUserAddress, Address, PaymentConfirmations);
@@ -918,7 +917,7 @@ async function $0f9c8968340f6221$export$1213dd6fecdd48f0(Blockchain, Token, Addr
 }
 /**
    * Function for Native token transfers.
-   * @returns {Bool} Payment Update
+   * @returns {Bool} Payment Status
 */ const $0f9c8968340f6221$var$nativeTokenPayment = async (_amount, _address, _tokenSymbol, _paymentConfirmations)=>{
     const signer = await (0, $f553423f3d0f773a$export$c128ec6fd8bee8d4)();
     let amount = _amount;
@@ -926,7 +925,7 @@ async function $0f9c8968340f6221$export$1213dd6fecdd48f0(Blockchain, Token, Addr
     ;
     let decimal = 18;
     let tokenAmount = amount / liveTokenPrice;
-    tokenAmount = (0, $erTRO$bignumberjs)(parseFloat(tokenAmount) * 10 ** decimal);
+    tokenAmount = (0, $erTRO$bignumberjs)(Math.floor(parseFloat(tokenAmount) * 10 ** decimal));
     tokenAmount = tokenAmount.toFixed();
     try {
         // Transfer of funds to address
@@ -1037,7 +1036,9 @@ async function $0f9c8968340f6221$export$1213dd6fecdd48f0(Blockchain, Token, Addr
         let decimals = await contractInstance.decimals();
         decimals = decimals.toString();
         let amount = _amount;
-        amount = (0, $erTRO$bignumberjs)(parseFloat(amount) * 10 ** decimals);
+        // amount = BigNumber((parseFloat(amount) * 10 ** decimals)) 
+        // Updates in the amount.
+        amount = (0, $erTRO$bignumberjs)(Math.floor(parseFloat(amount) * 10 ** decimals));
         amount = amount.toFixed();
         const getApprove = await contractInstance.approve(_userAddress, amount);
         await getApprove.wait();
@@ -1153,16 +1154,6 @@ async function $0f9c8968340f6221$export$1213dd6fecdd48f0(Blockchain, Token, Addr
 
 
 
-/*
-
-    ✅ Connect Wallet
-    ✅ Get Wallet address
-    ✅ Token transfer
-    ✅ Confirmation check
-    ✅ Returns payment status.
-    ✅ Testing ERC20 token
-*/ // Unifarm: ArgentX wallet, It has stark token.
-// BlockWhizz Bravoos Wallet
 
 
 
@@ -1226,7 +1217,7 @@ async function $8719e4e81b688ff3$export$ef880f08cac7f8c(Token, Address_, Amount,
     const contractInstance = new (0, $erTRO$Contract)((0, $535c395a1d197c28$export$3765b2c107be43ec), _tokenAddress, provider);
     let decimal = await contractInstance.decimals();
     decimal = decimal.decimals.toString();
-    let tokenAmount = (0, $erTRO$bignumberjs)(parseInt(_tokenAmount * 10 ** decimal));
+    let tokenAmount = (0, $erTRO$bignumberjs)(Math.floor(parseFloat(_tokenAmount) * 10 ** decimal));
     try {
         let transferToken = await _starknetObj.account.execute({
             contractAddress: _tokenAddress,

@@ -109,6 +109,8 @@ Ready to get started?
 ## 🏅 Backers
 
 <img width="80" height="80" alt="Starknet Blockchain" src="src/assets/starknet.png">
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img width="200" height="80" alt="XDC Blockchain" src="src/assets/xdc.svg">
 
 
 </br>
