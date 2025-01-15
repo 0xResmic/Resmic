@@ -1,32 +1,32 @@
-
-import { connect, disconnect } from "get-starknet"
 import {toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 /**
  * Function to connect extension wallet ArgentX OR Braavos
  * @returns {Object} // Wallet object.
- */
-export async function connectWallet() {
+*/
+const getProvider = () => {
+  if ("solana" in window) {
+    const provider = window.solana;
+    if (provider.isPhantom) {
+      return provider;
+    }
+  }
+  return null;
+};
 
-    const getProvider = () => {
-        if ('phantom' in window) {
-          const provider = window.phantom?.solana;
-      
-          if (provider?.isPhantom) {
-            return provider;
-          }
-        }
-      
-        toast.error('Phantom wallet not detected .', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
-      };
-
-      const provider = getProvider(); // see "Detecting the Provider"
-      try {
-          const resp = await provider.connect();
-          console.log(resp.publicKey.toString());
-      } catch (err) {
-        
-        toast.error('Unable to connect wallet.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
-      }
-}
+export async function  connectWallet  () {
+  const provider = getProvider();
+  if (provider) {
+    try {
+      const response = await provider.connect();
+      console.log("Res", response)
+      let walletAddress =  response.publicKey.toString()
+      return { provider, walletAddress};
+    } catch (err) {
+      console.error("Error connecting to wallet:", err);
+      toast.error('Unable to connect wallet.', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+    }
+  } else {
+    toast.error('Phantom wallet is not installed!', { position: toast.POSITION.TOP_CENTER,theme: "dark"});
+  }
+};

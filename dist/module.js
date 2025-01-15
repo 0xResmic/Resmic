@@ -3,17 +3,19 @@ import {jsx as $erTRO$jsx, Fragment as $erTRO$Fragment, jsxs as $erTRO$jsxs} fro
 import {useState as $erTRO$useState} from "react";
 import {toast as $erTRO$toast, ToastContainer as $erTRO$ToastContainer} from "react-toastify";
 import {Select as $erTRO$Select} from "antd";
+import {Buffer as $erTRO$Buffer} from "buffer";
 import {ethers as $erTRO$ethers} from "ethers";
 import $erTRO$bignumberjs from "bignumber.js";
 import "react-toastify/dist/ReactToastify.css";
 import $erTRO$axios from "axios";
 import {Contract as $erTRO$Contract, CallData as $erTRO$CallData, cairo as $erTRO$cairo} from "starknet";
 import {connect as $erTRO$connect} from "get-starknet";
+import {PublicKey as $erTRO$PublicKey, Transaction as $erTRO$Transaction, Connection as $erTRO$Connection, clusterApiUrl as $erTRO$clusterApiUrl, SystemProgram as $erTRO$SystemProgram} from "@solana/web3.js";
+import {getAssociatedTokenAddress as $erTRO$getAssociatedTokenAddress, getAccount as $erTRO$getAccount, getMint as $erTRO$getMint, createTransferInstruction as $erTRO$createTransferInstruction, TOKEN_PROGRAM_ID as $erTRO$TOKEN_PROGRAM_ID} from "@solana/spl-token";
 
 function $parcel$interopDefault(a) {
   return a && a.__esModule ? a.default : a;
 }
-
 
 
 var $ec82249468484c78$exports = {};
@@ -37,16 +39,18 @@ const $535c395a1d197c28$export$c12d5eb7df2a872c = {
         "USDT",
         "USDC",
         "MATIC",
-        "DOGE"
+        "DOGE",
+        "WBTC"
     ],
     "Polygon": [
         "MATIC",
         "USDT",
         "USDC",
         "ETH",
-        "DOGE"
+        "DOGE",
+        "WBTC"
     ],
-    "Binance": [
+    "BNB-Chain": [
         "BNB",
         "BUSD",
         "USDC",
@@ -66,7 +70,8 @@ const $535c395a1d197c28$export$c12d5eb7df2a872c = {
         "USDC",
         "ETH",
         "MATIC",
-        "DOGE"
+        "DOGE",
+        "WBTC"
     ],
     "Sepolia": [
         "SETH",
@@ -85,15 +90,14 @@ const $535c395a1d197c28$export$c12d5eb7df2a872c = {
         "USDC",
         "ETH",
         "GETH",
-        "BTC"
+        "WBTC"
     ],
     // "Nibiru":["NIBI","BTC", "ETH"],
     "Solana": [
         "SOL",
-        "ETH",
+        "WETH",
         "USDT",
-        "USDC",
-        "BTC"
+        "USDC"
     ],
     "": [
         ""
@@ -112,8 +116,8 @@ const $535c395a1d197c28$export$c3f32f9b7c2f46bb = {
         "id": "0x89",
         "img": ""
     },
-    "Binance": {
-        "name": "Binance",
+    "BNB-Chain": {
+        "name": "BNB-Chain",
         "description": "",
         "id": "0x38",
         "img": ""
@@ -157,7 +161,7 @@ const $535c395a1d197c28$export$c3f32f9b7c2f46bb = {
     "Solana": {
         "name": "Solana",
         "description": "",
-        "id": "",
+        "id": "solana",
         "img": ""
     }
 };
@@ -244,15 +248,33 @@ const $535c395a1d197c28$export$8e1e81ac145e31be = {
     },
     DAI: {
         "name": "DAI",
-        "dname": "bitcoin",
-        "type": "unstable",
-        "id": ""
+        "dname": "DAI",
+        "type": "stable",
+        "id": "-1"
     },
     XDC: {
         "name": "XDC",
         "dname": "xdce-crowd-sale",
         "type": "unstable",
         "id": "0x32"
+    },
+    SOL: {
+        "name": "SOL",
+        "dname": "solana",
+        "type": "unstable",
+        "id": "solana"
+    },
+    WBTC: {
+        "name": "WBTC",
+        "dname": "Bitcoin",
+        "type": "unstable",
+        "id": ""
+    },
+    WETH: {
+        "name": "WETH",
+        "dname": "ethereum",
+        "type": "unstable",
+        "id": ""
     }
 };
 const $535c395a1d197c28$export$5c2c3f7af123bc40 = {
@@ -261,7 +283,7 @@ const $535c395a1d197c28$export$5c2c3f7af123bc40 = {
         "USDC": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
         "DAI": "0x6b175474e89094c44da98b954eedeac495271d0f",
         "BUSD": "0x4fabb145d64652a948d72533023f6e7a623c7c53",
-        "Bitcoin": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+        "WBTC": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
         "MATIC": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
         "BNB": "0xB8c77482e45F1F44dE1745F52C74426C631bDD52"
     },
@@ -270,11 +292,11 @@ const $535c395a1d197c28$export$5c2c3f7af123bc40 = {
         "USDC": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
         "DAI": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
         "BUSD": "0xdab529f40e671a1d4bf91361c21bf9f0c9712ab7",
-        "Bitcoin": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+        "WBTC": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
         "BNB": "0x3BA4c387f786bFEE076A58914F5Bd38d668B42c3",
         "ETH": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"
     },
-    "Binance": {
+    "BNB-Chain": {
         "BUSD": "0xe9e7cea3dedca5984780bafc599bd69add087d56",
         "DAI": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
         // "BSC-USD": "0x55d398326f99059fF775485246999027B3197955",
@@ -282,13 +304,12 @@ const $535c395a1d197c28$export$5c2c3f7af123bc40 = {
         "USDC": "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",
         "DOGE": "0xbA2aE424d960c26247Dd6c32edC70B295c744C43",
         "MATIC": "0xCC42724C6683B7E57334c4E856f4c9965ED682bD",
-        "ETH": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
-        "BTC": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
+        "ETH": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8"
     },
     "Optimism": {
         "USDT": "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
         "USDC": "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
-        "BTC": "0x68f180fcCe6836688e9084f035309E29Bf0A2095",
+        "WBTC": "0x68f180fcCe6836688e9084f035309E29Bf0A2095",
         "DAI": "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
         "Optimism": "0x4200000000000000000000000000000000000042"
     },
@@ -312,9 +333,9 @@ const $535c395a1d197c28$export$5c2c3f7af123bc40 = {
     },
     "Solana": {
         "USDC": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        // "USDC": "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr", // Test USDC on devnet
         "USDT": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
-        "WETH": "2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk",
-        "WBTC": "9n4nbM75f5Ui33ZbPYXn59EwSgE8CGsHtAeTH5YFeJ9E"
+        "WETH": "2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk"
     },
     "XDC-Network": {
         // "WXDC": "0x951857744785e80e2de051c32ee7b25f9c458c42",
@@ -1157,6 +1178,7 @@ async function $0f9c8968340f6221$export$1213dd6fecdd48f0(Blockchain, Token, Addr
 
 
 
+
 async function $3823cce36b9746c2$export$43158100a9ac6874() {
     try {
         let connectVar = await (0, $erTRO$connect)();
@@ -1305,17 +1327,243 @@ async function $ababbd98e7557289$export$888627a074f2aa7d(Token, Address, Amount,
 }
 
 
-/*
-
-    ✅ Connect Wallet
-    ✅ Get Wallet address
-     Token transfer
-     Block Confirmation check
-     Returns payment status.
-     Testing ERC20 token
-*/ async function $12556e0b190893f5$export$88ef2c5afd949ec() {}
 
 
+/**
+ * Function to connect extension wallet ArgentX OR Braavos
+ * @returns {Object} // Wallet object.
+*/ const $0dd8249e93adf6d7$var$getProvider = ()=>{
+    if ("solana" in window) {
+        const provider = window.solana;
+        if (provider.isPhantom) return provider;
+    }
+    return null;
+};
+async function $0dd8249e93adf6d7$export$43158100a9ac6874() {
+    const provider = $0dd8249e93adf6d7$var$getProvider();
+    if (provider) try {
+        const response = await provider.connect();
+        console.log("Res", response);
+        let walletAddress = response.publicKey.toString();
+        return {
+            provider: provider,
+            walletAddress: walletAddress
+        };
+    } catch (err) {
+        console.error("Error connecting to wallet:", err);
+        (0, $erTRO$toast).error("Unable to connect wallet.", {
+            position: (0, $erTRO$toast).POSITION.TOP_CENTER,
+            theme: "dark"
+        });
+    }
+    else (0, $erTRO$toast).error("Phantom wallet is not installed!", {
+        position: (0, $erTRO$toast).POSITION.TOP_CENTER,
+        theme: "dark"
+    });
+}
+
+
+
+
+
+
+
+
+
+let $12556e0b190893f5$var$walletAddress = "";
+async function $12556e0b190893f5$export$88ef2c5afd949ec(selectedToken, Address, Amount, noOfBlockConformation) {
+    let receiverAddress = Address.SOLANA;
+    let phantomWalletInstance = await (0, $0dd8249e93adf6d7$export$43158100a9ac6874)();
+    let connectedWalletAddress = phantomWalletInstance === null || phantomWalletInstance === void 0 ? void 0 : phantomWalletInstance.walletAddress;
+    $12556e0b190893f5$var$walletAddress = connectedWalletAddress;
+    // Native transaction
+    if (selectedToken === "SOL") {
+        // Calculate the live token price.
+        let liveTokenPrice = await (0, $34c3ac9406e6b976$export$6c774fdbdbcfd895)("solana");
+        liveTokenPrice = parseFloat(liveTokenPrice);
+        let calculatedTokenPrice = parseFloat(Amount) / liveTokenPrice;
+        let tokenTransferStatus = $12556e0b190893f5$var$sendToken(receiverAddress, calculatedTokenPrice) // For native
+        ;
+        return tokenTransferStatus;
+    } else {
+        let tokenAddress = (0, $535c395a1d197c28$export$5c2c3f7af123bc40)["Solana"][selectedToken];
+        let isTokenStable = (0, $535c395a1d197c28$export$8e1e81ac145e31be)[selectedToken].type;
+        // Passing the amount as It is. As we are directly accpeting the stable coin to USD
+        if (isTokenStable == "stable") {
+            let tokenTransferStatus = $12556e0b190893f5$var$sendToken(receiverAddress, Amount, tokenAddress) // For SPL tokens
+            ;
+            return tokenTransferStatus;
+        } else {
+            let liveTokenPrice = await (0, $34c3ac9406e6b976$export$6c774fdbdbcfd895)("solana");
+            liveTokenPrice = parseFloat(liveTokenPrice);
+            let calculatedTokenPrice = parseFloat(Amount) / liveTokenPrice;
+            let tokenTransferStatus = $12556e0b190893f5$var$sendToken(receiverAddress, calculatedTokenPrice, tokenAddress) // For SPL tokens
+            ;
+            return tokenTransferStatus;
+        }
+    }
+}
+/**
+ * 
+ * @param {String} _receiverAddress 
+ * @param {Int} _amount 
+ * @param {String} _tokenAddress 
+ * @returns {Bool} Payment Status
+ */ const $12556e0b190893f5$var$sendToken = async (_receiverAddress, _amount, _tokenAddress)=>{
+    if (!$12556e0b190893f5$var$walletAddress) return alert("Connect your wallet first!");
+    let decimal = 9; // Default decimal value is 9 for Solana.
+    try {
+        const senderPublicKey = new (0, $erTRO$PublicKey)($12556e0b190893f5$var$walletAddress);
+        const receiverPublicKey = new (0, $erTRO$PublicKey)(_receiverAddress);
+        const tx = new (0, $erTRO$Transaction)();
+        const connection = new (0, $erTRO$Connection)((0, $erTRO$clusterApiUrl)("devnet"), "confirmed"); // Fot testing on Devnet      
+        //   const MAINNET_RPC_URL = 'https://solana-rpc.publicnode.com';
+        //   const connection = new Connection(MAINNET_RPC_URL, 'confirmed');
+        //   Handling the SPL token transactions.
+        if (_tokenAddress) {
+            const tokenPublicKey = new (0, $erTRO$PublicKey)(_tokenAddress);
+            const receiverTokenAddress = await (0, $erTRO$getAssociatedTokenAddress)(tokenPublicKey, receiverPublicKey);
+            // SPL Token Transfer
+            const senderTokenAddress = await (0, $erTRO$getAssociatedTokenAddress)(tokenPublicKey, senderPublicKey);
+            const senderAccount = await (0, $erTRO$getAccount)(connection, senderTokenAddress);
+            const mintInfo = await (0, $erTRO$getMint)(connection, tokenPublicKey);
+            decimal = mintInfo.decimals;
+            let _amountBigNumber = (0, $erTRO$bignumberjs)(Math.floor(parseFloat(_amount) * 10 ** decimal));
+            if (senderAccount.amount <= _amountBigNumber) {
+                (0, $erTRO$toast).error("Insufficient token balance.", {
+                    position: (0, $erTRO$toast).POSITION.TOP_CENTER,
+                    theme: "dark"
+                });
+                return false;
+            }
+            const transferInstruction = (0, $erTRO$createTransferInstruction)(senderTokenAddress, receiverTokenAddress, senderPublicKey, _amountBigNumber, [], (0, $erTRO$TOKEN_PROGRAM_ID));
+            tx.add(transferInstruction);
+        } else {
+            // Native SOL Transfer
+            let _calculatedAmount = (0, $erTRO$bignumberjs)(Math.floor(parseFloat(_amount) * 10 ** 9));
+            const transferInstruction = (0, $erTRO$SystemProgram).transfer({
+                fromPubkey: senderPublicKey,
+                toPubkey: receiverPublicKey,
+                lamports: _calculatedAmount
+            });
+            tx.add(transferInstruction);
+        }
+        const { blockhash: blockhash } = await connection.getLatestBlockhash();
+        tx.recentBlockhash = blockhash;
+        tx.feePayer = senderPublicKey;
+        const signedTransaction = await window.solana.signTransaction(tx);
+        const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+        // Wait for 4 block confirmations
+        await connection.confirmTransaction(signature, "finalized");
+        const confirmation = await connection.getTransaction(signature, {
+            commitment: "finalized"
+        });
+        //   Check the token transfer.
+        if (_tokenAddress) {
+            let amountCheckStatus = await $12556e0b190893f5$var$checkSPLTokenTransfer(connection, signature, _amount, decimal);
+            return amountCheckStatus;
+        } else {
+            let amountCheckStatus = await $12556e0b190893f5$var$checkNativeTokenTransfer(connection, signature, _amount);
+            return amountCheckStatus;
+        }
+    } catch (err) {
+        console.error("Error sending transaction:", err);
+        (0, $erTRO$toast).error("Transaction failed!", {
+            position: (0, $erTRO$toast).POSITION.TOP_CENTER,
+            theme: "dark"
+        });
+        return false;
+    }
+};
+// Verify the actual token transfer is correct or not for SPL tokens.
+// returns {Boolean}
+const $12556e0b190893f5$var$checkSPLTokenTransfer = async (connection, signature, amount, tokenDecimals)=>{
+    try {
+        const transactionDetails = await connection.getParsedTransaction(signature, "finalized");
+        if (!transactionDetails) throw new Error("Transaction not found!");
+        const instructions = transactionDetails.transaction.message.instructions;
+        // Look for a transfer instruction from the SPL Token Program
+        const transferInstruction = instructions.find((inst)=>inst.programId.equals((0, $erTRO$TOKEN_PROGRAM_ID)));
+        if (transferInstruction) {
+            const parsedData = transferInstruction.parsed.info;
+            const transferredAmount = parsedData.amount; // Convert token units to human-readable format
+            if (parseFloat(transferredAmount) <= parseFloat((0, $erTRO$bignumberjs)(Math.floor(parseFloat(amount) * 10 ** tokenDecimals)))) {
+                (0, $erTRO$toast).success("Payment done successfully:)", {
+                    position: (0, $erTRO$toast).POSITION.TOP_CENTER,
+                    theme: "dark"
+                });
+                return true;
+            } else {
+                //   console.log('SPL Token transfer amount mismatch!');
+                (0, $erTRO$toast).error("Something went wrong", {
+                    position: (0, $erTRO$toast).POSITION.TOP_CENTER,
+                    theme: "dark"
+                });
+                return false;
+            }
+        } else {
+            // console.log('SPL Token transfer instruction not found!');
+            (0, $erTRO$toast).error("Unable to process payment\n Please try again ", {
+                position: (0, $erTRO$toast).POSITION.TOP_CENTER,
+                theme: "dark"
+            });
+            return false;
+        }
+    } catch (err) {
+        //   console.error('Error verifying SPL Token transfer:', err);
+        (0, $erTRO$toast).error("Transaction failed to be processed", {
+            position: (0, $erTRO$toast).POSITION.TOP_CENTER,
+            theme: "dark"
+        });
+        return false;
+    }
+};
+// Verify the actual token transfer is correct or not for Solana naitve token.
+// returns {Boolean}
+const $12556e0b190893f5$var$checkNativeTokenTransfer = async (connection, signature, amount)=>{
+    try {
+        const transactionDetails = await connection.getParsedTransaction(signature, "finalized");
+        if (!transactionDetails) throw new Error("Transaction not found!");
+        const instructions = transactionDetails.transaction.message.instructions;
+        // Look for a transfer instruction from the SystemProgram
+        const transferInstruction = instructions.find((inst)=>inst.programId.equals((0, $erTRO$SystemProgram).programId));
+        if (transferInstruction) {
+            const parsedData = transferInstruction.parsed.info;
+            const transferredAmount = parsedData.lamports; // Convert lamports to SOL
+            if (parseFloat(transferredAmount) <= parseFloat((0, $erTRO$bignumberjs)(Math.floor(parseFloat(amount) * 10 ** 9)))) {
+                // if (transferredAmount === parseFloat(amount)) {
+                (0, $erTRO$toast).success("Payment done successfully:)", {
+                    position: (0, $erTRO$toast).POSITION.TOP_CENTER,
+                    theme: "dark"
+                });
+                return true;
+            } else {
+                (0, $erTRO$toast).error("Something went wrong", {
+                    position: (0, $erTRO$toast).POSITION.TOP_CENTER,
+                    theme: "dark"
+                });
+                return false;
+            }
+        } else {
+            (0, $erTRO$toast).error("Unable to process payment\n Please try again ", {
+                position: (0, $erTRO$toast).POSITION.TOP_CENTER,
+                theme: "dark"
+            });
+            return false;
+        }
+    } catch (err) {
+        //   console.error('Error verifying Native SOL transfer:', err);
+        (0, $erTRO$toast).error("Transaction failed to be processed", {
+            position: (0, $erTRO$toast).POSITION.TOP_CENTER,
+            theme: "dark"
+        });
+        return false;
+    }
+};
+
+
+
+window.Buffer = window.Buffer || (0, $erTRO$Buffer);
 /* global BigInt */ //@note Do note delete this.
 /**
  * * Master component to navigate as per blockchain selection.
@@ -1337,7 +1585,7 @@ async function $ababbd98e7557289$export$888627a074f2aa7d(Token, Address, Amount,
     fontSize: "18px",
     cursor: "pointer"
 } }) {
-    const [isPopUpOpen, setIsPopUpOpen] = (0, $erTRO$useState)(false);
+    const [isPopUpOpen, setIsPopUpOpen] = (0, $erTRO$useState)(true); // @note Remember to make it False
     const [selectedBlockchain, setSelectedBlockchain] = (0, $erTRO$useState)("");
     const [selectedToken, setSelectedToken] = (0, $erTRO$useState)("");
     const [btnName, setBtnName] = (0, $erTRO$useState)("Make Payment");
@@ -1353,7 +1601,6 @@ async function $ababbd98e7557289$export$888627a074f2aa7d(Token, Address, Amount,
         });
         else switch(selectedBlockchain){
             case "Starknet":
-                console.log("Redirect to Starknet");
                 setIsLoading(true);
                 let makePaymentStarknet = await (0, $8719e4e81b688ff3$export$ef880f08cac7f8c)(selectedToken, Address, Amount, noOfBlockConformation);
                 setPaymentStatus(makePaymentStarknet);
@@ -1361,7 +1608,6 @@ async function $ababbd98e7557289$export$888627a074f2aa7d(Token, Address, Amount,
                 setIsLoading(false);
                 break;
             case "Solana":
-                console.log("Redirect to Starknet");
                 setIsLoading(true);
                 let makePaymentSolana = await (0, $12556e0b190893f5$export$88ef2c5afd949ec)(selectedToken, Address, Amount, noOfBlockConformation);
                 setPaymentStatus(makePaymentSolana);
@@ -1369,7 +1615,6 @@ async function $ababbd98e7557289$export$888627a074f2aa7d(Token, Address, Amount,
                 setIsLoading(false);
                 break;
             case "Nibiru":
-                console.log("Redirect to Nibiru");
                 setIsLoading(true);
                 let makeNibiruPay = await (0, $ababbd98e7557289$export$888627a074f2aa7d)(selectedToken, Address, Amount, noOfBlockConformation);
                 setPaymentStatus(makeNibiruPay);
@@ -1429,7 +1674,10 @@ async function $ababbd98e7557289$export$888627a074f2aa7d(Token, Address, Amount,
                                                     className: "amount",
                                                     children: [
                                                         "$",
-                                                        Amount.toFixed(2)
+                                                        Amount.toLocaleString("en-US", {
+                                                            minimumFractionDigits: 2,
+                                                            maximumFractionDigits: 2
+                                                        })
                                                     ]
                                                 })
                                             ]

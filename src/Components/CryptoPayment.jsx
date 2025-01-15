@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import '../CSS/SelectBlockchain.css'
 import resmiclogo from '../assets/resmiclogo.png'
 import { SupportedTokens } from './Constant/Constant';
 import { makeEVMPayment } from './EVM/EVMProcess';
@@ -8,9 +7,13 @@ import { Select, Button, Input, Tooltip } from "antd";
 import "../CSS/EVMComponent.css"
 import "../CSS/PaymentPopUp.css";
 import "../CSS/Loader.css";
+import '../CSS/SelectBlockchain.css'
 import { makeStarknetPayment } from './Starknet/StarknetProcess';
 import { makeNibiruPayment } from './Nibiru/NibiruProcess';
 import { makeSolanaPayment } from './Solana/SolanaProcess';
+import { Buffer } from 'buffer';
+
+window.Buffer = window.Buffer || Buffer;
 
 /* global BigInt */ //@note Do note delete this.
 
@@ -25,15 +28,16 @@ import { makeSolanaPayment } from './Solana/SolanaProcess';
  * @param {Style} CSS  // Customise CSS for buttons.
  * @returns React componen
  */
-function CryptoPayment({Address, Tokens, Chains, Amount, noOfBlockConformation, setPaymentStatus, Style = {displayName: "Make Payment", 
-backgroundColor: "#007bff",
-color: "#fff",
-border: "none",
-padding: "10px 20px",
-borderRadius: "4px",
-fontSize: "18px",
-cursor: "pointer"},}) {
-    const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+function CryptoPayment({Address, Tokens, Chains, Amount, noOfBlockConformation, setPaymentStatus, Style = {
+    displayName: "Make Payment", 
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    padding: "10px 20px",
+    borderRadius: "4px",
+    fontSize: "18px",
+    cursor: "pointer"},}) {
+    const [isPopUpOpen, setIsPopUpOpen] = useState(true); // @note Remember to make it False
     const [selectedBlockchain, setSelectedBlockchain] = useState("");
     const [selectedToken, setSelectedToken] = useState("");
     const [btnName, setBtnName] = useState("Make Payment");
@@ -52,7 +56,6 @@ cursor: "pointer"},}) {
         else {
             switch (selectedBlockchain) {
                 case "Starknet":
-                    console.log("Redirect to Starknet");
                     setIsLoading(true)
                     let makePaymentStarknet = await makeStarknetPayment(selectedToken, Address, Amount, noOfBlockConformation);
                     setPaymentStatus(makePaymentStarknet);
@@ -61,7 +64,6 @@ cursor: "pointer"},}) {
                     break;
 
                 case "Solana":
-                    console.log("Redirect to Starknet");
                     setIsLoading(true)
                     let makePaymentSolana = await makeSolanaPayment(selectedToken, Address, Amount, noOfBlockConformation);
                     setPaymentStatus(makePaymentSolana);
@@ -70,7 +72,6 @@ cursor: "pointer"},}) {
                     break;
 
                 case "Nibiru":
-                    console.log("Redirect to Nibiru")
                     setIsLoading(true);
                     let makeNibiruPay = await makeNibiruPayment(selectedToken, Address, Amount, noOfBlockConformation);
                     setPaymentStatus(makeNibiruPay);
@@ -91,12 +92,14 @@ cursor: "pointer"},}) {
 
 
     return (
-    <>
+        <>
     <div className='mainDivResmic'>
         <button style={Style} onClick={() => setIsPopUpOpen(true)}>{Style?.displayName}</button>
 
         {isPopUpOpen && (
+            
             <div className="popup-container">
+            
             <div className="popup-content">
                 <div className="resmic-logo">
                     <img src={resmiclogo} alt="resmic image"/>
@@ -107,7 +110,7 @@ cursor: "pointer"},}) {
                     <div className="popup-heading">
                         {/* <span>Pay amount</span> */}
                         <span className='AmountPayableSpan'>AMOUNT PAYABLE</span>
-                        <div className="amount">${Amount.toFixed(2)}</div>
+                        <div className="amount">${Amount.toLocaleString('en-US', {minimumFractionDigits: 2,maximumFractionDigits: 2,})}</div>
                     </div>
                     
                     {/* Select Blockchian DropDown */}
@@ -165,7 +168,7 @@ cursor: "pointer"},}) {
             </div>
         )}
         <ToastContainer/>
-        </div>
+    </div>
     </>
   )
 }

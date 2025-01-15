@@ -3,19 +3,19 @@ export const SupportedBlockchains = [
 ];
 export const SupportedTokens = {
     // EVM Blockchains. 
-    "Ethereum":["ETH", "USDT", "USDC", "MATIC","DOGE", ],
-    "Polygon":[ "MATIC","USDT", "USDC", "ETH","DOGE", ],
-    "Binance":["BNB","BUSD", "USDC", "ETH", "DOGE", ],
+    "Ethereum":["ETH", "USDT", "USDC", "MATIC","DOGE", "WBTC", ],
+    "Polygon":[ "MATIC","USDT", "USDC", "ETH","DOGE", "WBTC", ],
+    "BNB-Chain":["BNB","BUSD", "USDC", "ETH", "DOGE", ],
     "Binance-TestNet":["BNB","BUSD", "USDC", "ETH", "DOGE", ],
-    "Optimism":["OP","USDT", "USDC", "ETH", "MATIC","DOGE", ],
+    "Optimism":["OP","USDT", "USDC", "ETH", "MATIC","DOGE", "WBTC", ],
     "Sepolia":["SETH","USDT", 'BNB', 'DAI'],
     
     "XDC-Network":["XDC", "USDT" ],
 
     // Non-EVM Blockchains.
-    "Starknet":["STARK","USDT", "USDC", "ETH", "GETH", "BTC" ],
+    "Starknet":["STARK","USDT", "USDC", "ETH", "GETH", "WBTC" ],
     // "Nibiru":["NIBI","BTC", "ETH"],
-    "Solana":["SOL", "ETH", "USDT", "USDC", "BTC"],
+    "Solana":["SOL", "WETH", "USDT", "USDC",],
     
     "":[""], //@note Do not remove this line.
 };
@@ -23,7 +23,7 @@ export const SupportedTokens = {
 export const Chains = {
     "Ethereum" : {"name": "Ethereum", "description": "", "id": "0x1", "img":""},
     "Polygon" : {"name": "Polygon", "description": "", "id": "0x89", "img":""},
-    "Binance" : {"name": "Binance", "description": "", "id": "0x38", "img":""},
+    "BNB-Chain" : {"name": "BNB-Chain", "description": "", "id": "0x38", "img":""},
     "Binance-TestNet" : {"name": "Binance", "description": "", "id": "0x61", "img":""},
     "Optimism" : {"name": "Optimism", "description": "", "id": "0xa", "img":""},
     "Sepolia" : {"name": "Sepolia", "description": "", "id": "0xaa36a7", "img":""},
@@ -32,7 +32,7 @@ export const Chains = {
     
     "Starknet" : {"name": "Starknet", "description": "", "id": "", "img":""},
     "Nibiru" : {"name": "Nibiru", "description": "", "id": "", "img":""},
-    "Solana" : {"name": "Solana", "description": "", "id": "", "img":""},
+    "Solana" : {"name": "Solana", "description": "", "id": "solana", "img":""},
 
 };
 export const Tokens = {
@@ -50,9 +50,13 @@ export const Tokens = {
     BNB: {"name": "BNB", "dname":"binancecoin", "type": "unstable", "id": "0x38"},
     TBNB: {"name": "TBNB", "dname":"binancecoin", "type": "unstable", "id": "0x61"},
     BTC: {"name": "BTC", "dname":"Bitcoin", "type": "unstable", "id": ""},
-    DAI: {"name": "DAI", "dname":"bitcoin", "type": "unstable", "id": ""},
-
+    DAI: {"name": "DAI", "dname":"DAI", "type": "stable", "id": "-1"},
+    
     XDC: {"name": "XDC", "dname":"xdce-crowd-sale", "type": "unstable", "id": "0x32"},
+    SOL: {"name": "SOL", "dname":"solana", "type": "unstable", "id": "solana"},
+    
+    WBTC: {"name": "WBTC", "dname":"Bitcoin", "type": "unstable", "id": ""},
+    WETH: {"name": "WETH", "dname":"ethereum", "type": "unstable", "id": ""},
 };
 /**
  * Supported {Verified } ERC 20 token address
@@ -64,7 +68,7 @@ export const TokenAddress = {
         "USDC": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
         "DAI": "0x6b175474e89094c44da98b954eedeac495271d0f",
         "BUSD": "0x4fabb145d64652a948d72533023f6e7a623c7c53",
-        "Bitcoin": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+        "WBTC": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
         "MATIC": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
         "BNB": "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
     },
@@ -74,12 +78,12 @@ export const TokenAddress = {
         "USDC": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
         "DAI": "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
         "BUSD": "0xdab529f40e671a1d4bf91361c21bf9f0c9712ab7",
-        "Bitcoin": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+        "WBTC": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
         "BNB": "0x3BA4c387f786bFEE076A58914F5Bd38d668B42c3",
         "ETH": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
       },
       
-    "Binance":{
+    "BNB-Chain":{
         "BUSD": "0xe9e7cea3dedca5984780bafc599bd69add087d56",
         "DAI": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
         // "BSC-USD": "0x55d398326f99059fF775485246999027B3197955",
@@ -88,13 +92,13 @@ export const TokenAddress = {
         "DOGE": "0xbA2aE424d960c26247Dd6c32edC70B295c744C43", // dogecoin 
         "MATIC": "0xCC42724C6683B7E57334c4E856f4c9965ED682bD",
         "ETH": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
-        "BTC": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
+        // "WBTC": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
     },
   
     "Optimism":{
         "USDT": "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
         "USDC": "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
-        "BTC": "0x68f180fcCe6836688e9084f035309E29Bf0A2095",
+        "WBTC": "0x68f180fcCe6836688e9084f035309E29Bf0A2095",
         "DAI": "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
         "Optimism": "0x4200000000000000000000000000000000000042",
   
@@ -122,11 +126,10 @@ export const TokenAddress = {
     },
 
     "Solana":{
-        "USDC": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "USDC": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", 
+        // "USDC": "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr", // Test USDC on devnet
         "USDT": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
         "WETH": "2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk",
-        "WBTC": "9n4nbM75f5Ui33ZbPYXn59EwSgE8CGsHtAeTH5YFeJ9E",
-        
     },
     "XDC-Network":{
         // "WXDC": "0x951857744785e80e2de051c32ee7b25f9c458c42",
