@@ -1592,7 +1592,7 @@ window.Buffer = window.Buffer || (0, $ezI6v$buffer.Buffer);
     fontSize: "18px",
     cursor: "pointer"
 } }) {
-    const [isPopUpOpen, setIsPopUpOpen] = (0, $ezI6v$react.useState)(true); // @note Remember to make it False
+    const [isPopUpOpen, setIsPopUpOpen] = (0, $ezI6v$react.useState)(false); // @note Remember to make it False
     const [selectedBlockchain, setSelectedBlockchain] = (0, $ezI6v$react.useState)("");
     const [selectedToken, setSelectedToken] = (0, $ezI6v$react.useState)("");
     const [btnName, setBtnName] = (0, $ezI6v$react.useState)("Make Payment");

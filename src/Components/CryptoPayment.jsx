@@ -37,7 +37,7 @@ function CryptoPayment({Address, Tokens, Chains, Amount, noOfBlockConformation, 
     borderRadius: "4px",
     fontSize: "18px",
     cursor: "pointer"},}) {
-    const [isPopUpOpen, setIsPopUpOpen] = useState(true); // @note Remember to make it False
+    const [isPopUpOpen, setIsPopUpOpen] = useState(false); // @note Remember to make it False
     const [selectedBlockchain, setSelectedBlockchain] = useState("");
     const [selectedToken, setSelectedToken] = useState("");
     const [btnName, setBtnName] = useState("Make Payment");
