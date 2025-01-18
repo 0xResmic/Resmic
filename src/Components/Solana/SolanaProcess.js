@@ -71,9 +71,9 @@ const sendToken = async (_receiverAddress, _amount, _tokenAddress) => {
       const receiverPublicKey = new PublicKey(_receiverAddress);
       const tx = new Transaction();
 
-      const connection = new Connection(clusterApiUrl('devnet'), 'confirmed'); // Fot testing on Devnet      
-    //   const MAINNET_RPC_URL = 'https://solana-rpc.publicnode.com';
-    //   const connection = new Connection(MAINNET_RPC_URL, 'confirmed');
+      // const connection = new Connection(clusterApiUrl('devnet'), 'confirmed'); // Fot testing on Devnet      
+      const MAINNET_RPC_URL = 'https://solana-rpc.publicnode.com';
+      const connection = new Connection(MAINNET_RPC_URL, 'confirmed');
 
       
     //   Handling the SPL token transactions.

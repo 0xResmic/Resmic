@@ -1423,9 +1423,9 @@ async function $1b0f8070d97a2d66$export$88ef2c5afd949ec(selectedToken, Address, 
         const senderPublicKey = new (0, $ezI6v$solanaweb3js.PublicKey)($1b0f8070d97a2d66$var$walletAddress);
         const receiverPublicKey = new (0, $ezI6v$solanaweb3js.PublicKey)(_receiverAddress);
         const tx = new (0, $ezI6v$solanaweb3js.Transaction)();
-        const connection = new (0, $ezI6v$solanaweb3js.Connection)((0, $ezI6v$solanaweb3js.clusterApiUrl)("devnet"), "confirmed"); // Fot testing on Devnet      
-        //   const MAINNET_RPC_URL = 'https://solana-rpc.publicnode.com';
-        //   const connection = new Connection(MAINNET_RPC_URL, 'confirmed');
+        // const connection = new Connection(clusterApiUrl('devnet'), 'confirmed'); // Fot testing on Devnet      
+        const MAINNET_RPC_URL = "https://solana-rpc.publicnode.com";
+        const connection = new (0, $ezI6v$solanaweb3js.Connection)(MAINNET_RPC_URL, "confirmed");
         //   Handling the SPL token transactions.
         if (_tokenAddress) {
             const tokenPublicKey = new (0, $ezI6v$solanaweb3js.PublicKey)(_tokenAddress);

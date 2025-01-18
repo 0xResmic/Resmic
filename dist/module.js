@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import $erTRO$axios from "axios";
 import {Contract as $erTRO$Contract, CallData as $erTRO$CallData, cairo as $erTRO$cairo} from "starknet";
 import {connect as $erTRO$connect} from "get-starknet";
-import {PublicKey as $erTRO$PublicKey, Transaction as $erTRO$Transaction, Connection as $erTRO$Connection, clusterApiUrl as $erTRO$clusterApiUrl, SystemProgram as $erTRO$SystemProgram} from "@solana/web3.js";
+import {PublicKey as $erTRO$PublicKey, Transaction as $erTRO$Transaction, Connection as $erTRO$Connection, SystemProgram as $erTRO$SystemProgram} from "@solana/web3.js";
 import {getAssociatedTokenAddress as $erTRO$getAssociatedTokenAddress, getAccount as $erTRO$getAccount, getMint as $erTRO$getMint, createTransferInstruction as $erTRO$createTransferInstruction, TOKEN_PROGRAM_ID as $erTRO$TOKEN_PROGRAM_ID} from "@solana/spl-token";
 
 function $parcel$interopDefault(a) {
@@ -1416,9 +1416,9 @@ async function $12556e0b190893f5$export$88ef2c5afd949ec(selectedToken, Address, 
         const senderPublicKey = new (0, $erTRO$PublicKey)($12556e0b190893f5$var$walletAddress);
         const receiverPublicKey = new (0, $erTRO$PublicKey)(_receiverAddress);
         const tx = new (0, $erTRO$Transaction)();
-        const connection = new (0, $erTRO$Connection)((0, $erTRO$clusterApiUrl)("devnet"), "confirmed"); // Fot testing on Devnet      
-        //   const MAINNET_RPC_URL = 'https://solana-rpc.publicnode.com';
-        //   const connection = new Connection(MAINNET_RPC_URL, 'confirmed');
+        // const connection = new Connection(clusterApiUrl('devnet'), 'confirmed'); // Fot testing on Devnet      
+        const MAINNET_RPC_URL = "https://solana-rpc.publicnode.com";
+        const connection = new (0, $erTRO$Connection)(MAINNET_RPC_URL, "confirmed");
         //   Handling the SPL token transactions.
         if (_tokenAddress) {
             const tokenPublicKey = new (0, $erTRO$PublicKey)(_tokenAddress);
