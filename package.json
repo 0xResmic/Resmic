@@ -39,7 +39,7 @@
     "@testing-library/react": "13.4.0",
     "@testing-library/user-event": "13.5.0",
     "antd": "^5.20.2",
-    "axios": "1.4.0",
+    "axios": "1.8.3",
     "bignumber.js": "^9.1.2",
     "buffer": "^6.0.3",
     "ethers": "^5.6.9",
